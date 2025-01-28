@@ -1,6 +1,54 @@
 let pages = [];
 let error_count = 0;
 
+function showPageButtons(title, progress, previousPageName, nextPageName) {
+    let pageButtons = document.querySelector('div#pageButtons');
+    if (pageButtons === null || pageButtons === undefined)
+        return;
+
+    let div = document.createElement('div');
+    div.className = 'flex justify-between';
+
+    let button = document.createElement('button');
+    if (previousPageName !== null && previousPageName !== undefined)
+        button.onclick = () => loadPage(previousPageName);
+    else
+        button.setAttribute("class", "invisible");
+
+    let i = document.createElement('i');
+    i.className = 'h-16';
+    i.setAttribute('id', 'previous');
+    button.appendChild(i);
+    div.appendChild(button);
+
+    let div0 = document.createElement('div');
+    div0.className = 'flex flex-col justify-center';
+
+    let p = document.createElement('p');
+    p.className = 'self-center';
+    p.textContent = title;
+    div0.appendChild(p);
+
+    let p1 = document.createElement('p');
+    p1.className = 'self-center';
+    p1.textContent = `${progress}/3`;
+    div0.appendChild(p1);
+    div.appendChild(div0);
+
+    let button2 = document.createElement('button');
+    if (nextPageName !== null && nextPageName !== undefined)
+        button2.onclick =  () => loadPage(nextPageName);
+    else
+        button2.setAttribute("class", "invisible");
+
+    let i3 = document.createElement('i');
+    i3.className = 'h-16' + (nextPageName === null ? " invisible" : "");
+    i3.setAttribute('id', 'next');
+    button2.appendChild(i3);
+    div.appendChild(button2);
+    pageButtons.replaceWith(div);
+    div.id = 'pageButtons'
+}
 
 function createCookie(page) {
     const date = new Date();
@@ -30,6 +78,14 @@ function toggleErrorNotificationVisibility(hide) {
         document.getElementById("errorPopup").classList.remove("hidden");
 }
 
+function toggleNavButtonSelection(buttonToHighlight) {
+    for (let i = 0; i < 4; i++) {
+        const b = document.getElementById(`nav${i}`);
+        b.classList.remove("border-ipn-0");
+        b.classList.remove("border-transparent");
+        b.classList.add(i === buttonToHighlight ? "border-ipn-0" : "border-transparent");
+    }
+}
 
 function get_width() {
     // Function extracted from: https://stackoverflow.com/questions/1038727/how-to-get-browser-width-using-javascript-code
@@ -61,6 +117,36 @@ class Page {
     }
 }
 
+function load(pageName) {
+    let title = "";
+    let progress = "";
+    let buttonToHighlight = 0;
+    let previousPage = undefined;
+    let nextPage = undefined;
+    if (pageName === "info") {
+        title = "Introducción a IPN-Scheduler";
+        progress = "0";
+        buttonToHighlight = 0;
+        // nextPage = "dataCollector";
+    } else if (pageName === "dataCollector") {
+        title = "Clases, profesores y horas";
+        progress = "1";
+        buttonToHighlight = 0;
+        previousPage = "info";
+    } else if (pageName === "operationInfo")
+        buttonToHighlight = 1;
+    else if (pageName === "developer")
+        buttonToHighlight = 3;
+
+    window[pageName]();
+    scrollToTop();
+    showPageButtons(title, progress, previousPage, nextPage);
+    loadIcons();
+    toggleNavButtonSelection(buttonToHighlight);
+
+    toggleErrorNotificationVisibility(true);
+}
+
 async function loadPage(pageName) {
     createCookie(pageName);
 
@@ -78,12 +164,7 @@ async function loadPage(pageName) {
             page2Load.scriptLoaded = true;
             error_count = 0;
 
-            window[page2Load.name]();
-            scrollToTop();
-            loadIcons();
-            // pageButtons();
-
-            toggleErrorNotificationVisibility(true);
+            load(pageName);
         }).catch((e) => {
             error_count++;
             toggleErrorNotificationVisibility(false);
@@ -92,7 +173,8 @@ async function loadPage(pageName) {
 
             console.error("Error", e);
         });
-
+    else
+        load(pageName);
     // if (get_width() < 700) {
 }
 
@@ -108,9 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const pagesData = {
         "info": "files/info.js",
-        "classActivities": "files/classActivities.js",
-        "purpose": "files/purpose.js",
-        "introduction": "files/app_notes/introduction.js"
+        "dataCollector": "files/dataCollector.js",
+        "operationInfo": "files/operationInfo.js",
+        "developer": "files/developer.js"
     }
 
     let i = 0;

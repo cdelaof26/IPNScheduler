@@ -63,7 +63,7 @@ def find_element_properties(line: str) -> Union[dict[str, any], str, None]:
     if "open" in line:
         data["open"] = "true"
 
-    for kind in ["class", "alt", "src", "href", "id", "for", "target", "style", "width", "height"]:
+    for kind in ["class", "alt", "src", "href", "id", "for", "target", "style", "width", "height", "placeholder"]:
         # element_data = re.findall(kind + r'="[\w -/:;\[\](){}]+"', line)
         element_data = re.findall(kind + r'=".*?"', line)
         if element_data:
@@ -84,7 +84,7 @@ def element_to_js(varname: str, properties: dict[str, str]) -> list[str]:
     if "class" in properties:
         data.append(f"{varname}.className = '{properties['class']}';")
 
-    for kind in ["alt", "src", "href", "id", "for", "target", "style", "width", "height"]:
+    for kind in ["alt", "src", "href", "id", "for", "target", "style", "width", "height", "placeholder"]:
         if kind in properties:
             data.append(f"{varname}.setAttribute('{kind}', '{properties[kind]}');")
             # data.append(f"{varname}.{kind} = '{properties[kind]}';")

@@ -1,0 +1,66 @@
+<div class="flex flex-col w-full h-full p-12 space-y-6 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
+    <p class="text-3xl font-bold">
+        Funcionamiento
+    </p>
+    <section class="overflow-y-auto text-lg text-justify">
+        <p>
+            IPN-Scheduler es una aplicación que ayuda a los usuarios a generar horarios de clases al minimizar la cantidad de espacios entre clases e intentando mantener los horarios con mayor preferencia. La aplicación funciona de la siguiente forma:
+        </p>
+        <br>
+        <ol class="list-decimal pl-8">
+            <li>
+                El usuario ingresa la información sobre las clases que desea tomar, incluyendo sus preferencias por cada una y la cantidad de clases que quiere en su horario.
+            </li>
+            <li>
+                La aplicación utiliza el dispositivo del usuario para generar números enteros pseudo-aleatorios dentro de un rango específico. Esto le permite probar múltiples combinaciones de horarios al mismo tiempo, una combinación se le denomina como individuo.
+            </li>
+            <li>
+                Previo a la generación de los horarios, la aplicación intentará buscar el mínimo óptimo entre todas las combinaciones, a los conjuntos de combinaciones se le denomina poblaciones.
+            </li>
+            <li>
+                Para cada combinación, la aplicación verifica los espacios libres disponibles y selecciona los horarios que tienen la menor cantidad de espacios libres.
+            </li>
+            <li>
+                Al mismo tiempo, la aplicación intenta maximizar la preferencia del usuario por los horarios de las clases.
+            </li>
+            <li>
+                Después de probar miles de combinaciones, la aplicación presenta al usuario los mejores horarios posibles.
+            </li>
+        </ol>
+        <br>
+        <article class="space-y-2">
+            <p class="text-2xl font-bold">
+                Explicación técnica
+            </p>
+            <p>
+                En términos más técnicos, la aplicación define una función “dificultad del semestre”. Para comprender mejor necesitamos definir algunas variables y funciones:
+            </p>
+            <ol class="list-decimal pl-8">
+                <li>
+                    x es un identificador que se le da a los horarios automáticamente de forma incremental. Por ejemplo todos los horarios que tengan clases el Lunes a las 07:00, Martes a las 08:30 y Jueves a las 07:00 compartirán el mismo identificador.
+                </li>
+                <li>
+                    hK es la cantidad de horas muertas entre clases para K = 0 (lun), 1 (mar), 2 (mie), ..., 4 (vie)
+                </li>
+                <li>
+                    p es un valor que cuantifica la preferencia del usuario por una clase con un horario y profesor especifico. Por ejemplo "Fuertemente preferido" = 0, "Preferentemente Evitar" = 4...
+                </li>
+                <li>
+                    g(x) es una “función” multivaluada que toma como parámetro un identificador de horario y devuelve de forma aleatoria un valor p.
+                </li>
+            </ol>
+            <p>
+                La función “dificultad del semestre” se define como:
+            </p>
+            <p class="text-center">
+                f(x0, x1, x2, …, xN) = g(x0) + g(x1) + g(x2) + ... + g(xN) + h0 + h1 + h2 + h3 + h4
+            </p>
+            <p class="text-center">
+                donde xN son los identificadores de horarios seleccionados aleatoriamente; N lo define el usuario como "materias por horario".
+            </p>
+            <p>
+                A su vez, esta función esta sujeta a una restricción: todos los xN deben ser diferentes, en otras palabras, no puede haber horarios repetidos. Con este modelado la aplicación intentará buscar un mínimo óptimo para f a la “fuerza bruta” probando miles de combinaciones. Por mínimo óptimo se entiende el valor entero numérico más pequeño que soluciona el problema o disminuye la “dificultad del semestre”.
+            </p>
+        </article>
+    </section>
+</div>

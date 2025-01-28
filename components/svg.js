@@ -61,6 +61,41 @@ function arrow_right_circle() {
     return svg;
 }
 
+function arrow_top_right_on_square() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M15.75 2.25H21a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V4.81L8.03 17.03a.75.75 0 0 1-1.06-1.06L19.19 3.75h-3.44a.75.75 0 0 1 0-1.5Zm-10.5 4.5a1.5 1.5 0 0 0-1.5 1.5v10.5a1.5 1.5 0 0 0 1.5 1.5h10.5a1.5 1.5 0 0 0 1.5-1.5V10.5a.75.75 0 0 1 1.5 0v8.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V8.25a3 3 0 0 1 3-3h8.25a.75.75 0 0 1 0 1.5H5.25Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
+function table_cells() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 18.375V5.625ZM21 9.375A.375.375 0 0 0 20.625 9h-7.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h7.5a.375.375 0 0 0 .375-.375v-1.5Zm0 3.75a.375.375 0 0 0-.375-.375h-7.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h7.5a.375.375 0 0 0 .375-.375v-1.5Zm0 3.75a.375.375 0 0 0-.375-.375h-7.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h7.5a.375.375 0 0 0 .375-.375v-1.5ZM10.875 18.75a.375.375 0 0 0 .375-.375v-1.5a.375.375 0 0 0-.375-.375h-7.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h7.5ZM3.375 15h7.5a.375.375 0 0 0 .375-.375v-1.5a.375.375 0 0 0-.375-.375h-7.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375Zm0-3.75h7.5a.375.375 0 0 0 .375-.375v-1.5A.375.375 0 0 0 10.875 9h-7.5A.375.375 0 0 0 3 9.375v1.5c0 .207.168.375.375.375Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
+function arrow_down_on_square_stack() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M9.75 6.75h-3a3 3 0 0 0-3 3v7.5a3 3 0 0 0 3 3h7.5a3 3 0 0 0 3-3v-7.5a3 3 0 0 0-3-3h-3V1.5a.75.75 0 0 0-1.5 0v5.25Zm0 0h1.5v5.69l1.72-1.72a.75.75 0 1 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 1 1 1.06-1.06l1.72 1.72V6.75Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");path1.setAttribute("d", "M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z");path1.setAttribute("fill-rule", "evenodd");path1.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);svg.appendChild(path1);
+    return svg;
+}
+
+function trash() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
+function pencil() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
 function SVG(id, name) {
     const i = document.getElementById(id);
     if (i === null || i === undefined)
@@ -86,6 +121,21 @@ function SVG(id, name) {
         case "arrow_right_circle":
             svg = arrow_right_circle();
         break;
+        case "arrow_top_right_on_square":
+            svg = arrow_top_right_on_square();
+        break;
+        case "table_cells":
+            svg = table_cells();
+        break;
+        case "arrow_down_on_square_stack":
+            svg = arrow_down_on_square_stack();
+        break;
+        case "pencil":
+            svg = pencil();
+        break;
+        case "trash":
+            svg = trash();
+        break;
         default:
             svg = x_mark();
         break;
@@ -99,7 +149,11 @@ const icons = {
     "githubIcon": "github", "closeError": "x_mark",
     "generateButton": "academic_cap", "howWorksButton": "wrench_screwdriver", "helpButton": "question_mark", "creditsButton": "github",
 
-    "previous": "arrow_left_circle", "next": "arrow_right_circle"
+    "tableIcon": "table_cells", "saveIcon": "arrow_down_on_square_stack",
+    "edit": "pencil", "delete": "trash",
+
+    "previous": "arrow_left_circle", "next": "arrow_right_circle",
+    "externalLink": "arrow_top_right_on_square"
 };
 
 function loadIcons() {

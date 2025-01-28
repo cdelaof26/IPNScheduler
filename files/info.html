@@ -15,7 +15,7 @@
 				Generar horario
 			</span>
 		</button>
-		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white">
+		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("operationInfo")}>
 			<i class="self-center h-20 w-20" id="howWorksButton">
 			</i>
 			<span class="self-center font-bold mt-6 text-lg">
@@ -29,7 +29,7 @@
 				Sección de ayuda
 			</span>
 		</button>
-		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white">
+		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("developer")}>
 			<i class="self-center h-20 w-20" id="creditsButton">
 			</i>
 			<span class="self-center font-bold mt-6 text-lg">
@@ -37,22 +37,6 @@
 			</span>
 		</button>
 	</div>
-	<div class="flex justify-between">
-		<button>
-			<i class="h-16" id="previous">
-			</i>
-		</button>
-		<div class="flex flex-col justify-center">
-			<p class="self-center">
-				Title
-			</p>
-			<p class="self-center">
-				0/3
-			</p>
-		</div>
-		<button>
-			<i class="h-16" id="next">
-			</i>
-		</button>
+	<div id="pageButtons">
 	</div>
 </div>

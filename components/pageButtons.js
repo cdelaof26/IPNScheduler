@@ -1,11 +1,1 @@
-document.addEventListener('DOMContentLoaded', function() {
-    let root_script = document.querySelector('script#pageButtons');
-
-    let div = document.createElement('div');
-
-    let button = document.createElement('button');
-    button.textContent = 'Hello';
-    div.appendChild(button);
-    root_script.replaceWith(div);
-    div.id = 'pageButtons'
-})
+document.addEventListener('DOMContentLoaded', function() {let root_script = document.querySelector('script#pageButtons');let div = document.createElement('div');div.className = 'flex justify-between';let button = document.createElement('button');let i = document.createElement('i');i.className = 'h-16';i.setAttribute('id', 'previous');button.appendChild(i);div.appendChild(button);let div0 = document.createElement('div');div0.className = 'flex flex-col justify-center';let p = document.createElement('p');p.className = 'self-center';p.textContent = 'Title';div0.appendChild(p);let p1 = document.createElement('p');p1.className = 'self-center';p1.textContent = '0/3';div0.appendChild(p1);div.appendChild(div0);let button2 = document.createElement('button');let i3 = document.createElement('i');i3.className = 'h-16';i3.setAttribute('id', 'next');button2.appendChild(i3);div.appendChild(button2);root_script.replaceWith(div);div.id = 'pageButtons'})

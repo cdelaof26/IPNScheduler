@@ -69,5 +69,11 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.2
+- Página de funcionamiento
+- Página de créditos
+- Página de recopilación de datos [WIP]
+- `translate.py` acepta `placeholder`
+
 #### v0.0.1
 - Proyecto inicial

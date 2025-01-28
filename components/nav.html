@@ -4,14 +4,17 @@
 			<i class="h-8" id="githubIcon">
 			</i>
 		</a>
-		<button class="p-1 text-lg border-t-4 border-ipn-0">
+		<button id="nav0" class="p-1 text-lg border-t-4 transition-[border] duration-200 border-ipn-0" onclick={loadPage("info")}>
 			Generar
 		</button>
-		<button class="p-1 text-lg border-t-4 border-transparent">
+		<button id="nav1" class="p-1 text-lg border-t-4 transition-[border] duration-200 border-transparent" onclick={loadPage("operationInfo")}>
 			Funcionamiento
 		</button>
-		<button class="p-1 text-lg border-t-4 border-transparent">
+		<button id="nav2" class="p-1 text-lg border-t-4 transition-[border] duration-200 border-transparent">
 			Ayuda
+		</button>
+		<button id="nav3" class="p-1 text-lg border-t-4 transition-[border] duration-200 border-transparent" onclick={loadPage("developer")}>
+			Créditos
 		</button>
 	</div>
 </nav>
