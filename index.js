@@ -1,5 +1,5 @@
 let pages = [];
-let error_count = 0;
+let errorCount = 0;
 
 function showPageButtons(title, progress, previousPageName, nextPageName) {
     let pageButtons = document.querySelector('div#pageButtons');
@@ -78,6 +78,12 @@ function toggleErrorNotificationVisibility(hide) {
         document.getElementById("errorPopup").classList.remove("hidden");
 }
 
+function setError(msg) {
+    errorCount++;
+    toggleErrorNotificationVisibility(false);
+    document.getElementById("errorMsg").textContent = msg;
+}
+
 function toggleNavButtonSelection(buttonToHighlight) {
     for (let i = 0; i < 4; i++) {
         const b = document.getElementById(`nav${i}`);
@@ -123,16 +129,19 @@ function load(pageName) {
     let buttonToHighlight = 0;
     let previousPage = undefined;
     let nextPage = undefined;
+    let reloadData = false;
+
     if (pageName === "info") {
         title = "Introducción a IPN-Scheduler";
         progress = "0";
         buttonToHighlight = 0;
-        // nextPage = "dataCollector";
+        nextPage = "dataCollector";
     } else if (pageName === "dataCollector") {
         title = "Clases, profesores y horas";
         progress = "1";
         buttonToHighlight = 0;
         previousPage = "info";
+        reloadData = true;
     } else if (pageName === "operationInfo")
         buttonToHighlight = 1;
     else if (pageName === "developer")
@@ -143,6 +152,8 @@ function load(pageName) {
     showPageButtons(title, progress, previousPage, nextPage);
     loadIcons();
     toggleNavButtonSelection(buttonToHighlight);
+    if (reloadData)
+        reloadAllCollectedData();
 
     toggleErrorNotificationVisibility(true);
 }
@@ -162,14 +173,14 @@ async function loadPage(pageName) {
     if (!page2Load.scriptLoaded)
         await page2Load.load_page_script().then(() => {
             page2Load.scriptLoaded = true;
-            error_count = 0;
+            errorCount = 0;
 
             load(pageName);
         }).catch((e) => {
-            error_count++;
+            errorCount++;
             toggleErrorNotificationVisibility(false);
             // toggle_loading_indicator_visibility(true);
-            document.getElementById("errorCount").textContent = error_count;
+            document.getElementById("errorCount").textContent = errorCount;
 
             console.error("Error", e);
         });

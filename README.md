@@ -69,6 +69,10 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.3
+- Página de recopilación de datos completa
+- `translate.py` acepta `value` 
+
 #### v0.0.2
 - Página de funcionamiento
 - Página de créditos

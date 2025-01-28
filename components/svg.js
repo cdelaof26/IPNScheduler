@@ -156,6 +156,11 @@ const icons = {
     "externalLink": "arrow_top_right_on_square"
 };
 
+function reloadTableIcon() {
+    SVG("edit", "pencil");
+    SVG("delete", "trash");
+}
+
 function loadIcons() {
     for (let key in icons)
         SVG(key, icons[key]);

@@ -6,7 +6,7 @@
         <p class="text-lg">
             Ingresa todas las clases con los profesores que te gustaría cursar y algunos sustitutos, entre más, mejor.
         </p>
-        <div class="flex flex-col justify-between p-6 h-[85%] rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+        <div class="flex flex-col justify-between overflow-y-auto p-6 h-[85%] rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
             <table class="table-fixed">
                 <thead>
                     <tr>
@@ -34,7 +34,7 @@
                         <th class="w-16">
                             Vie
                         </th>
-                        <th>
+                        <th class="w-44">
                             Preferencia
                         </th>
                         <th class="invisible">
@@ -42,8 +42,16 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-
+                <tbody id="userSchedule">
+                    <tr id="newRowButton">
+                        <td>
+                        </td>
+                        <td>
+                            <button class="my-2 p-3 rounded-xl bg-ipn-0 text-white" onclick={createNewRow()}>
+                                Agregar materia
+                            </button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="flex justify-between">
