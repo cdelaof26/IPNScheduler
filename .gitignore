@@ -1,0 +1,13 @@
+# Directories
+.idea
+Me
+icons
+__pycache__
+__pycache__/*
+
+# Files
+Mockup.key
+tailwind
+
+# OS specific
+*.DS_Store

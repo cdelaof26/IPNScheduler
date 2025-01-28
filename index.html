@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="CSS/tout.css">
+
+		<script src="files/info.js"></script>
+
+		<title>
+			IPN-Scheduler
+		</title>
+	</head>
+	<body class="h-screen text-primary-0 dark:text-primary-1">
+		<script id="nav" src="components/nav.js"></script>
+
+		<div id="main_container" class="flex h-[90%] pb-10 px-10">
+			<div id="data_container">
+
+			</div>
+		</div>
+
+		<div id="errorPopup" class="fixed bottom-4 m-4 md:m-0 md:right-4 bg-sidebar-0 dark:bg-sidebar-1 p-4 rounded-xl border border-dim-0 dark:border-dim-1 hidden">
+			<div class="flex">
+				<p class="not-italic self-center pr-2">
+					Ocurrió un error
+				</p>
+				<button class="pl-2 border-l border-b-0 dark:border-b-1" onclick={toggleErrorNotificationVisibility(true)}>
+					<i class="h-8" id="closeError"></i>
+				</button>
+			</div>
+			<div class="flex flex-col justify-center absolute -left-3 -top-3 w-8 h-8 rounded-full bg-ipn-0">
+				<p id="errorCount" class="text-white text-center">
+					0
+				</p>
+			</div>
+		</div>
+	</body>
+
+	<script src="index.js"></script>
+	<script src="components/svg.js"></script>
+</html>
