@@ -3,7 +3,6 @@ const preferences = ['Si o si debe estar', 'Fuertemente preferido', 'Moderadamen
 const preferencesValues = [-1, 0, 1, 2, 3, 4];
 
 class Course {
-    id = -1;
     editable = true;
     #group = '';
     #name = '';
@@ -14,6 +13,22 @@ class Course {
     #validHours = [true, true, true, true, true]
     #validPreference = false;
 
+    constructor(data) {
+        if (data === null || data === undefined)
+            return;
+
+        if (!this.#setSAESCopyPastedData(data))
+            return;
+
+        this.editable = false;
+        const split = data.split("\t");
+        if ((split.length - 1) === 8) {
+            const preferenceValue = Number(split[8]);
+            if (/^-?\d$/g.test(preferenceValue))
+                this.setPreference(preferences[preferencesValues.indexOf(preferenceValue)]);
+        }
+    }
+
     #setSAESCopyPastedData(data) {
         if (typeof data !== "string")
             return false;
@@ -22,7 +37,9 @@ class Course {
             return false;
 
         const splited = data.split("\t");
-        splited.splice(3, 2);
+        if (splited.length > 3 && /^\d+$/g.test(splited[3]))
+            splited.splice(3, 2);
+
         for (let i = 0; i < splited.length; i++) {
             switch (i) {
                 case 0:
@@ -92,13 +109,8 @@ class Course {
             return;
 
         const hours = hour.split("-");
-        const startTime = hours[0].split(":");
-        const startHour = Number(startTime[0]);
-        const startMinute = Number(startTime[1]);
-
-        const endTime = hours[1].split(":");
-        const endHour = Number(endTime[0]);
-        const endMinute = Number(endTime[1]);
+        const [startHour, startMinute] = timeHHMMAsNumberArray(hours[0]);
+        const [endHour, endMinute] = timeHHMMAsNumberArray(hours[1]);
 
         if (startHour > 24 || startMinute > 59 || endHour > 24 || endMinute > 59)
             return;
@@ -111,6 +123,10 @@ class Course {
             return "";
 
         return this.#hours[id].trim().length === 0 ? "-" : this.#hours[id];
+    }
+
+    getHours() {
+        return this.getHour(0) + this.getHour(1) + this.getHour(2) + this.getHour(3) + this.getHour(4);
     }
 
     setPreference(preference) {
@@ -127,6 +143,10 @@ class Course {
 
     getPreference() {
         return this.#preference;
+    }
+
+    getPreferenceValue() {
+        return this.#preferenceValue;
     }
 
     hasValidPreference() {
@@ -155,10 +175,6 @@ class Course {
             return "Preferencia inválida";
 
         return "";
-    }
-
-    toString() {
-        return `${this.id} ${this.#group} ${this.#name} ${this.#teacher} ${this.#hours} ${this.#preference} ${this.#preferenceValue} ${this.#validHours} ${this.#validPreference}`
     }
 }
 
@@ -419,3 +435,50 @@ function createNewRow() {
     loadIcons();
 }
 
+function isValidCSV(data) {
+    if (data.length === 0 || !data.includes("\n"))
+        return false;
+
+    return data.split("\r\n")[0] === "Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Preferencia";
+}
+
+function addCollectorListeners() {
+    document.getElementById("csvSelector").onchange = (e) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                if (!isValidCSV(content)) {
+                    setError("El archivo no cumple con el formato de exportación");
+                    return;
+                }
+
+                let data = content.split("\r\n");
+                for (let i = 1; i < data.length; i++)
+                    coursesOptions.push(new Course(data[i].replaceAll(",", "\t")));
+            };
+            reader.readAsText(file);
+        }
+    };
+
+    allowGoNextFunc = () => {
+        if (coursesOptions.length < 4) {
+            goNextError = "Se requiere de al menos una tres clases diferentes";
+            return false;
+        }
+
+        for (let course of coursesOptions) {
+            if (course.editable) {
+                goNextError = "Para continuar termina de editar todas las clases";
+                return false;
+            }
+        }
+
+        return true;
+    };
+}
+
+function selectFile() {
+    document.getElementById("csvSelector").click();
+}

@@ -55,15 +55,17 @@
                 </tbody>
             </table>
             <div class="flex justify-between">
-                <div class="self-center flex space-x-4 invisible">
-                    <button class="flex p-4 w-64 rounded-xl text-white bg-ipn-0">
+                <div class="self-center flex space-x-4">
+                    <input id="csvSelector" type="file" class="hidden">
+
+                    <button class="flex p-4 w-64 rounded-xl text-white bg-ipn-0" onclick={selectFile()}>
                         <i class="self-center h-6" id="tableIcon">
                         </i>
                         <span class="ps-2 self-center">
                             Seleccionar CSV…
                         </span>
                     </button>
-                    <button class="flex p-4 w-64 rounded-xl text-white bg-ipn-0">
+                    <button class="flex p-4 w-64 rounded-xl text-white bg-ipn-0 invisible">
                         <i class="self-center h-6" id="saveIcon">
                         </i>
                         <span class="ps-2 self-center">

@@ -69,6 +69,9 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.5
+- Página de generación de horarios
+
 #### v0.0.4
 - Página de configuración
 - `translate.py` acepta 

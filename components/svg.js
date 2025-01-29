@@ -96,6 +96,27 @@ function pencil() {
     return svg;
 }
 
+function play() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
+function stop() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
+function arrow_path() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
 function SVG(id, name) {
     const i = document.getElementById(id);
     if (i === null || i === undefined)
@@ -136,6 +157,15 @@ function SVG(id, name) {
         case "trash":
             svg = trash();
         break;
+        case "play":
+            svg = play();
+        break;
+        case "stop":
+            svg = stop();
+        break;
+        case "arrow_path":
+            svg = arrow_path();
+        break;
         default:
             svg = x_mark();
         break;
@@ -151,6 +181,8 @@ const icons = {
 
     "tableIcon": "table_cells", "saveIcon": "arrow_down_on_square_stack",
     "edit": "pencil", "delete": "trash",
+
+    "start": "play", "interrupt": "stop", "restart": "arrow_path",
 
     "previous": "arrow_left_circle", "next": "arrow_right_circle",
     "externalLink": "arrow_top_right_on_square"

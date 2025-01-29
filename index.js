@@ -64,6 +64,10 @@ function createCookie(page) {
     date.setTime(date.getTime() + (20 * 24 * 60 * 60 * 1000));
     let expires = "expires="+ date.toUTCString();
 
+    // TODO: Uncomment for production
+    if (page === "configPage" || page === "scheduleGenerator")
+        page = "dataCollector";
+
     document.cookie = "ipnscheduler=" + page + ";" + expires + ";";
 }
 
@@ -81,6 +85,7 @@ function scrollToTop() {
 
 
 function toggleErrorNotificationVisibility(hide) {
+    document.getElementById("errorCount").textContent = errorCount;
     if (hide)
         document.getElementById("errorPopup").classList.add("hidden");
     else
@@ -158,7 +163,13 @@ function load(pageName) {
         progress = "2";
         buttonToHighlight = 0;
         previousPage = "dataCollector";
+        nextPage = "scheduleGenerator";
         reloadData = true;
+    } else if (pageName === "scheduleGenerator") {
+        title = "Generador de horarios";
+        progress = "3";
+        buttonToHighlight = 0;
+        previousPage = "configPage";
     } else if (pageName === "operationInfo")
         buttonToHighlight = 1;
     else if (pageName === "developer")
@@ -172,6 +183,7 @@ function load(pageName) {
 
     if (reloadData)
         if (pageName === "dataCollector") {
+            addCollectorListeners();
             reloadAllCollectedData();
         } else if (pageName === "configPage") {
             addConfigFieldsListeners();
@@ -182,6 +194,11 @@ function load(pageName) {
 }
 
 async function loadPage(pageName) {
+    if (generatorRunning) {
+        setError("No es posible cambiar página mientras se ejecuta generar");
+        return;
+    }
+
     createCookie(pageName);
 
     let page2Load = null;
@@ -226,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "info": "files/info.js",
         "dataCollector": "files/dataCollector.js",
         "configPage": "files/configPage.js",
+        "scheduleGenerator": "files/scheduleGenerator.js",
         "operationInfo": "files/operationInfo.js",
         "developer": "files/developer.js"
     }
