@@ -69,8 +69,16 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.6
+- Diseño responsivo
+- Corrección de errores
+- Agregado parámetro de configuración para horarios con días libres
+- Agregado exportar CSV
+- Los colores de los horarios generados ahora son diferentes
+
 #### v0.0.5
 - Página de generación de horarios
+- Agregado importar CSV
 
 #### v0.0.4
 - Página de configuración

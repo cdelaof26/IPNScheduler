@@ -18,7 +18,7 @@ function showPageButtons(title, progress, previousPageName, nextPageName) {
         button.setAttribute("class", "invisible");
 
     let i = document.createElement('i');
-    i.className = 'h-16';
+    i.className = 'h-12 lg:h-16';
     i.setAttribute('id', 'previous');
     button.appendChild(i);
     div.appendChild(button);
@@ -27,7 +27,7 @@ function showPageButtons(title, progress, previousPageName, nextPageName) {
     div0.className = 'flex flex-col justify-center';
 
     let p = document.createElement('p');
-    p.className = 'self-center';
+    p.className = 'self-center text-sm lg:text-base';
     p.textContent = title;
     div0.appendChild(p);
 
@@ -51,7 +51,7 @@ function showPageButtons(title, progress, previousPageName, nextPageName) {
         button2.setAttribute("class", "invisible");
 
     let i3 = document.createElement('i');
-    i3.className = 'h-16' + (nextPageName === null ? " invisible" : "");
+    i3.className = 'h-12 lg:h-16' + (nextPageName === null ? " invisible" : "");
     i3.setAttribute('id', 'next');
     button2.appendChild(i3);
     div.appendChild(button2);
@@ -217,11 +217,7 @@ async function loadPage(pageName) {
 
             load(pageName);
         }).catch((e) => {
-            errorCount++;
-            toggleErrorNotificationVisibility(false);
-            // toggle_loading_indicator_visibility(true);
-            document.getElementById("errorCount").textContent = errorCount;
-
+            setError("Ocurrió un error al cargar la página");
             console.error("Error", e);
         });
     else

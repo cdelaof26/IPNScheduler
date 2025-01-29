@@ -2,7 +2,7 @@
 <html lang="es">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" type="text/css" href="CSS/tout.css">
 
 		<script src="files/info.js"></script>
@@ -11,10 +11,10 @@
 			IPN-Scheduler
 		</title>
 	</head>
-	<body class="h-screen text-primary-0 dark:text-primary-1">
+	<body class="touch-manipulation h-dvh lg:h-screen text-primary-0 dark:text-primary-1">
 		<script id="nav" src="components/nav.js"></script>
 
-		<div id="main_container" class="flex h-[90%] pb-10 px-10">
+		<div id="main_container" class="flex h-[90%] lg:pb-10 lg:px-10">
 			<div id="data_container" class="flex">
 				<p class="self-center text-3xl tracking-tight italic">
 					Esta aplicación requiere de JavaScript para funcionar
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 
-		<div id="errorPopup" class="fixed bottom-4 m-4 md:m-0 md:right-4 bg-sidebar-0 dark:bg-sidebar-1 p-4 rounded-xl border border-dim-0 dark:border-dim-1 hidden">
+		<div id="errorPopup" class="fixed bottom-4 m-3 md:m-0 right-4 bg-sidebar-0 dark:bg-sidebar-1 p-4 rounded-xl border border-dim-0 dark:border-dim-1 hidden">
 			<div class="flex">
 				<p class="not-italic self-center pr-2" id="errorMsg">
 					Ocurrió un error

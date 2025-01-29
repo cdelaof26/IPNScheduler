@@ -28,6 +28,7 @@ function newState(text, tickIcon) {
 
 function updateState() {
     if (!generatorRunning) {
+        document.getElementById("generatorButtonManagerText").innerText = "Iniciar operación";
         clearInterval(stateUpdaterId);
         return;
     }
@@ -180,8 +181,8 @@ function getSpaceBetweenClassesInADay(dayIndex, classes) {
     if (dayHours.length === 0)
         // Setting to 0 would mean that there are no gaps between classes,
         // but that will give that schedule a higher preference.
-        // Some folks might prefer not having to go a whole day... idk
-        return classes.length;
+        // Some folks might prefer not having to go a whole day... IMPLEMENTED
+        return configController.getPreferAllDayEmptySchedules() === -1 ? classes.length : configController.getPreferAllDayEmptySchedules() === 0 ? 0 : -classes.length;
 
     // dayHours is sorted by start time: early to late
 
@@ -241,11 +242,13 @@ function evalXS(xs) {
 
 function f(returnData) {
     // TODO: Uncomment for production
-    /*if (maxGXValue < configController.getCoursesPerSchedule() + 1) {
+    if (maxGXValue < configController.getCoursesPerSchedule() + 1) {
         generatorRunning = false;
         setError(`Se requieren de al menos ${configController.getCoursesPerSchedule() + 1} materias con diferentes horarios`);
-        return;
-    }*/
+        if (!returnData)
+            return 10000;
+        return [10000, [], []];
+    }
 
     const xs = generateXS();  // x
     const gxs = evalXS(xs);  // g(x)
@@ -286,8 +289,8 @@ function findMinima() {
 
     let gen = 0;
     let ind = 0;
-    while (gen < configController.getGenerationsToFindMinima()) {
-        while (ind < configController.getCombinationsPerPopulation()) {
+    while (gen < configController.getGenerationsToFindMinima() && generatorRunning) {
+        while (ind < configController.getCombinationsPerPopulation() && generatorRunning) {
             const evaluation = f(false);
             if (evaluation < minima) {
                 requiredAttempts = gen * configController.getCombinationsPerPopulation() + ind;
@@ -299,9 +302,9 @@ function findMinima() {
         gen++;
     }
 
-    if (minima > 50) {
+    if (minima > 50 && generatorRunning) {
         generatorRunning = false;
-        setError(`No fue posible encontrar un horario óptimo [valor más próximo: ${minima}]`);
+        setError(`No fue posible encontrar un horario óptimo ${minima === 10000 ? '' : '[valor más próximo:' + minima + ']'}`);
         return;
     }
 
@@ -333,9 +336,35 @@ function newTH(text, className) {
     return th
 }
 
+function getColor(id) {
+    console.log("color",id)
+    switch (id) {
+        case 0:
+            return 'text-lime-600 dark:text-lime-500';
+        case 1:
+            return 'text-emerald-600 dark:text-emerald-500';
+        case 2:
+            return 'text-cyan-600 dark:text-cyan-500';
+        case 3:
+            return 'text-blue-600 dark:text-blue-400';
+        case 4:
+            return 'text-violet-600 dark:text-violet-400';
+        case 5:
+            return 'text-fuchsia-600 dark:text-fuchsia-300';
+        case 6:
+            return 'text-rose-800 dark:text-rose-400';
+        case 7:
+            return 'text-pink-600 dark:text-pink-400';
+        case 8:
+            return 'text-purple-600 dark:text-purple-400';
+        default:
+            return 'text-indigo-600 dark:text-indigo-300';
+    }
+}
+
 function newSchedule(id, evaluation) {
     let div1 = document.createElement('div');
-    div1.className = 'rounded-xl p-6 bg-sidebar-0 dark:bg-sidebar-1';
+    div1.className = 'rounded-xl w-max lg:w-auto p-3 lg:p-6 bg-sidebar-0 dark:bg-sidebar-1';
 
     let div2 = document.createElement('div');
     div2.className = 'flex justify-between';
@@ -358,25 +387,24 @@ function newSchedule(id, evaluation) {
     tr.appendChild(newTH('Grupo'));
     tr.appendChild(newTH('Nombre', 'text-left'));
     tr.appendChild(newTH('Profesor', 'text-left'));
-    for (let t of ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Intercam'])
+    for (let t of ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Intercambiable'])
         tr.appendChild(newTH(t));
 
     let tbody = document.createElement('tbody');
 
     // console.log("about to eval");
-    let color = 0;
+    let color = Math.trunc(Math.random() * 10);
     const classes = getClasses(evaluation[1], evaluation[2], false);
     for (let c of classes) {
         // console.log("c", c, c[0])
         if (c[0] === undefined)
             tbody.appendChild(newViewOnlyRow(c, false, ""));
         else {
-            const style = color === 0 ? 'text-lime-600 dark:text-lime-500' : color === 1 ? 'text-sky-600 dark:text-sky-500' : 'text-amber-600 dark:text-amber-500';
             for (let sc of c)
-                tbody.appendChild(newViewOnlyRow(sc, true, style));
+                tbody.appendChild(newViewOnlyRow(sc, true, getColor(color)));
 
             color++;
-            if (color === 3)
+            if (color >= 9)
                 color = 0;
         }
     }

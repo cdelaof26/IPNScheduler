@@ -1,6 +1,7 @@
 
 const preferences = ['Si o si debe estar', 'Fuertemente preferido', 'Moderadamente preferido', 'Moderadamente evitar', 'Preferentemente evitar', 'Sin preferencia'];
 const preferencesValues = [-1, 0, 1, 2, 3, 4];
+const csvHeaders = "Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Preferencia";
 
 class Course {
     editable = true;
@@ -24,7 +25,7 @@ class Course {
         const split = data.split("\t");
         if ((split.length - 1) === 8) {
             const preferenceValue = Number(split[8]);
-            if (/^-?\d$/g.test(preferenceValue))
+            if (/^-?\d$/g.test("" + preferenceValue))
                 this.setPreference(preferences[preferencesValues.indexOf(preferenceValue)]);
         }
     }
@@ -176,6 +177,12 @@ class Course {
 
         return "";
     }
+
+    toString() {
+        let hours = `${this.getHour(0)},${this.getHour(1)},${this.getHour(2)},${this.getHour(3)},${this.getHour(4)}`;
+        hours = hours.replaceAll(",-", ",");
+        return `${this.#group},${this.#name},${this.#teacher},${hours},${this.#preferenceValue}`;
+    }
 }
 
 let coursesOptions = [];
@@ -307,8 +314,11 @@ function newActionButtons(index) {
         if (userSchedule === null || userSchedule === undefined)
             return;
 
-        for (let i = 0; i < coursesOptions.length; i++)
-            userSchedule.removeChild(document.getElementById("r" + i));
+        for (let i = 0; i < coursesOptions.length; i++) {
+            const e = document.getElementById("r" + i);
+            if (e !== null)
+                userSchedule.removeChild(e);
+        }
         userSchedule.removeChild(document.getElementById("newRowButton"));
 
         coursesOptions.splice(index, 1);
@@ -439,11 +449,11 @@ function isValidCSV(data) {
     if (data.length === 0 || !data.includes("\n"))
         return false;
 
-    return data.split("\r\n")[0] === "Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Preferencia";
+    return data.split("\r\n")[0] === csvHeaders;
 }
 
 function addCollectorListeners() {
-    document.getElementById("csvSelector").onchange = (e) => {
+    document.getElementById("csvSelector").onchange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -456,15 +466,17 @@ function addCollectorListeners() {
 
                 let data = content.split("\r\n");
                 for (let i = 1; i < data.length; i++)
-                    coursesOptions.push(new Course(data[i].replaceAll(",", "\t")));
+                    if (data[i].trim().length !== 0)
+                        coursesOptions.push(new Course(data[i].replaceAll(",", "\t")));
             };
             reader.readAsText(file);
         }
     };
 
     allowGoNextFunc = () => {
-        if (coursesOptions.length < 4) {
-            goNextError = "Se requiere de al menos una tres clases diferentes";
+        if (coursesOptions.length < 3) {
+            goNextError = "Se requiere de al menos tres clases diferentes";
+            // TODO: Change to false for production
             return false;
         }
 
@@ -482,3 +494,18 @@ function addCollectorListeners() {
 function selectFile() {
     document.getElementById("csvSelector").click();
 }
+
+function exportData() {
+    let csvString = csvHeaders + "\r\n";
+    for (let course of coursesOptions)
+        csvString += course.toString() + "\r\n";
+
+    const link = document.createElement('a');
+    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);
+    link.download = 'Data.csv';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+

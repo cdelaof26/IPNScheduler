@@ -1,22 +1,22 @@
-<div class="flex flex-col justify-between w-full h-full p-12 space-y-6 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
-    <div class="h-[90%] space-y-4">
-        <p class="text-3xl font-bold">
+<div class="flex flex-col justify-between w-full h-full p-6 lg:p-12 space-y-3 lg:space-y-6 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
+    <div class="h-[90%] space-y-3 lg:space-y-4">
+        <p class="text-2xl lg:text-3xl font-bold">
             Clases, profesores y horas
         </p>
-        <p class="text-lg">
+        <p class="lg:text-lg text-justify">
             Ingresa todas las clases con los profesores que te gustaría cursar y algunos sustitutos, entre más, mejor.
         </p>
-        <div class="flex flex-col justify-between overflow-y-auto p-6 h-[85%] rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
-            <table class="table-fixed">
+        <div class="flex flex-col justify-between overflow-y-auto overflow-x-auto p-3 lg:p-6 h-[80%] lg:h-[85%] rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+            <table class="table-fixed w-max lg:w-auto">
                 <thead>
                     <tr>
                         <th class="w-24">
                             Grupo
                         </th>
-                        <th class="w-[30%] text-left">
+                        <th class="lg:w-[30%] text-left">
                             Nombre
                         </th>
-                        <th class="w-[30%] text-left">
+                        <th class="lg:w-[30%] text-left">
                             Profesor
                         </th>
                         <th class="w-16">
@@ -34,7 +34,7 @@
                         <th class="w-16">
                             Vie
                         </th>
-                        <th class="w-44">
+                        <th class="lg:w-44">
                             Preferencia
                         </th>
                         <th class="invisible">
@@ -54,26 +54,26 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="flex justify-between">
-                <div class="self-center flex space-x-4">
+            <div class="flex justify-between w-max lg:w-auto">
+                <div class="self-center flex space-x-2 lg:space-x-4">
                     <input id="csvSelector" type="file" class="hidden">
 
-                    <button class="flex p-4 w-64 rounded-xl text-white bg-ipn-0" onclick={selectFile()}>
+                    <button class="flex p-3 lg:p-4 w-44 lg:w-64 rounded-xl text-white bg-ipn-0" onclick={selectFile()}>
                         <i class="self-center h-6" id="tableIcon">
                         </i>
-                        <span class="ps-2 self-center">
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Seleccionar CSV…
                         </span>
                     </button>
-                    <button class="flex p-4 w-64 rounded-xl text-white bg-ipn-0 invisible">
+                    <button class="flex p-3 lg:p-4 w-44 lg:w-64 rounded-xl text-white bg-ipn-0" onclick={exportData()}>
                         <i class="self-center h-6" id="saveIcon">
                         </i>
-                        <span class="ps-2 self-center">
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Guardar CSV…
                         </span>
                     </button>
                 </div>
-                <p class="self-center">
+                <p class="self-center text-sm w-1/2 lg:w-auto lg:text-base">
                     Tip: Puedes seleccionar copiar y pegar la hora directamente del SAES. Visita la sección de ayuda
                 </p>
             </div>

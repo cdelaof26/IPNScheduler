@@ -1,38 +1,38 @@
-<div class="flex flex-col justify-between w-full h-full p-12 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
+<div class="flex flex-col justify-between w-full h-full p-6 lg:p-12 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
 	<div>
-		<p class="text-3xl font-bold">
+		<p class="text-2xl lg:text-3xl font-bold">
 			¡Bienvenid@!
 		</p>
 		<p class="mt-4 text-lg">
 			Esta herramienta tiene como objetivo ayudar a los estudiantes del IPN a crear horarios de forma rápida y sencilla, teniendo en cuenta la preferencia por una determinada unidad de aprendizaje y evitando las horas muertas entre clases.
 		</p>
 	</div>
-	<div class="flex justify-center space-x-8 mt-4">
-		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("dataCollector")}>
-			<i class="self-center h-20 w-20" id="generateButton">
+	<div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4 lg:space-x-8 mt-4">
+		<button class="flex md:flex-col justify-center w-full h-12 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("dataCollector")}>
+			<i class="self-center h-8 md:h-16 lg:h-20" id="generateButton">
 			</i>
-			<span class="self-center font-bold mt-6 text-lg">
+			<span class="self-center font-bold ps-3 md:ps-0 md:mt-3 lg:mt-6 lg:text-lg">
 				Generar horario
 			</span>
 		</button>
-		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("operationInfo")}>
-			<i class="self-center h-20 w-20" id="howWorksButton">
+		<button class="flex md:flex-col justify-center w-full h-12 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("operationInfo")}>
+			<i class="self-center h-8 md:h-16 lg:h-20" id="howWorksButton">
 			</i>
-			<span class="self-center font-bold mt-6 text-lg">
+			<span class="self-center font-bold ps-3 md:ps-0 md:mt-3 lg:mt-6 lg:text-lg">
 				¿Como funciona?
 			</span>
 		</button>
-		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white">
-			<i class="self-center h-20 w-20" id="helpButton">
+		<button class="flex md:flex-col justify-center w-full h-12 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-xl bg-ipn-0 text-white">
+			<i class="self-center h-8 md:h-16 lg:h-20" id="helpButton">
 			</i>
-			<span class="self-center font-bold mt-6 text-lg">
+			<span class="self-center font-bold ps-3 md:ps-0 md:mt-3 lg:mt-6 lg:text-lg">
 				Sección de ayuda
 			</span>
 		</button>
-		<button class="flex flex-col justify-center w-56 h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("developer")}>
-			<i class="self-center h-20 w-20" id="creditsButton">
+		<button class="flex md:flex-col justify-center w-full h-12 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-xl bg-ipn-0 text-white" onclick={loadPage("developer")}>
+			<i class="self-center h-8 md:h-16 lg:h-20" id="creditsButton">
 			</i>
-			<span class="self-center font-bold mt-6 text-lg">
+			<span class="self-center font-bold ps-3 md:ps-0 md:mt-3 lg:mt-6 lg:text-lg">
 				Créditos
 			</span>
 		</button>

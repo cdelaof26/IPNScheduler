@@ -15,16 +15,18 @@ class ConfigController {
     #schedulesToGenerate = 1;
     #coursesPerSchedule = 5;
     #gapBetweenClasses = "01:30";
+    #preferAllDayEmptySchedules = -1;
     #combinationsPerPopulation = 2000;
     #generationsToFindMinima = 30;
     #validSchedulesToGenerate = true;
     #validCoursesPerSchedule = true;
     #validGapBetweenClasses = true;
+    #validPreferAllDayEmptySchedules = true;
     #validCombinationsPerPopulation = true;
     #validGenerationsToFindMinima = true;
 
     getSchedulesToGenerate() {
-        return this.#schedulesToGenerate;
+        return Number(this.#schedulesToGenerate);
     }
 
     setSchedulesToGenerate(value) {
@@ -35,7 +37,7 @@ class ConfigController {
     }
 
     getCoursesPerSchedule() {
-        return this.#coursesPerSchedule;
+        return Number(this.#coursesPerSchedule);
     }
 
     setCoursesPerSchedule(value) {
@@ -58,8 +60,19 @@ class ConfigController {
         }
     }
 
+    getPreferAllDayEmptySchedules() {
+        return Number(this.#preferAllDayEmptySchedules);
+    }
+
+    setPreferAllDayEmptySchedules(value) {
+        this.#preferAllDayEmptySchedules = value;
+        this.#validPreferAllDayEmptySchedules = typeof value === "string" && /^-?\d+$/g.test(value);
+        if (this.#validPreferAllDayEmptySchedules)
+            this.#validPreferAllDayEmptySchedules = ["-1", "0", "1"].indexOf(value) !== -1;
+    }
+
     getCombinationsPerPopulation() {
-        return this.#combinationsPerPopulation;
+        return Number(this.#combinationsPerPopulation);
     }
 
     setCombinationsPerPopulation(value) {
@@ -70,7 +83,7 @@ class ConfigController {
     }
 
     getGenerationsToFindMinima() {
-        return this.#generationsToFindMinima;
+        return Number(this.#generationsToFindMinima);
     }
 
     setGenerationsToFindMinima(value) {
@@ -87,6 +100,8 @@ class ConfigController {
             return "La cantidad de materias por horario es inválida o está fuera del rango [3, 12]";
         if (!this.#validGapBetweenClasses)
             return "El tiempo indicado no cumple el formato HH:MM o está fuera del rango [00:01, 03:59]";
+        if (!this.#validPreferAllDayEmptySchedules)
+            return "El valor de preferencia para días vacíos no es válido o no pertenece al conjunto [-1, 0, 1]";
         if (!this.#validCombinationsPerPopulation)
             return "La cantidad de individuos por población es inválida o está fuera del rango [1000, 10000]";
         if (!this.#validGenerationsToFindMinima)
@@ -111,6 +126,10 @@ function addConfigFieldsListeners() {
         configController.setGapBetweenClasses(e.target.value);
     });
 
+    document.getElementById("preferAllDayEmptySchedules").addEventListener("change", (e) => {
+        configController.setPreferAllDayEmptySchedules(e.target.value);
+    });
+
     document.getElementById("combinationsPerPopulation").addEventListener("keyup", (e) => {
         configController.setCombinationsPerPopulation(e.target.value);
     });
@@ -124,6 +143,7 @@ function reloadConfigData() {
     document.getElementById("schedulesAmount").value = configController.getSchedulesToGenerate();
     document.getElementById("coursesPerSchedule").value = configController.getCoursesPerSchedule();
     document.getElementById("gapBetweenClasses").value = configController.getGapBetweenClasses();
+    document.getElementById("preferAllDayEmptySchedules").value = configController.getPreferAllDayEmptySchedules();
     document.getElementById("combinationsPerPopulation").value = configController.getCombinationsPerPopulation();
     document.getElementById("generations").value = configController.getGenerationsToFindMinima();
 
