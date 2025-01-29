@@ -1,5 +1,7 @@
 let pages = [];
 let errorCount = 0;
+let allowGoNextFunc = () => true;
+let goNextError = "";
 
 function showPageButtons(title, progress, previousPageName, nextPageName) {
     let pageButtons = document.querySelector('div#pageButtons');
@@ -37,7 +39,14 @@ function showPageButtons(title, progress, previousPageName, nextPageName) {
 
     let button2 = document.createElement('button');
     if (nextPageName !== null && nextPageName !== undefined)
-        button2.onclick =  () => loadPage(nextPageName);
+        button2.onclick = () => {
+            if (allowGoNextFunc()) {
+                loadPage(nextPageName);
+                return;
+            }
+
+            setError(goNextError);
+        };
     else
         button2.setAttribute("class", "invisible");
 
@@ -131,6 +140,7 @@ function load(pageName) {
     let nextPage = undefined;
     let reloadData = false;
 
+    allowGoNextFunc = () => true;
     if (pageName === "info") {
         title = "Introducción a IPN-Scheduler";
         progress = "0";
@@ -141,6 +151,13 @@ function load(pageName) {
         progress = "1";
         buttonToHighlight = 0;
         previousPage = "info";
+        nextPage = "configPage";
+        reloadData = true;
+    } else if (pageName === "configPage") {
+        title = "Parámetros de configuración";
+        progress = "2";
+        buttonToHighlight = 0;
+        previousPage = "dataCollector";
         reloadData = true;
     } else if (pageName === "operationInfo")
         buttonToHighlight = 1;
@@ -152,8 +169,14 @@ function load(pageName) {
     showPageButtons(title, progress, previousPage, nextPage);
     loadIcons();
     toggleNavButtonSelection(buttonToHighlight);
+
     if (reloadData)
-        reloadAllCollectedData();
+        if (pageName === "dataCollector") {
+            reloadAllCollectedData();
+        } else if (pageName === "configPage") {
+            addConfigFieldsListeners();
+            reloadConfigData();
+        }
 
     toggleErrorNotificationVisibility(true);
 }
@@ -202,6 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pagesData = {
         "info": "files/info.js",
         "dataCollector": "files/dataCollector.js",
+        "configPage": "files/configPage.js",
         "operationInfo": "files/operationInfo.js",
         "developer": "files/developer.js"
     }

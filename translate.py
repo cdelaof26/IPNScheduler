@@ -63,12 +63,16 @@ def find_element_properties(line: str) -> Union[dict[str, any], str, None]:
     if "open" in line:
         data["open"] = "true"
 
-    for kind in ["class", "alt", "src", "href", "id", "for", "target", "style", "width", "height", "placeholder", "value"]:
+    for kind in ["class", "alt", "src", "href", "id", "for", "target", "style", "width", "height", "placeholder", "value", "type", "min", "max"]:
         # element_data = re.findall(kind + r'="[\w -/:;\[\](){}]+"', line)
         element_data = re.findall(kind + r'=".*?"', line)
         if element_data:
             element_data = element_data[0].replace(kind + '="', "")
             data[kind] = element_data[:-1]
+
+    for kind in ["selected", "disabled", "hidden"]:
+        if f" {kind}" in line:
+            data[kind] = "true"
 
     element_on_event = re.findall(r'on\w+=\{[\w -/:(){}]+}', line)
     if element_on_event:
@@ -84,10 +88,14 @@ def element_to_js(varname: str, properties: dict[str, str]) -> list[str]:
     if "class" in properties:
         data.append(f"{varname}.className = '{properties['class']}';")
 
-    for kind in ["alt", "src", "href", "id", "for", "target", "style", "width", "height", "placeholder", "value"]:
+    for kind in ["alt", "src", "href", "id", "for", "target", "style", "width", "height", "placeholder", "value", "type", "min", "max"]:
         if kind in properties:
             data.append(f"{varname}.setAttribute('{kind}', '{properties[kind]}');")
             # data.append(f"{varname}.{kind} = '{properties[kind]}';")
+
+    for kind in ["selected", "disabled", "hidden"]:
+        if kind in properties:
+            data.append(f"{varname}.{kind} = {properties[kind]};")
 
     if "open" in properties:
         data.append(f"{varname}.open = true;")

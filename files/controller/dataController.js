@@ -21,7 +21,6 @@ class Course {
         if (!data.includes("\t"))
             return false;
 
-        // 1CV1	MATEMATICAS DISCRETAS	BUITRON DAMASO ISRAEL	2	202	20:00-21:30	18:30-20:00	18:30-20:00	20:00-21:30
         const splited = data.split("\t");
         splited.splice(3, 2);
         for (let i = 0; i < splited.length; i++) {
@@ -196,13 +195,13 @@ function createOption(text) {
 
 function preferenceSelector(index) {
     const select = document.createElement('select');
-    select.className = 'appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-ipn-0 focus:border-ipn-0 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
+    select.className = 'appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-ipn-0 focus:border-ipn-0 block w-full p-2.5 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
 
     const option = document.createElement('option');
     option.textContent = coursesOptions[index].hasValidPreference() ? coursesOptions[index].getPreference() : 'Seleccionar...';
-    option.setAttribute('selected', "true");
-    option.setAttribute('disabled', "true");
-    option.setAttribute('hidden', "true");
+    option.selected = true;
+    option.disabled = true;
+    option.hidden = true;
     select.appendChild(option);
 
     select.onchange = (event) => coursesOptions[index].setPreference(event.target.value);
@@ -238,7 +237,7 @@ function createHourInput(dayIndex, index) {
     const input = document.createElement('textarea');
     input.value = coursesOptions[index].getHour(dayIndex) === "-" ? "" : coursesOptions[index].getHour(dayIndex);
     input.onkeyup = (event) => coursesOptions[index].setHour(dayIndex, event.target.value);
-    input.className = 'self-center text-center h-[60%] resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
+    input.className = 'self-center text-center h-[60%] resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
     input.setAttribute('placeholder', 'NA');
     label.appendChild(input);
 
@@ -352,7 +351,7 @@ function newEditableRow(index) {
     let label = document.createElement('label');
 
     let input1 = document.createElement('input');
-    input1.className = 'text-center bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
+    input1.className = 'text-center bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
     input1.setAttribute('placeholder', 'Grupo');
     input1.value = coursesOptions[index].getGroup();
     input1.onkeyup = (event) => coursesOptions[index].setGroup(event.target.value);
@@ -367,7 +366,7 @@ function newEditableRow(index) {
     label2.className = 'flex';
 
     let input3 = document.createElement('textarea');
-    input3.className = 'self-center resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
+    input3.className = 'self-center resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
     input3.setAttribute('placeholder', 'Nombre');
     input3.value = coursesOptions[index].getName();
     input3.onkeyup = (event) => coursesOptions[index].setName(event.target.value);
@@ -382,7 +381,7 @@ function newEditableRow(index) {
     label3.className = 'flex';
 
     let input4 = document.createElement('textarea');
-    input4.className = 'self-center resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
+    input4.className = 'self-center resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
     input4.setAttribute('placeholder', 'Profesor');
     input4.value = coursesOptions[index].getTeacher();
     input4.onkeyup = (event) => coursesOptions[index].setTeacher(event.target.value);

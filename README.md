@@ -69,6 +69,13 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.4
+- Página de configuración
+- `translate.py` acepta 
+  - Parcialmente `selected`, `disabled` y `hidden`
+    - _Ciertamente no es el mejor traductor HTML-JS_
+  - Completamente `type`, `min`, `max`
+
 #### v0.0.3
 - Página de recopilación de datos completa
 - `translate.py` acepta `value` 
