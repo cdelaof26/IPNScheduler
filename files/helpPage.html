@@ -1,0 +1,144 @@
+<div class="flex flex-col w-full h-full p-6 lg:p-12 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1 text-justify">
+    <div>
+        <p class="text-2xl lg:text-3xl font-bold">
+            Sección de ayuda
+        </p>
+        <p class="my-4 text-sm lg:text-lg">
+            En esta página encontrarás algunas aseveraciones y explicaciones que pueden apoyarte al momento de utilizar la aplicación.
+        </p>
+    </div>
+    <div class="h-[90%] overflow-y-auto space-y-4 lg:space-y-6">
+        <section class="space-y-4 lg:space-y-6">
+            <p class="text-2xl font-bold indent-4">
+                Clases, profesores y horas
+            </p>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Copiar y pegar horario del SAES
+                </summary>
+                <div>
+                    <p>
+                        Una forma rápida de llenar formularios es copiar y pegar, ¿cierto? Por eso al momento de agregar una clase puedes pegar el horario completo, evitándote tener que escribir todos los campos. Para esto sigue los pasos:
+                    </p>
+                    <ol class="list-decimal pl-8">
+                        <li>
+                            Busca en el SAES la clase que quieres agregar.
+                        </li>
+                        <li>
+                            <p>
+                                Selecciona el renglón.
+                            </p>
+                            <img src="assets/saes.png" alt="Renglón seleccionado donde se lee PROFESOR 2">
+                        </li>
+                        <li>
+                            Presiona en "Agregar materia"
+                        </li>
+                        <li>
+                            <p>
+                                Pega en cualquiera de los campos de texto.
+                            </p>
+                            <img src="assets/paste.gif" alt="Video corto donde se visualiza el pegado del renglón">
+                        </li>
+                        <li>
+                            Selecciona el nivel de preferencia por la clase.
+                        </li>
+                    </ol>
+                    <div class="p-4 rounded-xl bg-red-100 mt-4">
+                        <p class="text-red-500 font-bold indent-12">
+                            ¡Atención!
+                        </p>
+                        <p class="text-red-800">
+                            No es posible pegar multiples renglones al mismo tiempo, por lo que solo se verá reflejado el primer reglón seleccionado.
+                        </p>
+                    </div>
+                </div>
+            </details>
+        </section>
+        <section class="space-y-4 lg:space-y-6">
+            <p class="text-2xl font-bold indent-4">
+                Parámetros de configuración
+            </p>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Horas entre clases para contar como espacio
+                </summary>
+                <p>
+                    El parámetro "Horas entre clases para contar como espacio" es un campo configurable con el que puedes indicarle a la aplicación una cantidad determinada de tiempo.
+                    Esta cantidad de tiempo cuantifica las horas y minutos que debe haber entre dos clases para considerar que hay una "hora muerta". Por defecto es 01:30 hrs y el rango va de 00:01 hrs (un minuto) hasta 03:59 hrs.
+                </p>
+            </details>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Dar preferencia a horarios con días vacíos
+                </summary>
+                <p>
+                    Este parámetro permite indicarle a la aplicación si son preferibles los horarios donde hay días completos sin clases o no. El modelo interno de la aplicación implementa la funcionalidad, ¿pero funciona? ¯\\_(ツ)_/¯
+                </p>
+            </details>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Cantidad de individuos por población
+                </summary>
+                <div class="space-y-2">
+                    <p>
+                        Esta opción permite ajustar la cantidad de combinaciones de clases que la aplicación probará para buscar el mínimo óptimo. En otras palabras, es la cantidad de horarios que va a generar la aplicación para encontrar el mejor horario.
+                        Por defecto el valor es 2000 y puede ajustarse a un valor entre 1000 y 10000.
+                    </p>
+                    <div class="p-4 rounded-xl bg-red-100">
+                        <p class="text-red-500 font-bold indent-12">
+                            ¡Atención!
+                        </p>
+                        <p class="text-red-800">
+                            Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos. Se recomiendan valores entre 2000 y 3000.
+                        </p>
+                    </div>
+                </div>
+            </details>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Poblaciones para encontrar mínimo
+                </summary>
+                <div class="space-y-2">
+                    <p>
+                        Esta opción permite ajustar la cantidad de veces que se repite el proceso de buscar el mínimo óptimo. La cantidad de veces que la aplicación buscará el mínimo óptimo es: (Cantidad de individuos por población) x (Poblaciones para encontrar mínimo). Por defecto el valor es 15 y puede ajustarse a un valor entre 10 y 100.
+                    </p>
+                    <div class="p-4 rounded-xl bg-red-100">
+                        <p class="text-red-500 font-bold indent-12">
+                            ¡Atención!
+                        </p>
+                        <p class="text-red-800">
+                            Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos. Se recomiendan valores entre 15 y 30.
+                        </p>
+                    </div>
+                </div>
+            </details>
+        </section>
+        <section class="space-y-4 lg:space-y-6">
+            <p class="text-2xl font-bold indent-4">
+                Generar
+            </p>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Columna de intercambio
+                </summary>
+                <div>
+                    <p>
+                        Al generar horarios, la columna de Intercambiable indica que los dos horarios adyacentes del mismo color comparten las mismas horas y la misma preferencia, por lo que al final puedes escoger cualquiera de los sugeridos.
+                    </p>
+                    <p>
+                        Por ejemplo en la siguiente imagen se ven en color morado COMPILADORES y PROCESAMIENTO DIGITAL DE SEÑALES, el usuario al final decide cuál de las dos materias quiere inscribir.
+                    </p>
+                    <img src="assets/swappable.png" alt="La imagen no cargo xd">
+                </div>
+            </details>
+            <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <summary class="font-bold indent-8">
+                    Horarios contienen materias duplicadas en diferentes horas
+                </summary>
+                <p>
+                    En algunos casos es posible que la aplicación genere horarios que contienen repetidas dos materias en diferentes horas. Desafortunadamente, aún no se implementa un mecanismo para la detección y prevención de estos casos, por lo que la recomendación es que se agreguen más materias para cualquiera de las horas afectadas con la misma o mayor preferencia.
+                </p>
+            </details>
+        </section>
+    </div>
+</div>

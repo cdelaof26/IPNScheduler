@@ -104,6 +104,9 @@ class Course {
         if (id > this.#hours.length || id < 0)
             return;
 
+        if (hour.trim() === "-")
+            hour = "";
+
         this.#hours[id] = hour.trim();
         this.#validHours[id] = this.#hours[id].length === 0;
         if (this.#validHours[id] || !/^\d{1,2}:\d{1,2}-\d{1,2}:\d{1,2}$/g.test(hour))
@@ -200,13 +203,11 @@ function reloadAllCollectedData() {
 
         userSchedule.removeChild(e);
     }
-    userSchedule.removeChild(document.getElementById("newRowButton"));
 
     for (let i = 0; i < coursesOptions.length; i++) {
         userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
         reloadTableIcon();
     }
-    userSchedule.appendChild(createAddRowButton());
 }
 
 function createOption(text) {
@@ -232,23 +233,6 @@ function preferenceSelector(index) {
         select.appendChild(createOption(preference));
 
     return select;
-}
-
-function createAddRowButton() {
-    const tr = document.createElement('tr');
-    tr.setAttribute('id', 'newRowButton');
-    tr.appendChild(document.createElement('td'));
-
-    const td = document.createElement('td');
-
-    const button = document.createElement('button');
-    button.className = 'my-2 p-3 rounded-xl bg-ipn-0 text-white';
-    button.onclick = function() {createNewRow()};
-    button.textContent = 'Agregar materia';
-    td.appendChild(button);
-    tr.appendChild(td);
-
-    return tr;
 }
 
 function createHourInput(dayIndex, index) {
@@ -319,14 +303,12 @@ function newActionButtons(index) {
             if (e !== null)
                 userSchedule.removeChild(e);
         }
-        userSchedule.removeChild(document.getElementById("newRowButton"));
 
         coursesOptions.splice(index, 1);
         for (let i = 0; i < coursesOptions.length; i++) {
             userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
             reloadTableIcon();
         }
-        userSchedule.appendChild(createAddRowButton());
     }
 
     let i2 = document.createElement('i');
@@ -427,6 +409,7 @@ function newEditableRow(index) {
     tr.appendChild(td9);
 
     tr.appendChild(newActionButtons(index));
+    setTimeout(() => tr.scrollIntoView(), 100);
 
     return tr;
 }
@@ -439,9 +422,7 @@ function createNewRow() {
     const index = coursesOptions.length;
     coursesOptions.push(new Course());
 
-    userSchedule.removeChild(document.getElementById("newRowButton"));
     userSchedule.appendChild(newEditableRow(index));
-    userSchedule.appendChild(createAddRowButton());
     loadIcons();
 }
 
@@ -509,3 +490,15 @@ function exportData() {
     document.body.removeChild(link);
 }
 
+function deleteData() {
+    const userSchedule = document.getElementById("userSchedule");
+    for (let i = 0; i < coursesOptions.length; i++) {
+        const e = document.getElementById("r" + i);
+        if (e === null || e === undefined)
+            continue;
+
+        userSchedule.removeChild(e);
+    }
+
+    coursesOptions = [];
+}

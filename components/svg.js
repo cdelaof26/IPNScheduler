@@ -117,6 +117,13 @@ function arrow_path() {
     return svg;
 }
 
+function plus() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
 function SVG(id, name) {
     const i = document.getElementById(id);
     if (i === null || i === undefined)
@@ -166,6 +173,9 @@ function SVG(id, name) {
         case "arrow_path":
             svg = arrow_path();
         break;
+        case "plus":
+            svg = plus();
+        break;
         default:
             svg = x_mark();
         break;
@@ -180,7 +190,7 @@ const icons = {
     "generateButton": "academic_cap", "howWorksButton": "wrench_screwdriver", "helpButton": "question_mark", "creditsButton": "github",
 
     "tableIcon": "table_cells", "saveIcon": "arrow_down_on_square_stack",
-    "edit": "pencil", "delete": "trash",
+    "edit": "pencil", "delete": "trash", "add": "plus",
 
     "start": "play", "interrupt": "stop", "restart": "arrow_path",
 

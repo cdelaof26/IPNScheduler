@@ -69,6 +69,11 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.7
+- Página de ayuda
+- Mejora del diseño de `dataCollector`
+- Cambio en el rango de poblaciones
+
 #### v0.0.6
 - Diseño responsivo
 - Corrección de errores

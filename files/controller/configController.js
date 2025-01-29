@@ -17,7 +17,7 @@ class ConfigController {
     #gapBetweenClasses = "01:30";
     #preferAllDayEmptySchedules = -1;
     #combinationsPerPopulation = 2000;
-    #generationsToFindMinima = 30;
+    #generationsToFindMinima = 15;
     #validSchedulesToGenerate = true;
     #validCoursesPerSchedule = true;
     #validGapBetweenClasses = true;
@@ -90,7 +90,7 @@ class ConfigController {
         this.#generationsToFindMinima = value;
         this.#validGenerationsToFindMinima = typeof value === "string" && /^\d+$/g.test(value);
         if (this.#validGenerationsToFindMinima)
-            this.#validGenerationsToFindMinima = Number(value) > 9 && Number(value) < 1001;
+            this.#validGenerationsToFindMinima = Number(value) > 9 && Number(value) < 101;
     }
 
     isValid() {
@@ -105,7 +105,7 @@ class ConfigController {
         if (!this.#validCombinationsPerPopulation)
             return "La cantidad de individuos por población es inválida o está fuera del rango [1000, 10000]";
         if (!this.#validGenerationsToFindMinima)
-            return "La cantidad de poblaciones para encontrar el mínimo es inválida o está fuera del rango [10, 1000]";
+            return "La cantidad de poblaciones para encontrar el mínimo es inválida o está fuera del rango [10, 100]";
 
         return "";
     }

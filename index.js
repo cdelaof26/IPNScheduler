@@ -172,6 +172,8 @@ function load(pageName) {
         previousPage = "configPage";
     } else if (pageName === "operationInfo")
         buttonToHighlight = 1;
+    else if (pageName === "helpPage")
+        buttonToHighlight = 2;
     else if (pageName === "developer")
         buttonToHighlight = 3;
 
@@ -241,7 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "configPage": "files/configPage.js",
         "scheduleGenerator": "files/scheduleGenerator.js",
         "operationInfo": "files/operationInfo.js",
-        "developer": "files/developer.js"
+        "developer": "files/developer.js",
+        "helpPage": "files/helpPage.js",
     }
 
     let i = 0;
