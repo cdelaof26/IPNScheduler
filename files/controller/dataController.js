@@ -111,7 +111,7 @@ class Course {
 
         this.#hours[id] = hour.trim();
         this.#validHours[id] = this.#hours[id].length === 0;
-        if (this.#validHours[id] || !/^\d{1,2}:\d{1,2}-\d{1,2}:\d{1,2}$/g.test(hour))
+        if (this.#validHours[id] || !/^\d{1,2}:\d{2}-\d{1,2}:\d{2}$/g.test(hour))
             return;
 
         const hours = hour.split("-");
@@ -161,7 +161,7 @@ class Course {
 
     isValid() {
         if (typeof this.#group !== "string" || typeof this.#name !== "string" || typeof this.#teacher !== "string")
-            return "Grupo, nombre o profesor inválido";
+            return "Grupo, nombre o profesor inválido (no es una cadena)";
 
         if (this.#group.trim().length === 0 || this.#name.trim().length === 0 || this.#teacher.trim().length === 0)
             return "Grupo, nombre o profesor vacío";
@@ -169,7 +169,7 @@ class Course {
         let allEmpty = true;
         for (let i = 0; i < this.#hours.length; i++) {
             if (!this.#validHours[i])
-                return `Intervalo de hora inválido: '${this.#hours[i]}'`;
+                return `Hora inválida: '${this.#hours[i]}'; El valor debe tener la forma HH:MM-HH:MM donde HH:MM debe ser formato de 24 horas; La hora de termino debe ser posterior a la de inicio`;
 
             allEmpty = allEmpty && this.#hours[i].trim().length === 0;
         }
@@ -178,7 +178,7 @@ class Course {
             return "Debe haber al menos una hora definida a la semana";
 
         if (!this.#validPreference)
-            return "Preferencia inválida";
+            return "Preferencia inválida; Se altero el HTML!?";
 
         return "";
     }
@@ -194,6 +194,8 @@ class Course {
 }
 
 let coursesOptions = [];
+
+let scrollNewElementIntoView = true;
 
 function reloadAllCollectedData() {
     // Not the most efficient way to update a row, but you gotta take in account that this a 3-day project
@@ -310,10 +312,12 @@ function newActionButtons(index) {
         }
 
         coursesOptions.splice(index, 1);
+        scrollNewElementIntoView = false;
         for (let i = 0; i < coursesOptions.length; i++) {
             userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
             reloadTableIcon();
         }
+        scrollNewElementIntoView = true;
     }
 
     let i2 = document.createElement('i');
@@ -414,7 +418,8 @@ function newEditableRow(index) {
     tr.appendChild(td9);
 
     tr.appendChild(newActionButtons(index));
-    setTimeout(() => tr.scrollIntoView(), 100);
+    if (scrollNewElementIntoView)
+        setTimeout(() => tr.scrollIntoView(), 100);
 
     return tr;
 }
@@ -460,15 +465,15 @@ function addCollectorListeners() {
     };
 
     allowGoNextFunc = () => {
-        if (coursesOptions.length < 3) {
-            goNextError = "Se requiere de al menos tres clases diferentes";
+        if (coursesOptions.length < 4) {
+            goNextError = "Se requiere de al menos cuatro clases diferentes";
             // TODO: Change to false for production
             return false;
         }
 
         for (let course of coursesOptions) {
             if (course.editable) {
-                goNextError = "Para continuar termina de editar todas las clases";
+                goNextError = "Completa la edición de todas las clases antes de continuar";
                 return false;
             }
         }

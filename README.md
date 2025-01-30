@@ -90,6 +90,10 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.8_1
+- Mejorada la claridad de algunos mensajes
+- Eliminar una materia ya no desplaza la vista al final
+
 #### v0.0.8
 - Implementada generación de multiples horarios
 - Implementado guardar horarios como CSV

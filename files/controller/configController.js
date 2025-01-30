@@ -56,7 +56,7 @@ class ConfigController {
         this.#validGapBetweenClasses = typeof value === "string" && /^\d{1,2}:\d{1,2}$/g.test(value);
         if (this.#validGapBetweenClasses) {
             const [hour, minute] = timeHHMMAsNumberArray(value);
-            this.#validGapBetweenClasses = hour === 0 && minute > 0 || hour > 0 && hour < 4 && minute < 60;
+            this.#validGapBetweenClasses = hour === 0 && minute > 0 || hour > 0 && hour < 6 && minute < 60 || hour === 6 && minute === 0;
         }
     }
 
@@ -99,7 +99,7 @@ class ConfigController {
         if (!this.#validCoursesPerSchedule)
             return "La cantidad de materias por horario es inválida o está fuera del rango [3, 12]";
         if (!this.#validGapBetweenClasses)
-            return "El tiempo indicado no cumple el formato HH:MM o está fuera del rango [00:01, 03:59]";
+            return "El tiempo indicado no cumple el formato HH:MM o está fuera del rango [00:01, 06:00]";
         if (!this.#validPreferAllDayEmptySchedules)
             return "El valor de preferencia para días vacíos no es válido o no pertenece al conjunto [-1, 0, 1]";
         if (!this.#validCombinationsPerPopulation)

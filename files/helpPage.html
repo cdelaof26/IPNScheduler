@@ -42,15 +42,24 @@
                         <li>
                             Selecciona el nivel de preferencia por la clase.
                         </li>
+                        <li>
+                            Termina de editar la clase al presionar el botón del lápiz. De no haber errores, el botón dejará de estar en un fondo guinda y los campos dejarán de ser modificables.
+                        </li>
                     </ol>
-                    <div class="p-4 rounded-xl bg-red-100 mt-4">
-                        <p class="text-red-500 font-bold indent-12">
+                    <div class="p-4 rounded-xl bg-red-100 dark:bg-red-800 my-4">
+                        <p class="text-red-500 dark:text-red-300 font-bold indent-12">
                             ¡Atención!
                         </p>
-                        <p class="text-red-800">
+                        <p class="text-red-800 dark:text-red-200">
                             No es posible pegar multiples renglones al mismo tiempo, por lo que solo se verá reflejado el primer reglón seleccionado.
                         </p>
                     </div>
+                    <p>
+                        Para avanzar a la siguiente página, ninguna materia debe estar en modo editar y debe haber al menos 4 clases con horas distintas. Para generar un horario con 5 materias se requieren al menos 6 clases con horas diferentes. Para un horario de 6 materias se requieren 7 distintas y así.
+                    </p>
+                    <p>
+                        El formato de horas debe ser [HORA DE INICIO]-[HORA DE TERMINO], tanto la hora de inicio como la de termino deben tener la forma HH:MM (HoraHora:MinutoMinuto) en formato de 24 horas. La hora de termino debe ser posterior a la de inicio por al menos 1 minuto. Por ejemplo 12:00-13:00 es un valor válido.
+                    </p>
                 </div>
             </details>
         </section>
@@ -64,7 +73,7 @@
                 </summary>
                 <p>
                     El parámetro "Horas entre clases para contar como espacio" es un campo configurable con el que puedes indicarle a la aplicación una cantidad determinada de tiempo.
-                    Esta cantidad de tiempo cuantifica las horas y minutos que debe haber entre dos clases para considerar que hay una "hora muerta". Por defecto es 01:30 hrs y el rango va de 00:01 hrs (un minuto) hasta 03:59 hrs.
+                    Esta cantidad de tiempo cuantifica las horas y minutos que debe haber entre dos clases para considerar que hay una "hora muerta". Por defecto es 01:30 hrs y el rango va de 00:01 hrs (un minuto) hasta 06:00 hrs.
                 </p>
             </details>
             <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
@@ -84,11 +93,11 @@
                         Esta opción permite ajustar la cantidad de combinaciones de clases que la aplicación probará para buscar el mínimo óptimo. En otras palabras, es la cantidad de horarios que va a generar la aplicación para encontrar el mejor horario.
                         Por defecto el valor es 2000 y puede ajustarse a un valor entre 500 y 100,000.
                     </p>
-                    <div class="p-4 rounded-xl bg-red-100">
-                        <p class="text-red-500 font-bold indent-12">
+                    <div class="p-4 rounded-xl bg-red-100 dark:bg-red-800 mt-4">
+                        <p class="text-red-500 dark:text-red-300 font-bold indent-12">
                             ¡Atención!
                         </p>
-                        <p class="text-red-800">
+                        <p class="text-red-800 dark:text-red-200">
                             Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos o que no pueda generar todos los horarios solicitados. Se recomiendan valores entre 2000 y 5000.
                         </p>
                     </div>
@@ -102,11 +111,11 @@
                     <p>
                         Esta opción permite ajustar la cantidad de veces que se repite el proceso de buscar el mínimo óptimo. La cantidad de veces que la aplicación buscará el mínimo óptimo es: (Cantidad de individuos por población) x (Poblaciones para encontrar mínimo). Por defecto el valor es 15 y puede ajustarse a un valor entre 5 y 1000.
                     </p>
-                    <div class="p-4 rounded-xl bg-red-100">
-                        <p class="text-red-500 font-bold indent-12">
+                    <div class="p-4 rounded-xl bg-red-100 dark:bg-red-800 mt-4">
+                        <p class="text-red-500 dark:text-red-300 font-bold indent-12">
                             ¡Atención!
                         </p>
-                        <p class="text-red-800">
+                        <p class="text-red-800 dark:text-red-200">
                             Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos o que no pueda generar todos los horarios solicitados. Se recomiendan valores entre 15 y 50.
                         </p>
                     </div>
