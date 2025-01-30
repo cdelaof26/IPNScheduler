@@ -11,11 +11,32 @@ muertas entre clases.
 
 ### Copyright
 <pre>
-https://github.com/cdelaof26
+The MIT License (MIT)
+
+Copyright (c) 2025 cdelaof26
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 </pre>
 
-Por el momento, este software no contiene una licencia, por
-lo que todos los derechos están reservados - [@cdelaof26](https://github.com/cdelaof26).
+La licencia del MIT solo aplica a **versiones superiores a la 
+0.0.7**. Esto implica que cualquier persona que obtenga una copia 
+de este software puede utilizarlo y modificarlo libremente.
 
 El Instituto Politécnico Nacional (IPN) no esta afiliado a 
 este proyecto de ninguna manera.
@@ -68,6 +89,11 @@ transcripción de HTML a JS.
 
 
 ### Historial de cambios
+
+#### v0.0.8
+- Implementada generación de multiples horarios
+- Implementado guardar horarios como CSV
+- Parámetros de configuración modificados
 
 #### v0.0.7
 - Página de ayuda

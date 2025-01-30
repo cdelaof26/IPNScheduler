@@ -41,7 +41,7 @@ function showPageButtons(title, progress, previousPageName, nextPageName) {
     if (nextPageName !== null && nextPageName !== undefined)
         button2.onclick = () => {
             if (allowGoNextFunc()) {
-                loadPage(nextPageName);
+                loadPage(nextPageName).then();
                 return;
             }
 
@@ -85,15 +85,18 @@ function scrollToTop() {
 
 
 function toggleErrorNotificationVisibility(hide) {
-    document.getElementById("errorCount").textContent = errorCount;
-    if (hide)
+    if (hide) {
         document.getElementById("errorPopup").classList.add("hidden");
-    else
+        errorCount = 0;
+    } else {
         document.getElementById("errorPopup").classList.remove("hidden");
+        errorCount++;
+    }
+
+    document.getElementById("errorCount").textContent = errorCount;
 }
 
 function setError(msg) {
-    errorCount++;
     toggleErrorNotificationVisibility(false);
     document.getElementById("errorMsg").textContent = msg;
 }
@@ -107,18 +110,11 @@ function toggleNavButtonSelection(buttonToHighlight) {
     }
 }
 
-function get_width() {
-    // Function extracted from: https://stackoverflow.com/questions/1038727/how-to-get-browser-width-using-javascript-code
-    return Math.max(
-        document.body.scrollWidth,
-        document.documentElement.scrollWidth,
-        document.body.offsetWidth,
-        document.documentElement.offsetWidth,
-        document.documentElement.clientWidth
-    );
-}
-
 class Page {
+    name;
+    reference;
+    script_loaded;
+
     constructor(name, reference) {
         this.name = name;
         this.reference = reference;

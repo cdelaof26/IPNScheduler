@@ -12,7 +12,7 @@ function getHourIntervalPart(h, startTime) {
 
 class ConfigController {
     // #schedulesToGenerate = 3;
-    #schedulesToGenerate = 1;
+    #schedulesToGenerate = 3;
     #coursesPerSchedule = 5;
     #gapBetweenClasses = "01:30";
     #preferAllDayEmptySchedules = -1;
@@ -79,7 +79,7 @@ class ConfigController {
         this.#combinationsPerPopulation = value;
         this.#validCombinationsPerPopulation = typeof value === "string" && /^\d+$/g.test(value);
         if (this.#validCombinationsPerPopulation)
-            this.#validCombinationsPerPopulation = Number(value) > 999 && Number(value) < 10001;
+            this.#validCombinationsPerPopulation = Number(value) > 499 && Number(value) < 100001;
     }
 
     getGenerationsToFindMinima() {
@@ -90,7 +90,7 @@ class ConfigController {
         this.#generationsToFindMinima = value;
         this.#validGenerationsToFindMinima = typeof value === "string" && /^\d+$/g.test(value);
         if (this.#validGenerationsToFindMinima)
-            this.#validGenerationsToFindMinima = Number(value) > 9 && Number(value) < 101;
+            this.#validGenerationsToFindMinima = Number(value) > 4 && Number(value) < 1001;
     }
 
     isValid() {
@@ -103,9 +103,9 @@ class ConfigController {
         if (!this.#validPreferAllDayEmptySchedules)
             return "El valor de preferencia para días vacíos no es válido o no pertenece al conjunto [-1, 0, 1]";
         if (!this.#validCombinationsPerPopulation)
-            return "La cantidad de individuos por población es inválida o está fuera del rango [1000, 10000]";
+            return "La cantidad de individuos por población es inválida o está fuera del rango [500, 100000]";
         if (!this.#validGenerationsToFindMinima)
-            return "La cantidad de poblaciones para encontrar el mínimo es inválida o está fuera del rango [10, 100]";
+            return "La cantidad de poblaciones para encontrar el mínimo es inválida o está fuera del rango [5, 1000]";
 
         return "";
     }

@@ -11,7 +11,7 @@
 			IPN-Scheduler
 		</title>
 	</head>
-	<body class="touch-manipulation h-dvh lg:h-screen text-primary-0 dark:text-primary-1">
+	<body class="touch-manipulation h-dvh lg:h-screen text-primary-0 dark:text-primary-1 bg-body-0 dark:bg-body-1">
 		<script id="nav" src="components/nav.js"></script>
 
 		<div id="main_container" class="flex h-[90%] lg:pb-10 lg:px-10">
@@ -27,7 +27,7 @@
 				<p class="not-italic self-center pr-2" id="errorMsg">
 					Ocurrió un error
 				</p>
-				<button class="pl-2 border-l border-b-0 dark:border-b-1" onclick={toggleErrorNotificationVisibility(true)}>
+				<button class="pl-2 border-l border-b-0 dark:border-b-1" onclick={toggleErrorNotificationVisibility(true);}>
 					<i class="h-8" id="closeError"></i>
 				</button>
 			</div>

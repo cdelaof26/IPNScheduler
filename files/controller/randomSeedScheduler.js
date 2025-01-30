@@ -5,10 +5,57 @@ let progressState = 0;
 let gx = {};
 let gxInverse = {};
 let maxGXValue = 0;
-let requiredAttempts = 0;
 let minima = 10000;
+let minimaHistoric = [];
 
 let stateUpdaterId = -1;
+
+
+const scheduleCSVHeaders = "Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Intercambiable";
+class Schedule {
+    id;
+    minima;
+    courses;
+
+    constructor(id, minima, courses) {
+        this.id = id;
+        this.minima = minima;
+        this.courses = courses;
+    }
+}
+let generatedSchedules = [];
+
+function scheduleToCSV(schedule) {
+    let csvString = `Horario #${schedule.id}, , , , , , , ,Ranking: ${schedule.minima}\r\n`;
+    for (let course of schedule.courses)
+        if (course[0] === undefined) {
+            course.toStringIncludesPreference = false;
+            csvString += course.toString() + ",No" + "\r\n";
+            course.toStringIncludesPreference = true;
+        } else {
+            for (let alt of course) {
+                alt.toStringIncludesPreference = false;
+                csvString += alt.toString() + ",Si" + "\r\n";
+                alt.toStringIncludesPreference = true;
+            }
+        }
+
+    return csvString;
+}
+
+function exportSchedules() {
+    let csvString = scheduleCSVHeaders + "\r\n";
+    for (let schedule of generatedSchedules)
+        csvString += scheduleToCSV(schedule) + " , , , , , , , , \r\n".repeat(2);
+
+    const link = document.createElement('a');
+    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);
+    link.download = 'Horarios.csv';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
 function newState(text, tickIcon) {
     let div = document.createElement('div');
@@ -22,6 +69,8 @@ function newState(text, tickIcon) {
     span1.className = 'ps-3';
     span1.textContent = text;
     div.appendChild(span1);
+
+    setTimeout(() => div.scrollIntoView(), 100);
 
     return div;
 }
@@ -293,7 +342,7 @@ function findMinima() {
         while (ind < configController.getCombinationsPerPopulation() && generatorRunning) {
             const evaluation = f(false);
             if (evaluation < minima) {
-                requiredAttempts = gen * configController.getCombinationsPerPopulation() + ind;
+                minimaHistoric.push(evaluation);
                 minima = evaluation;
             }
             ind++;
@@ -337,7 +386,6 @@ function newTH(text, className) {
 }
 
 function getColor(id) {
-    console.log("color",id)
     switch (id) {
         case 0:
             return 'text-lime-600 dark:text-lime-500';
@@ -370,7 +418,7 @@ function newSchedule(id, evaluation) {
     div2.className = 'flex justify-between';
 
     let p1 = document.createElement('p');
-    p1.textContent = 'Horario #' + id + 1;
+    p1.textContent = 'Horario #' + (id + 1);
     div2.appendChild(p1);
 
     let p2 = document.createElement('p');
@@ -395,6 +443,8 @@ function newSchedule(id, evaluation) {
     // console.log("about to eval");
     let color = Math.trunc(Math.random() * 10);
     const classes = getClasses(evaluation[1], evaluation[2], false);
+    generatedSchedules.push(new Schedule(id, evaluation[0], classes));
+
     for (let c of classes) {
         // console.log("c", c, c[0])
         if (c[0] === undefined)
@@ -417,51 +467,37 @@ function newSchedule(id, evaluation) {
     return div1;
 }
 
-function isSameEvaluation(prev, actual) {
-    let sameXS = true;
-    let sameGXS = true;
-
-    for (let i = 0; prev[1].length; i++)
-        sameXS = sameXS && prev[1][i] === actual[1][i];
-
-    for (let i = 0; prev[2].length; i++)
-        sameGXS = sameGXS && prev[2][i] === actual[2][i];
-
-    return prev[0] === actual[0] && sameXS && sameGXS;
-}
-
 function createSchedules() {
     progressState++;
 
-    let previousEval = undefined;
-    let schedules = 0;
-    let sameEvaluation = 0;
-    let failedEvaluation = 0;
+    let createdSchedules = 0;
+    let varMinima = minima;
 
-    const maximumMinima = (minima + 1) * 2;
+    minimaHistoric.sort((a, b) => b - a);
+    const minimaInHistoric = minimaHistoric.indexOf(minima);
+    if (minimaInHistoric !== -1)
+        minimaHistoric.splice(minimaInHistoric, 1);
 
-    console.log("min", minima)
-    while (minima < maximumMinima) {
+    console.log("min", minima, minimaHistoric);
+
+    // while (createdSchedules < 10) {
+    while (createdSchedules < configController.getSchedulesToGenerate()) {
         const evaluation = f(true);
-        if (evaluation[0] > minima)
+        if (evaluation[0] !== varMinima)
             continue;
 
-        if (previousEval === undefined)
-            previousEval = evaluation;
-        else if (sameEvaluation < 3 && isSameEvaluation(previousEval, evaluation)) {
-            sameEvaluation++;
-            continue;
-        } else if (sameEvaluation === 3) {
-            previousEval = undefined;
-            sameEvaluation = 0;
-            minima++;
+        // Initially I thought about checking the same minima thrice just in case some schedules had the same
+        // minima but different configuration. However, I couldn't figure out how to do that,
+        // so I guess the user will need to run this several times...
+
+        varMinima = minimaHistoric.pop();
+        if (varMinima === undefined) {
+            setError(`No fue posible crear ${configController.getSchedulesToGenerate()} horarios`);
+            break;
         }
 
-        document.getElementById("schedules").appendChild(newSchedule(schedules, evaluation));
-
-        schedules++;
-        if (schedules >= configController.getSchedulesToGenerate())
-            break;
+        document.getElementById("schedules").appendChild(newSchedule(createdSchedules, evaluation));
+        createdSchedules++;
     }
 
     progressState++;
@@ -487,6 +523,8 @@ function manageGenerator() {
     removeAllFrom("progressLabel");
     document.getElementById("progressLabel").appendChild(newState("Listo", true));
 
+    generatedSchedules = [];
+
     buttonText.innerText = "Parar operación";
     generatorRunning = true;
     lastState = 0;
@@ -494,8 +532,8 @@ function manageGenerator() {
     gx = {};
     gxInverse = {};
     maxGXValue = 0;
-    requiredAttempts = 0;
     minima = 10000;
+    minimaHistoric = [];
 
     setTimeout(() => {
         assignIDs();

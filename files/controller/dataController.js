@@ -14,6 +14,8 @@ class Course {
     #validHours = [true, true, true, true, true]
     #validPreference = false;
 
+    toStringIncludesPreference = true;
+
     constructor(data) {
         if (data === null || data === undefined)
             return;
@@ -184,7 +186,10 @@ class Course {
     toString() {
         let hours = `${this.getHour(0)},${this.getHour(1)},${this.getHour(2)},${this.getHour(3)},${this.getHour(4)}`;
         hours = hours.replaceAll(",-", ",");
-        return `${this.#group},${this.#name},${this.#teacher},${hours},${this.#preferenceValue}`;
+        if (this.toStringIncludesPreference)
+            return `${this.#group},${this.#name},${this.#teacher},${hours},${this.#preferenceValue}`;
+
+        return `${this.#group},${this.#name},${this.#teacher},${hours}`;
     }
 }
 
