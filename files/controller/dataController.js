@@ -301,6 +301,7 @@ function newActionButtons(index) {
 
     if (loadAsPossibleCourse) {
         let button = document.createElement('button');
+        button.setAttribute('id', 'r' + index + 'btn');
         button.className = 'self-center w-7 h-7 border-2';
         button.textContent = possibleCourses[index].selected ? '✓' : '';
         button.onclick = () => {
@@ -513,7 +514,7 @@ function addCollectorListeners() {
                 let data = content.split("\r\n");
                 for (let i = 1; i < data.length; i++)
                     if (data[i].trim().length !== 0)
-                        coursesOptions.push(new Course(data[i].replaceAll(",", "\t")));
+                        coursesOptions.push(new Course(data[i].replaceAll(",", "\t"), false));
             };
             reader.readAsText(file);
         }
@@ -557,7 +558,7 @@ function exportData() {
 
 function deleteData() {
     const userSchedule = document.getElementById("userSchedule");
-    for (let i = 0; i < (loadAsPossibleCourse ? possibleCourses : coursesOptions).length; i++) {
+    for (let i = 0; i < coursesOptions.length; i++) {
         const e = document.getElementById("r" + i);
         if (e === null || e === undefined)
             continue;
@@ -565,8 +566,5 @@ function deleteData() {
         userSchedule.removeChild(e);
     }
 
-    if (loadAsPossibleCourse)
-        possibleCourses = [];
-    else
-        coursesOptions = [];
+    coursesOptions = [];
 }

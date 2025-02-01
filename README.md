@@ -90,6 +90,10 @@ transcripción de HTML a JS.
 
 ### Historial de cambios
 
+#### v0.0.9_1
+- Corrección de errores
+- Botón de seleccionar y deseleccionar todo en página de herramientas
+
 #### v0.0.9
 - Página de herramientas
 

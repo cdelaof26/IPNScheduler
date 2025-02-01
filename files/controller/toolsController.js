@@ -28,12 +28,24 @@ function addToolsListeners() {
                 }
 
                 let data = content.split("\r\n");
+                console.log(data)
                 if (isHorario) {
                     loadAsPossibleCourse = true;
                     for (let i = 1; i < data.length; i++)
-                        if (data[i].trim().length !== 0)
-                            possibleCourses.push(new Course(data[i].replaceAll(",", "\t"), false));
+                        if (data[i].trim().length !== 0) {
+                            let c = new Course(data[i].replaceAll(",", "\t"), false);
+                            let append = true;
+                            for (let c1 of possibleCourses)
+                                if (c.equals(c1)) {
+                                    append = false;
+                                    break;
+                                }
 
+                            if (append)
+                                possibleCourses.push(c);
+                        }
+
+                    reloadAllCollectedData();
                     loadAsPossibleCourse = false;
                     return;
                 }
@@ -44,6 +56,7 @@ function addToolsListeners() {
                 }
 
                 loadedAvailabilityCSV = true;
+                toggleErrorNotificationVisibility(true);
 
                 for (let i = 1; i < data.length; i++)
                     if (data[i].trim().length !== 0) {
@@ -60,8 +73,12 @@ function addToolsListeners() {
     };
 
     document.getElementById("showUnavailable").onchange = (event) => {
-        if (!loadedAvailabilityCSV)
+        if (!loadedAvailabilityCSV) {
             setError("Debes cargar el archivo de Disponibilidad.csv que obtienes con el Script Ocupabilidad Horario");
+            document.getElementById("showUnavailable").value = "true";
+            return;
+        }
+
         showUnavailable = event.target.value === "true";
         reloadToolsData();
     };
@@ -75,7 +92,28 @@ function reloadToolsData() {
 
 function deleteToolsData() {
     loadedAvailabilityCSV = false;
-    loadAsPossibleCourse = true;
-    deleteData();
-    loadAsPossibleCourse = false;
+    const userSchedule = document.getElementById("userSchedule");
+    for (let i = 0; i < possibleCourses.length; i++) {
+        const e = document.getElementById("r" + i);
+        if (e !== null && e !== undefined)
+            userSchedule.removeChild(e);
+
+        for (let j = 0; j < coursesOptions.length; j++)
+            if (possibleCourses[i].equals(coursesOptions[j])) {
+                coursesOptions.splice(j, 1);
+                break;
+            }
+    }
+
+    possibleCourses = [];
 }
+
+function selectAll() {
+    for (let i = 0; i < possibleCourses.length; i++) {
+        if (!showUnavailable && !possibleCourses[i].available)
+            continue;
+
+        document.getElementById('r' + i + 'btn').click();
+    }
+}
+

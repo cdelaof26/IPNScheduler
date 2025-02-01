@@ -131,6 +131,20 @@ function clipboard() {
     return svg;
 }
 
+function rectangle_stack() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M5.566 4.657A4.505 4.505 0 0 1 6.75 4.5h10.5c.41 0 .806.055 1.183.157A3 3 0 0 0 15.75 3h-7.5a3 3 0 0 0-2.684 1.657ZM2.25 12a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-6ZM5.25 7.5c-.41 0-.806.055-1.184.157A3 3 0 0 1 6.75 6h10.5a3 3 0 0 1 2.683 1.657A4.505 4.505 0 0 0 18.75 7.5H5.25Z");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
+function rectangle_stack_empty() {
+    const svg = newSVG();
+    const path0 = document.createElementNS("http://www.w3.org/2000/svg", "path");path0.setAttribute("d", "M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122");path0.setAttribute("fill-rule", "evenodd");path0.setAttribute("clip-rule", "evenodd");
+    svg.appendChild(path0);
+    return svg;
+}
+
 function SVG(id, name) {
     const i = document.getElementById(id);
     if (i === null || i === undefined)
@@ -186,6 +200,12 @@ function SVG(id, name) {
         case "clipboard":
             svg = clipboard();
         break;
+        case "rectangle_stack":
+            svg = rectangle_stack();
+        break;
+        case "rectangle_stack_empty":
+            svg = rectangle_stack_empty();
+        break;
         default:
             svg = x_mark();
         break;
@@ -204,7 +224,7 @@ const icons = {
 
     "start": "play", "interrupt": "stop", "restart": "arrow_path",
 
-    "copy": "clipboard", "cp": "clipboard",
+    "copy": "clipboard", "cp": "clipboard", "selectAll": "rectangle_stack", "unselectAll": "rectangle_stack_empty",
 
     "previous": "arrow_left_circle", "next": "arrow_right_circle",
     "externalLink": "arrow_top_right_on_square"
