@@ -59,6 +59,39 @@ function showPageButtons(title, progress, previousPageName, nextPageName) {
     div.id = 'pageButtons'
 }
 
+function copyData(btnId, dataId) {
+    const btn = document.getElementById(btnId);
+
+    const copyText = document.getElementById(dataId);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    try {
+        navigator.clipboard.writeText(copyText.value);
+        btn.classList.add("text-white");
+        btn.classList.add("bg-ipn-0");
+        document.getElementById(btnId + "Text").textContent = "¡Copiado!";
+        setTimeout(() => {
+            btn.classList.remove("text-white");
+            btn.classList.remove("bg-ipn-0");
+            document.getElementById(btnId + "Text").textContent = "Copiar";
+        }, 1500);
+    } catch (e) {
+        console.error(e);
+        document.getElementById(btnId + "Text").textContent = "Error :(";
+        setTimeout(() => {
+            document.getElementById(btnId + "Text").textContent = "Copiar";
+        }, 1500);
+    }
+}
+
+function copiarHorariosScript() {
+    copyData("btn1", "horarios");
+}
+
+function copiarDisponibilidadScript() {
+    copyData("btn2", "disponibilidad");
+}
+
 function createCookie(page) {
     const date = new Date();
     date.setTime(date.getTime() + (20 * 24 * 60 * 60 * 1000));
@@ -102,7 +135,7 @@ function setError(msg) {
 }
 
 function toggleNavButtonSelection(buttonToHighlight) {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
         const b = document.getElementById(`nav${i}`);
         b.classList.remove("border-ipn-0");
         b.classList.remove("border-transparent");
@@ -172,6 +205,10 @@ function load(pageName) {
         buttonToHighlight = 2;
     else if (pageName === "developer")
         buttonToHighlight = 3;
+    else if (pageName === "toolsPage") {
+        buttonToHighlight = 4;
+        reloadData = true;
+    }
 
     window[pageName]();
     scrollToTop();
@@ -186,6 +223,11 @@ function load(pageName) {
         } else if (pageName === "configPage") {
             addConfigFieldsListeners();
             reloadConfigData();
+        } else if (pageName === "toolsPage") {
+            document.getElementById("horarios").value = "const thead = document.querySelectorAll(\"[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']\")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll(\"[style*='color:#333333;']\");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + \"\\r\\n\";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + \"\\r\\n\";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName(\"ctl00$mainCopy$Filtro$cboTurno\")[0].value;const periodo = document.getElementsByName(\"ctl00$mainCopy$Filtro$lsNoPeriodos\")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);";
+            document.getElementById("disponibilidad").value = "const thead = document.querySelectorAll(\"[style*='color:White;background-color:#FF9900;font-family:Arial;font-weight:bold;']\")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll(\"[style*='color:#333333;']\");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + \"\\r\\n\";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + \"\\r\\n\";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);link.download = 'Disponibilidad.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);";
+            addToolsListeners();
+            reloadToolsData();
         }
 
     toggleErrorNotificationVisibility(true);
@@ -241,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "operationInfo": "files/operationInfo.js",
         "developer": "files/developer.js",
         "helpPage": "files/helpPage.js",
+        "toolsPage": "files/toolsPage.js",
     }
 
     let i = 0;

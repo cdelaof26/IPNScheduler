@@ -14,16 +14,20 @@ class Course {
     #validHours = [true, true, true, true, true]
     #validPreference = false;
 
+    available = true;
+    selected = false;
+
     toStringIncludesPreference = true;
 
-    constructor(data) {
+    constructor(data, editable) {
         if (data === null || data === undefined)
             return;
 
+        this.editable = editable === undefined ? true : editable;
         if (!this.#setSAESCopyPastedData(data))
             return;
 
-        this.editable = false;
+        this.editable = editable === undefined ? true : editable;
         const split = data.split("\t");
         if ((split.length - 1) === 8) {
             const preferenceValue = Number(split[8]);
@@ -40,7 +44,7 @@ class Course {
             return false;
 
         const splited = data.split("\t");
-        if (splited.length > 3 && /^\d+$/g.test(splited[3]))
+        if (splited.length > 3 && (/^\d+$/g.test(splited[3]) || splited[3] === "X"))
             splited.splice(3, 2);
 
         for (let i = 0; i < splited.length; i++) {
@@ -191,19 +195,36 @@ class Course {
 
         return `${this.#group},${this.#name},${this.#teacher},${hours}`;
     }
+
+    clone() {
+        return new Course(this.toString().replaceAll(",", "\t"), true);
+    }
+
+    equals(g) {
+        // User might've chaged the hours or preference...
+        return g.getGroup() === this.#group && g.getName() === this.#name && g.getTeacher() === this.#teacher;
+    }
 }
 
 let coursesOptions = [];
 
 let scrollNewElementIntoView = true;
+let loadAsPossibleCourse = false;
+let autoReloadData = true;
+let showUnavailable = true;
 
 function reloadAllCollectedData() {
+    if (!autoReloadData)
+        return;
+
     // Not the most efficient way to update a row, but you gotta take in account that this a 3-day project
     const userSchedule = document.getElementById("userSchedule");
     if (userSchedule === null || userSchedule === undefined)
         return;
 
-    for (let i = 0; i < coursesOptions.length; i++) {
+    let data = loadAsPossibleCourse ? possibleCourses : coursesOptions;
+
+    for (let i = 0; i < data.length; i++) {
         const e = document.getElementById("r" + i);
         if (e === null || e === undefined)
             continue;
@@ -211,8 +232,11 @@ function reloadAllCollectedData() {
         userSchedule.removeChild(e);
     }
 
-    for (let i = 0; i < coursesOptions.length; i++) {
-        userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
+    for (let i = 0; i < data.length; i++) {
+        if (!showUnavailable && !data[i].available)
+            continue;
+
+        userSchedule.appendChild(data[i].editable ? newEditableRow(i) : newNonEditableRow(i));
         reloadTableIcon();
     }
 }
@@ -272,8 +296,35 @@ function newActionButtons(index) {
     td.className = 'rounded-r-xl pr-4 py-4';
 
     let div = document.createElement('div');
-    div.className = 'flex justify-center space-x-2';
+    div.className = 'flex justify-center';
     td.appendChild(div);
+
+    if (loadAsPossibleCourse) {
+        let button = document.createElement('button');
+        button.className = 'self-center w-7 h-7 border-2';
+        button.textContent = possibleCourses[index].selected ? '✓' : '';
+        button.onclick = () => {
+            possibleCourses[index].selected = !possibleCourses[index].selected;
+            button.textContent = possibleCourses[index].selected ? '✓' : '';
+            autoReloadData = false;
+            if (possibleCourses[index].selected)
+                coursesOptions.push(possibleCourses[index].clone());
+            else {
+                for (let i = 0; i < coursesOptions.length; i++)
+                    if (coursesOptions[i].equals(possibleCourses[index])) {
+                        coursesOptions.splice(i, 1);
+                        break;
+                    }
+            }
+
+            autoReloadData = true;
+        }
+        div.appendChild(button);
+
+        return td;
+    }
+
+    div.className += ' space-x-2';
 
     let button = document.createElement('button');
     button.className = 'self-center rounded-lg ' + (coursesOptions[index].editable ? 'bg-ipn-0 text-white p-1' : '');
@@ -330,23 +381,26 @@ function newActionButtons(index) {
 }
 
 function newNonEditableRow(index) {
-    if (index > coursesOptions.length)
+    let data = loadAsPossibleCourse ? possibleCourses : coursesOptions;
+
+    if (index > data.length)
         return;
 
-    coursesOptions[index].editable = false;
+    data[index].editable = false;
 
     let tr = document.createElement('tr');
     tr.setAttribute("id", "r" + index);
     tr.className = 'bg-body-0 dark:bg-body-1';
 
-    tr.appendChild(newTD(0, coursesOptions[index].getGroup(), true));
-    tr.appendChild(newTD(1, coursesOptions[index].getName(), false));
-    tr.appendChild(newTD(1, coursesOptions[index].getTeacher(), false));
+    tr.appendChild(newTD(0, data[index].getGroup(), true));
+    tr.appendChild(newTD(1, data[index].getName(), false));
+    tr.appendChild(newTD(1, data[index].getTeacher(), false));
 
     for (let i = 0; i < 5; i++)
-        tr.appendChild(newTD(1, coursesOptions[index].getHour(i), true));
+        tr.appendChild(newTD(1, data[index].getHour(i), true));
 
-    tr.appendChild(newTD(1, coursesOptions[index].getPreference(), true));
+    if (!loadAsPossibleCourse)
+        tr.appendChild(newTD(1, data[index].getPreference(), true));
     tr.appendChild(newActionButtons(index));
 
     return tr;
@@ -436,11 +490,12 @@ function createNewRow() {
     loadIcons();
 }
 
-function isValidCSV(data) {
-    if (data.length === 0 || !data.includes("\n"))
-        return false;
+function validCSV(data) {
+    return data.length !== 0 && data.includes("\r\n");
+}
 
-    return data.split("\r\n")[0] === csvHeaders;
+function isValidCSV(data) {
+    return validCSV(data) && data.split("\r\n")[0] === csvHeaders;
 }
 
 function addCollectorListeners() {
@@ -502,7 +557,7 @@ function exportData() {
 
 function deleteData() {
     const userSchedule = document.getElementById("userSchedule");
-    for (let i = 0; i < coursesOptions.length; i++) {
+    for (let i = 0; i < (loadAsPossibleCourse ? possibleCourses : coursesOptions).length; i++) {
         const e = document.getElementById("r" + i);
         if (e === null || e === undefined)
             continue;
@@ -510,5 +565,8 @@ function deleteData() {
         userSchedule.removeChild(e);
     }
 
-    coursesOptions = [];
+    if (loadAsPossibleCourse)
+        possibleCourses = [];
+    else
+        coursesOptions = [];
 }

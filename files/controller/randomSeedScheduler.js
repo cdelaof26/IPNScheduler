@@ -231,7 +231,7 @@ function getSpaceBetweenClassesInADay(dayIndex, classes) {
         // Setting to 0 would mean that there are no gaps between classes,
         // but that will give that schedule a higher preference.
         // Some folks might prefer not having to go a whole day... IMPLEMENTED
-        return configController.getPreferAllDayEmptySchedules() === -1 ? classes.length : configController.getPreferAllDayEmptySchedules() === 0 ? 0 : -classes.length;
+        return configController.getPreferAllDayEmptySchedules() === -1 ? classes.length : configController.getPreferAllDayEmptySchedules() === 0 ? -classes.length : -(classes.length * 2);
 
     // dayHours is sorted by start time: early to late
 
@@ -489,15 +489,15 @@ function createSchedules() {
         // Initially I thought about checking the same minima thrice just in case some schedules had the same
         // minima but different configuration. However, I couldn't figure out how to do that,
         // so I guess the user will need to run this several times...
+        document.getElementById("schedules").appendChild(newSchedule(createdSchedules, evaluation));
+        createdSchedules++;
 
         varMinima = minimaHistoric.pop();
         if (varMinima === undefined) {
-            setError(`No fue posible crear ${configController.getSchedulesToGenerate()} horarios`);
+            if (createdSchedules < configController.getSchedulesToGenerate())
+                setError(`No fue posible crear ${configController.getSchedulesToGenerate()} horarios`);
             break;
         }
-
-        document.getElementById("schedules").appendChild(newSchedule(createdSchedules, evaluation));
-        createdSchedules++;
     }
 
     progressState++;

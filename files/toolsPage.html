@@ -1,0 +1,189 @@
+<div class="flex flex-col justify-between w-full h-full p-6 lg:p-12 space-y-3 lg:space-y-6 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
+    <div class="overflow-y-auto h-full space-y-3 lg:space-y-4">
+        <p class="text-2xl lg:text-3xl font-bold">
+            Página de herramientas
+        </p>
+        <p class="lg:text-lg text-justify">
+            En esta página encontrarás dos scripts para automatizar la extracción de horarios.
+        </p>
+        <p class="text-2xl font-bold">
+            Tabla de datos
+        </p>
+        <div class="flex flex-col justify-between p-3 lg:p-6 h-[78%] lg:h-[80%] rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+            <div class="h-[82%] lg:h-[80%] overflow-y-auto overflow-x-auto">
+                <table class="table-fixed w-max lg:w-auto">
+                    <thead>
+                    <tr>
+                        <th class="w-24">
+                            Grupo
+                        </th>
+                        <th class="lg:w-[30%] text-left">
+                            Nombre
+                        </th>
+                        <th class="lg:w-[30%] text-left">
+                            Profesor
+                        </th>
+                        <th class="w-16">
+                            Lun
+                        </th>
+                        <th class="w-16">
+                            Mar
+                        </th>
+                        <th class="w-16">
+                            Mie
+                        </th>
+                        <th class="w-16">
+                            Jue
+                        </th>
+                        <th class="w-16">
+                            Vie
+                        </th>
+                        <th>
+                            Seleccionar
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="userSchedule">
+                    </tbody>
+                </table>
+            </div>
+            <div class="overflow-x-auto">
+                <div class="flex self-center space-x-2 lg:space-x-4 w-fit md:w-full">
+                    <input id="csvSelector" type="file" class="hidden">
+                    <label>
+                        <select id="showUnavailable" class="appearance-none flex p-3 lg:p-4 rounded-xl text-white bg-ipn-0">
+                            <option selected value="true">
+                                Mostrar todo
+                            </option>
+                            <option value="false">
+                                Mostrar solo con disponibilidad
+                            </option>
+                        </select>
+                    </label>
+                    <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick={selectFile()}>
+                        <i class="self-center h-6" id="tableIcon">
+                        </i>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Cargar CSV…
+                        </span>
+                    </button>
+                    <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick={deleteToolsData()}>
+                        <i class="self-center h-6" id="delete">
+                        </i>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Eliminar todo
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4 lg:space-y-4">
+            <div class="p-4 rounded-xl bg-red-100 dark:bg-red-800 my-4">
+                <p class="text-red-500 dark:text-red-300 font-bold indent-12">
+                    ¡Atención!
+                </p>
+                <p class="text-red-800 dark:text-red-200">
+                    Los scripts para la extracción automática de horarios dependen de que el usuario confíe en los contenidos del script y tenga acceso a la consola del navegador web. Por lo que se hace una invitación a la inspección del contenido de los códigos.
+                </p>
+            </div>
+            <div class="space-y-3 lg:space-y-4">
+                <p class="text-2xl font-bold">
+                    Procedimiento
+                </p>
+                <ol class="list-decimal pl-8">
+                    <li>
+                        Iniciar sesión en el portal del SAES.
+                    </li>
+                    <li>
+                        Has clic en el botón de Académia.
+                    </li>
+                    <li>
+                        Para obtener horarios has clic en Horarios de Clases:
+                    </li>
+                    <ol class="list-decimal pl-8">
+                        <li>
+                            Selecciona la carrera, el plan de estudios y el turno y periodo del cual desees obtener horarios.
+                        </li>
+                        <li>
+                            Abre la consola del navegador, pega el script "Horarios de clases" y descarga el archivo CSV generado.
+                        </li>
+                        <li>
+                            En esta página has clic en "Cargar CSV..." en la sección de arriba "Tabla de datos".
+                        </li>
+                    </ol>
+                    <li>
+                        Para obtener disponibilidad de horarios has clic en Ocupabilidad Horario:
+                    </li>
+                    <ol class="list-decimal pl-8">
+                        <li>
+                            Selecciona el periodo, la carrera y el plan de estudios.
+                        </li>
+                        <li class="italic">
+                            No es necesario aplicar filtros de Especialidad, Semestre, Grupo o Asignatura.
+                        </li>
+                        <li>
+                            Abre la consola del navegador, pega el script "Ocupabilidad Horario" y descarga el archivo CSV generado.
+                        </li>
+                        <li>
+                            En esta página has clic en "Cargar CSV..." en la sección de arriba "Tabla de datos".
+                        </li>
+                    </ol>
+                    <li>
+                        Una vez cargados los CSV en la Tabla de datos, selecciona las clases que quieras incluir en tu horario, las seleccionadas aparecerán automáticamente en la página de Clases, profesores y horas.
+                    </li>
+                </ol>
+            </div>
+            <p>
+                A continuación se presentan dos scripts para automatizar la extracción de horarios.
+            </p>
+            <div class="space-y-3 lg:space-y-4 mb-6 p-3 lg:p-6 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+                <div class="flex justify-between">
+                    <p class="self-center lg:text-2xl font-bold">
+                        Script Horarios de clases
+                    </p>
+                    <button id="btn1" class="self-center flex p-2 rounded-xl transition-colors duration-200" onclick={copiarHorariosScript()}>
+                        <i class="self-center h-6" id="copy">
+                        </i>
+                        <span class="ps-2" id="btn1Text">
+                            Copiar
+                        </span>
+                    </button>
+                </div>
+                <p>
+                    Este script crea un CSV que contiene todos los horarios de un determinado periodo y turno.
+                </p>
+                <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
+                    <p class="w-max">
+                        const thead = document.querySelectorAll("[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName("ctl00$mainCopy$Filtro$cboTurno")[0].value;const periodo = document.getElementsByName("ctl00$mainCopy$Filtro$lsNoPeriodos")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
+                    </p>
+                    <label>
+                        <input class="invisible" id="horarios">
+                    </label>
+                </div>
+                <div class="flex justify-between">
+                    <p class="self-center lg:text-2xl font-bold">
+                        Script Ocupabilidad Horario
+                    </p>
+                    <button id="btn2" class="self-center flex p-2 rounded-xl transition-colors duration-200" onclick={copiarDisponibilidadScript()}>
+                        <i class="self-center h-6" id="cp">
+                        </i>
+                        <span class="ps-2" id="btn2Text">
+                            Copiar
+                        </span>
+                    </button>
+                </div>
+                <p>
+                    Este script crea un CSV que contiene todas las materias existentes (carece de información suficiente para crear un horario).
+                </p>
+                <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
+                    <p class="w-max">
+                        const thead = document.querySelectorAll("[style*='color:White;background-color:#FF9900;font-family:Arial;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);link.download = 'Disponibilidad.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
+                    </p>
+                    <label>
+                        <input class="invisible" id="disponibilidad">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

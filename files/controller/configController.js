@@ -53,7 +53,7 @@ class ConfigController {
 
     setGapBetweenClasses(value) {
         this.#gapBetweenClasses = value;
-        this.#validGapBetweenClasses = typeof value === "string" && /^\d{1,2}:\d{1,2}$/g.test(value);
+        this.#validGapBetweenClasses = typeof value === "string" && /^\d{1,2}:\d{2}$/g.test(value);
         if (this.#validGapBetweenClasses) {
             const [hour, minute] = timeHHMMAsNumberArray(value);
             this.#validGapBetweenClasses = hour === 0 && minute > 0 || hour > 0 && hour < 6 && minute < 60 || hour === 6 && minute === 0;

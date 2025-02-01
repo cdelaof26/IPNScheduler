@@ -58,6 +58,9 @@ def find_element_properties(line: str) -> Union[dict[str, any], str, None]:
     if not name:
         name = re.findall(r"<\w+>", line)
 
+    if not name:
+        return line
+
     data["name"] = name[0].replace("<", "")[:-1]
 
     if "open" in line:
