@@ -48,47 +48,45 @@ soporte para HTML5, JS y CSS3.
 Para el desarrollo se requiere de lo siguiente:
 - Navegador web
 - Python >= 3.9
+  - Se hace uso del proyecto [PyWST](https://github.com/cdelaof26/PyWST)
 - Tailwind CSS
   - Requiere NodeJS
   - Opcionalmente: [Tailwind Standalone CLI](https://tailwindcss.com/blog/standalone-cli)
 
 ### Desarrollo
 ```bash
-# Clonar el repositorio
-$ git clone https://github.com/cdelaof26/IPNScheduler.git
-
-# Ingresar al repositorio
-$ cd IPNScheduler
-
-# Iniciar Tailwind CSS watcher (Standalone CLI)
-$ ./tailwindcss -i ./CSS/tin.css -o ./CSS/tout.css --watch
-
-# Iniciar python transcriptor
-$ python3 auto_trans.py
-
-#   Windows
-$ python auto_trans.py
-
-# De forma opcional agregar
-#    < meta http-equiv="refresh" content="3" >
-# al fichero index.html
+# Clona el repositorio
+git clone https://github.com/cdelaof26/IPNScheduler.git
 ```
 
+```bash
+# Ingresa al directorio del proyecto
+cd IPNScheduler
+```
 
-### Componentes en python
-Debido a que no es del todo posible utilizar _React_ sin NodeJS, 
-la _solución_ fue escribir varios scripts de Python para la 
-transcripción de HTML a JS.
+#### Ejecuta TailwindCSS Standalone CLI
 
-| Script          | Descripción                                              | CLI args                           | 
-|-----------------|----------------------------------------------------------|------------------------------------|
-| `code.py`       | Se encarga de mantener el código JS en una estructura    | N/A                                |
-| `fix_indent.py` | Cambia los espacios por tabuladores en archivos HTML     | N/A                                |
-| `translate.py`  | Transcribe el código HTML a JS                           | Ruta del archivo HTML [ opcional ] |
-| `auto_trans.py` | Ejecuta de forma continua `translate.py` cada 3 segundos | N/A                                |
+```bash
+./tailwindcss --input CSS/tin.css --output CSS/tout.css --watch --minify
+```
+
+#### Ejecuta PyWST
+```bash
+# En el directorio de PyWST
+python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
+
+# Usuarios en Windows quizá tengan que cambiar python3 por python
+```
+
+> [!IMPORTANT]  
+> Es necesario agregar la ruta absoluta del proyecto para cada `PATH` en `pywst.config`
 
 
 ### Historial de cambios
+
+#### v0.0.9_2
+- Migración a Tailwind CSS 4
+- Migración de `translate.py` a [PyWST](https://github.com/cdelaof26/PyWST)
 
 #### v0.0.9_1
 - Corrección de errores

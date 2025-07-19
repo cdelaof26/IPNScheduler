@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+    --color-sidebar-0: #F6F6F7;
+    --color-sidebar-1: #161518;
+    --color-body-0: #FFFFFF;
+    --color-body-1: #1B1A1F;
+    --color-dim-0: #66636A;
+    --color-dim-1: #97939D;
+    --color-primary-0: #3D3A43;
+    --color-primary-1: #DEE1D8;
+    --color-ipn-0: #6c1538;
+    --color-ipn-1: #440010;
+}
 
 html {
     scroll-behavior: smooth;
