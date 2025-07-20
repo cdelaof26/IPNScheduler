@@ -1,23 +1,45 @@
-<nav class="h-[10%] w-full p-1 md:p-3 lg:p-6">
-	<div class="grid grid-cols-3 md:flex lg:text-lg md:space-x-4 lg:space-x-8">
-		<a class="flex justify-center" href="https://github.com/cdelaof26/" target="_blank">
-			<i class="h-8 self-center" id="githubIcon">
-			</i>
+<nav class="flex flex-col md:flex-row justify-center md:justify-between z-1 w-full h-12 md:h-20 p-4 backdrop-blur-xl bg-body-0/90 dark:bg-body-1/50 md:bg-transparent dark:md:bg-transparent">
+	<div id="logo-div" class="flex self-center w-full md:w-auto">
+		<button class="md:hidden self-center" onclick="toggleMenuVisibility(!menuVisible)">
+			<script src="svg/bars_3.js" classData="size-8"></script>
+		</button>
+
+		<script src="components/ui/ipn_scheduler.js" classData="text-3xl self-center ps-2 md:ps-4 invisible"></script>
+	</div>
+
+	<div id="menu" class="z-10 absolute top-2 left-2 md:static scale-0 md:scale-none origin-[1rem_1rem] duration-200 transition-scale flex flex-col md:flex-row p-4 md:p-1 rounded-2xl backdrop-blur-xl md:bg-body-0/90 md:dark:bg-body-1/50">
+		<button id="nav0" class="flex md:justify-center w-full md:w-48 py-2 px-4 rounded-2xl transition-[background,width] duration-200 border-ipn-0" onclick="loadPage('info')">
+			<script src="svg/academic_cap.js" classData="self-center size-8"></script>
+			<span class="self-center ps-3">
+				Generar
+			</span>
+		</button>
+		<button id="nav1" class="flex md:justify-center md:w-16 py-2 px-4 rounded-2xl transition-[background,width] duration-200 border-transparent" onclick="loadPage('operationInfo')">
+			<script src="svg/adjustments_horizontal.js" classData="self-center size-8"></script>
+			<span class="self-center ps-3 md:hidden">
+				Funcionamiento
+			</span>
+		</button>
+		<button id="nav2" class="flex md:justify-center md:w-16 py-2 px-4 rounded-2xl transition-[background,width] duration-200 border-transparent" onclick="loadPage('helpPage')">
+			<script src="svg/question_mark_circle.js" classData="self-center size-8"></script>
+			<span class="self-center ps-3 md:hidden">
+				Ayuda
+			</span>
+		</button>
+		<button id="nav3" class="flex md:justify-center md:w-16 py-2 px-4 rounded-2xl transition-[background,width] duration-200 border-transparent" onclick="loadPage('developer')">
+			<script src="svg/user.js" classData="self-center size-8"></script>
+			<span class="self-center ps-3 md:hidden">
+				Créditos
+			</span>
+		</button>
+		<button id="nav4" class="flex md:justify-center md:w-16 py-2 px-4 rounded-2xl transition-[background,width] duration-200 border-transparent" onclick="loadPage('toolsPage')">
+			<script src="svg/wrench.js" classData="self-center size-8"></script>
+			<span class="self-center ps-3 md:hidden">
+				Herramientas
+			</span>
+		</button>
+		<a class="flex justify-center mx-2" href="https://github.com/cdelaof26/" target="_blank">
+			<script src="svg/github.js" classData="mt-2 md:mt-0 size-8 self-center"></script>
 		</a>
-		<button id="nav0" class="py-1 md:p-1 border-t-4 transition-[border] duration-200 border-ipn-0" onclick="loadPage('info')">
-			Generar
-		</button>
-		<button id="nav1" class="py-1 md:p-1 border-t-4 transition-[border] duration-200 border-transparent" onclick="loadPage('operationInfo')">
-			Funcionamiento
-		</button>
-		<button id="nav2" class="py-1 md:p-1 border-t-4 transition-[border] duration-200 border-transparent" onclick="loadPage('helpPage')">
-			Ayuda
-		</button>
-		<button id="nav3" class="py-1 md:p-1 border-t-4 transition-[border] duration-200 border-transparent" onclick="loadPage('developer')">
-			Créditos
-		</button>
-		<button id="nav4" class="py-1 md:p-1 border-t-4 transition-[border] duration-200 border-transparent" onclick="loadPage('toolsPage')">
-			Herramientas
-		</button>
 	</div>
 </nav>

@@ -5,30 +5,32 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" type="text/css" href="CSS/tout.css">
 
-		<script src="files/info.js"></script>
-
 		<title>
 			IPN-Scheduler
 		</title>
 	</head>
-	<body class="touch-manipulation h-dvh lg:h-screen text-primary-0 dark:text-primary-1 bg-body-0 dark:bg-body-1">
+	<body class="flex flex-col h-dvh touch-manipulation text-primary-0 dark:text-primary-1 bg-body-0 dark:bg-body-1">
+		<div class="w-full h-full absolute -z-1 bg-cover bg-center bg-[url(../assets/light.jpg)] dark:bg-[url(../assets/dark.jpg)]"></div>
 		<script id="nav" src="components/nav.js"></script>
 
-		<div id="main_container" class="flex h-[90%] lg:pb-10 lg:px-10">
-			<div id="data_container" class="flex">
-				<p class="self-center text-3xl tracking-tight italic">
-					Esta aplicación requiere de JavaScript para funcionar
-				</p>
-			</div>
+		<div id="data-container" class="flex flex-col justify-center w-full h-full p-10 backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+			<p class="self-center text-4xl tracking-tight">
+				Parece que JavaScript no esta habilitado :(
+			</p>
+			<p class="self-center text-2xl tracking-tight">
+				Esta aplicación requiere de JavaScript para funcionar
+			</p>
 		</div>
 
-		<div id="errorPopup" class="fixed bottom-4 m-3 md:m-0 right-4 bg-sidebar-0 dark:bg-sidebar-1 p-4 rounded-xl border border-dim-0 dark:border-dim-1 hidden">
+		<div id="errorPopup" class="fixed bottom-4 m-3 md:m-0 right-4 bg-sidebar-0 dark:bg-sidebar-1 p-4 rounded-xl border border-dim-0 dark:border-dim-1">
 			<div class="flex">
 				<p class="not-italic self-center pr-2" id="errorMsg">
 					Ocurrió un error
 				</p>
-				<button class="pl-2 border-l border-b-0 dark:border-b-1" onclick={toggleErrorNotificationVisibility(true);}>
-					<i class="h-8" id="closeError"></i>
+				<button class="pl-2 border-l" onclick={toggleErrorNotificationVisibility(true);}>
+					<svg class="size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+						<path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+					</svg>
 				</button>
 			</div>
 			<div class="flex flex-col justify-center absolute -left-3 -top-3 w-8 h-8 rounded-full bg-ipn-0">
@@ -40,7 +42,15 @@
 	</body>
 
 	<script src="index.js"></script>
-	<script src="components/svg.js"></script>
+	<script src="files/info.js"></script>
+
+	<script src="components/rui/hour_input.js"></script>
+	<script src="components/rui/preference_selector.js"></script>
+	<script src="components/rui/r_trash.js"></script>
+	<script src="components/rui/r_pencil.js"></script>
+	<script src="components/rui/action_buttons.js"></script>
+	<script src="components/rui/editable_table_row.js"></script>
+
 	<script src="files/controller/dataController.js"></script>
 	<script src="files/controller/configController.js"></script>
 	<script src="files/controller/randomSeedScheduler.js"></script>

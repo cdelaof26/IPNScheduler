@@ -11,14 +11,12 @@
     --color-primary-1: #DEE1D8;
     --color-ipn-0: #6c1538;
     --color-ipn-1: #440010;
+    --color-ipn-a0: #671c3d;
+    --color-ipn-a1: #833859;
 }
 
 html {
     scroll-behavior: smooth;
-}
-
-body {
-    background-image: url("../assets/light.jpg");
 }
 
 ::-webkit-scrollbar {
@@ -37,10 +35,6 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-    body {
-        background-image: url("../assets/dark.jpg");
-    }
-
     ::-webkit-scrollbar {
         background: #28272C;
     }

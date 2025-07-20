@@ -1,5 +1,5 @@
 
-const preferences = ['Si o si debe estar', 'Fuertemente preferido', 'Moderadamente preferido', 'Moderadamente evitar', 'Preferentemente evitar', 'Sin preferencia'];
+const preferences = ['Máxima preferencia', 'Fuertemente preferido', 'Moderadamente preferido', 'Moderadamente evitar', 'Preferentemente evitar', 'Sin preferencia'];
 const preferencesValues = [-1, 0, 1, 2, 3, 4];
 const csvHeaders = "Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Preferencia";
 
@@ -237,55 +237,22 @@ function reloadAllCollectedData() {
             continue;
 
         userSchedule.appendChild(data[i].editable ? newEditableRow(i) : newNonEditableRow(i));
-        reloadTableIcon();
     }
 }
 
-function createOption(text) {
-    const option = document.createElement('option');
-    option.textContent = text;
-    option.setAttribute('value', text);
-    return option;
-}
-
 function preferenceSelector(index) {
-    const select = document.createElement('select');
-    select.className = 'appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-ipn-0 focus:border-ipn-0 block w-full p-2.5 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
-
-    const option = document.createElement('option');
-    option.textContent = coursesOptions[index].hasValidPreference() ? coursesOptions[index].getPreference() : 'Seleccionar...';
-    option.selected = true;
-    option.disabled = true;
-    option.hidden = true;
-    select.appendChild(option);
-
-    select.onchange = (event) => coursesOptions[index].setPreference(event.target.value);
-    for (let preference of preferences)
-        select.appendChild(createOption(preference));
-
-    return select;
+    const content = coursesOptions[index].hasValidPreference() ? coursesOptions[index].getPreference() : 'Seleccionar...';
+    return preference_selector(content, (event) => coursesOptions[index].setPreference(event.target.value));
 }
 
 function createHourInput(dayIndex, index) {
-    let td = document.createElement('td');
-    td.className = 'p-1 h-full self-center';
-
-    const label = document.createElement('label');
-    label.className = 'flex';
-    const input = document.createElement('textarea');
-    input.value = coursesOptions[index].getHour(dayIndex) === "-" ? "" : coursesOptions[index].getHour(dayIndex);
-    input.onkeyup = (event) => coursesOptions[index].setHour(dayIndex, event.target.value);
-    input.className = 'self-center text-center h-[60%] resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
-    input.setAttribute('placeholder', 'NA');
-    label.appendChild(input);
-
-    td.appendChild(label);
-    return td;
+    const value = coursesOptions[index].getHour(dayIndex) === "-" ? "" : coursesOptions[index].getHour(dayIndex)
+    return hour_input(value, (event) => coursesOptions[index].setHour(dayIndex, event.target.value));
 }
 
 function newTD(side, text, centerText) {
     // side: 0 (left), 1 (middle), 2 (right)
-    let td = document.createElement('td');
+    const td = document.createElement('td');
     td.className = 'p-4 ' + (centerText ? "text-center " : "") + (side === 0 ? "rounded-l-xl" : side === 1 ? "" : "rounded-r-xl");
     td.innerText = text;
     return td;
@@ -325,6 +292,45 @@ function newActionButtons(index) {
         return td;
     }
 
+    const td1 = action_buttons(
+        () => {
+            const actualRow = document.getElementById("r" + index);
+
+            if (coursesOptions[index].editable) {
+                const validData = coursesOptions[index].isValid();
+                if (validData !== "") {
+                    setError(validData);
+                    return;
+                }
+            }
+
+            actualRow.replaceWith(coursesOptions[index].editable ? newNonEditableRow(index) : newEditableRow(index));
+        },
+        () => {
+            const userSchedule = document.getElementById("userSchedule");
+            if (userSchedule === null || userSchedule === undefined)
+                return;
+
+            for (let i = 0; i < coursesOptions.length; i++) {
+                const e = document.getElementById("r" + i);
+                if (e !== null)
+                    userSchedule.removeChild(e);
+            }
+
+            coursesOptions.splice(index, 1);
+            scrollNewElementIntoView = false;
+            for (let i = 0; i < coursesOptions.length; i++)
+                userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
+
+            scrollNewElementIntoView = true;
+        }
+    );
+
+    td1.children[0].children[0].appendChild(r_pencil("size-5"));
+    td1.children[0].children[1].appendChild(r_trash("size-5"));
+
+    return td1;
+
     div.className += ' space-x-2';
 
     let button = document.createElement('button');
@@ -346,7 +352,6 @@ function newActionButtons(index) {
         }
 
         actualRow.replaceWith(coursesOptions[index].editable ? newNonEditableRow(index) : newEditableRow(index));
-        reloadTableIcon();
     }
     div.appendChild(button);
 
@@ -365,10 +370,8 @@ function newActionButtons(index) {
 
         coursesOptions.splice(index, 1);
         scrollNewElementIntoView = false;
-        for (let i = 0; i < coursesOptions.length; i++) {
+        for (let i = 0; i < coursesOptions.length; i++)
             userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
-            reloadTableIcon();
-        }
         scrollNewElementIntoView = true;
     }
 
@@ -413,53 +416,12 @@ function newEditableRow(index) {
 
     coursesOptions[index].editable = true;
 
-    let tr = document.createElement('tr');
-    tr.setAttribute("id", "r" + index);
-    tr.className = 'bg-body-0 dark:bg-body-1';
-
-    let td1 = document.createElement('td');
-    td1.className = 'rounded-l-xl p-4';
-
-    let label = document.createElement('label');
-
-    let input1 = document.createElement('input');
-    input1.className = 'text-center bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
-    input1.setAttribute('placeholder', 'Grupo');
-    input1.value = coursesOptions[index].getGroup();
-    input1.onkeyup = (event) => coursesOptions[index].setGroup(event.target.value);
-    label.appendChild(input1);
-    td1.appendChild(label);
-    tr.appendChild(td1);
-
-    let td2 = document.createElement('td');
-    td2.className = 'p-4';
-
-    let label2 = document.createElement('label');
-    label2.className = 'flex';
-
-    let input3 = document.createElement('textarea');
-    input3.className = 'self-center resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
-    input3.setAttribute('placeholder', 'Nombre');
-    input3.value = coursesOptions[index].getName();
-    input3.onkeyup = (event) => coursesOptions[index].setName(event.target.value);
-    label2.appendChild(input3);
-    td2.appendChild(label2);
-    tr.appendChild(td2);
-
-    let td3 = document.createElement('td');
-    td3.className = 'p-4';
-
-    let label3 = document.createElement('label');
-    label3.className = 'flex';
-
-    let input4 = document.createElement('textarea');
-    input4.className = 'self-center resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0';
-    input4.setAttribute('placeholder', 'Profesor');
-    input4.value = coursesOptions[index].getTeacher();
-    input4.onkeyup = (event) => coursesOptions[index].setTeacher(event.target.value);
-    label3.appendChild(input4);
-    td3.appendChild(label3);
-    tr.appendChild(td3);
+    const tr = editable_table_row(
+        index,
+        coursesOptions[index].getGroup(), (event) => coursesOptions[index].setGroup(event.target.value),
+        coursesOptions[index].getName(), (event) => coursesOptions[index].setName(event.target.value),
+        coursesOptions[index].getTeacher(), (event) => coursesOptions[index].setTeacher(event.target.value)
+    );
 
     tr.appendChild(createHourInput(0, index));
     tr.appendChild(createHourInput(1, index));
@@ -467,10 +429,7 @@ function newEditableRow(index) {
     tr.appendChild(createHourInput(3, index));
     tr.appendChild(createHourInput(4, index));
 
-    let td9 = document.createElement('td');
-    td9.className = 'p-4';
-    td9.appendChild(preferenceSelector(index));
-    tr.appendChild(td9);
+    tr.appendChild(preferenceSelector(index));
 
     tr.appendChild(newActionButtons(index));
     if (scrollNewElementIntoView)
@@ -488,7 +447,6 @@ function createNewRow() {
     coursesOptions.push(new Course());
 
     userSchedule.appendChild(newEditableRow(index));
-    loadIcons();
 }
 
 function validCSV(data) {
@@ -524,17 +482,20 @@ function addCollectorListeners() {
         if (coursesOptions.length < 4) {
             goNextError = "Se requiere de al menos cuatro clases diferentes";
             // TODO: Change to false for production
-            return false;
+            validCollectedData = false;
+            return validCollectedData;
         }
 
         for (let course of coursesOptions) {
             if (course.editable) {
                 goNextError = "Completa la edición de todas las clases antes de continuar";
-                return false;
+                validCollectedData = false;
+                return validCollectedData;
             }
         }
 
-        return true;
+        validCollectedData = true;
+        return validCollectedData;
     };
 }
 

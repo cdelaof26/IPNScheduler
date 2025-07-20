@@ -1,66 +1,62 @@
-<div class="flex flex-col w-full h-full p-6 lg:p-12 space-y-3 lg:space-y-6 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
-    <p class="text-2xl lg:text-3xl font-bold">
+<div class="overflow-y-auto space-y-4 text-lg text-justify flex flex-col justify-between flex-grow lg:mx-12 lg:mb-12 p-6 lg:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+    <h1 class="text-2xl lg:text-3xl font-bold">
         Funcionamiento
-    </p>
-    <section class="overflow-y-auto text-lg text-justify">
+    </h1>
+    <article class="space-y-4">
         <p>
             IPN-Scheduler es una aplicación que ayuda a los usuarios a generar horarios de clases al minimizar la cantidad de espacios entre clases e intentando mantener los horarios con mayor preferencia. La aplicación funciona de la siguiente forma:
         </p>
-        <br>
-        <ol class="list-decimal pl-8">
+        <ol class="list-decimal pl-10">
             <li>
-                El usuario ingresa la información sobre las clases que desea tomar, incluyendo sus preferencias por cada una y la cantidad de clases que quiere en su horario.
+                El usuario ingresa la información sobre las clases que desea tomar, incluyendo su preferencia por cada una, y la cantidad de clases que quiere en su horario.
             </li>
             <li>
-                La aplicación utiliza el dispositivo del usuario para generar números enteros pseudo-aleatorios dentro de un rango específico. Esto le permite probar múltiples combinaciones de horarios al mismo tiempo, a una combinación se le denomina como individuo.
+                La aplicación utiliza el dispositivo del usuario para generar miles de números enteros pseudoaleatorios dentro de un rango específico, de esta forma se prueban múltiples combinaciones de horarios. A una combinación se le denomina <b>individuo</b>.
             </li>
             <li>
-                Previo a la generación de los horarios, la aplicación intentará buscar el horario óptimo, entre todas las combinaciones; A los conjuntos de combinaciones se le denomina poblaciones.
+                Para la generación de los horarios, la aplicación intentará buscar el horario óptimo entre todas las combinaciones. A los conjuntos de combinaciones se le denomina <b>poblaciones</b>.
             </li>
             <li>
-                Para cada combinación, la aplicación verifica los espacios libres disponibles y selecciona los horarios que tienen la menor cantidad de espacios libres.
+                Para cada combinación, la aplicación verifica los espacios libres disponibles y selecciona los horarios que tienen la menor cantidad de espacios libres. Al mismo tiempo, la aplicación intenta maximizar la preferencia del usuario por los horarios de las clases.
             </li>
             <li>
-                Al mismo tiempo, la aplicación intenta maximizar la preferencia del usuario por los horarios de las clases.
-            </li>
-            <li>
-                Después de probar miles de combinaciones, la aplicación presenta al usuario los mejores horarios posibles.
+                Después de repetir el proceso de búsqueda en un número definido de poblaciones, la aplicación presenta al usuario los mejores individuos encontrados.
             </li>
         </ol>
-        <br>
-        <article class="space-y-2">
-            <p class="text-2xl font-bold">
-                Explicación técnica
-            </p>
-            <p>
-                En términos más técnicos, la aplicación define una función “dificultad del semestre”. Para comprender mejor necesitamos definir algunas variables y funciones:
-            </p>
-            <ol class="list-decimal pl-8">
-                <li>
-                    x es un identificador que se le da a los horarios automáticamente de forma incremental. Por ejemplo todos los horarios que tengan clases el Lunes a las 07:00, Martes a las 08:30 y Jueves a las 07:00 compartirán el mismo identificador.
-                </li>
-                <li>
-                    hK es la cantidad de horas muertas entre clases para K = 0 (lun), 1 (mar), 2 (mie), ..., 4 (vie)
-                </li>
-                <li>
-                    p es un valor que cuantifica la preferencia del usuario por una clase con un horario y profesor específico. Por ejemplo "Fuertemente preferido" = 0, "Preferentemente Evitar" = 3...
-                </li>
-                <li>
-                    g(x) es una “función” multivaluada que toma como parámetro un identificador de horario y devuelve de forma aleatoria un valor p.
-                </li>
-            </ol>
-            <p>
-                La función “dificultad del semestre” se define como:
-            </p>
-            <p class="text-center">
-                f(x0, x1, x2, …, xN) = g(x0) + g(x1) + g(x2) + ... + g(xN) + h0 + h1 + h2 + h3 + h4
-            </p>
-            <p class="text-center">
-                donde xN son los identificadores de horarios seleccionados aleatoriamente; N lo define el usuario como "materias por horario".
-            </p>
-            <p>
-                A su vez, esta función esta sujeta a una restricción: todos los xN deben ser diferentes, en otras palabras, no puede haber horarios repetidos. Con este modelado la aplicación intentará buscar un mínimo óptimo para f a la “fuerza bruta” probando miles de combinaciones. Por mínimo óptimo se entiende el valor entero numérico más pequeño que soluciona el problema o disminuye la “dificultad del semestre”.
-            </p>
-        </article>
-    </section>
+    </article>
+
+    <h2 class="text-xl lg:text-2xl font-bold">
+        Explicación técnica
+    </h2>
+    <article class="space-y-4">
+        <p>
+            En términos más especializados, la aplicación define un modelo matemático llamado <b>dificultad del semestre</b>. Para comprender mejor necesitamos definir algunas variables y funciones:
+        </p>
+        <ol class="list-decimal pl-10">
+            <li>
+                <i>x</i> es un identificador que se le da a las clases automáticamente de forma incremental. Por ejemplo, todas las clases impartidas los lunes a las 07:00, martes a las 08:30 y jueves a las 07:00 compartirán el mismo identificador.
+            </li>
+            <li>
+                <i>h<sub>K</sub></i> es la cantidad de horas muertas entre clases para <span class="font-mono">K = 0 (lun), 1 (mar), 2 (mie), ..., 4 (vie)</span>
+            </li>
+            <li>
+                <i>p</i> es un valor que cuantifica la preferencia del usuario por una clase con un horario y profesor específico. Por ejemplo <span class="font-mono">Fuertemente preferido = 0, Preferentemente Evitar = 3...</span>
+            </li>
+            <li>
+                <i>g(x)</i> es una relación que toma como parámetro un <i>x</i> y devuelve de forma aleatoria un valor <i>p</i>.
+            </li>
+        </ol>
+        <p>
+            El modelo multivariable <b>dificultad del semestre</b> se define como:
+        </p>
+        <p class="text-center font-mono">
+            f(x<sub>0</sub>, x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>N</sub>) = g(x<sub>0</sub>) + g(x<sub>1</sub>) + g(x<sub>2</sub>) + ... + g(x<sub>N</sub>) + h<sub>0</sub> + h<sub>1</sub> + h<sub>2</sub> + h<sub>3</sub> + h<sub>4</sub>
+        </p>
+        <p class="text-center">
+            donde <span class="font-mono">N</span> lo define el usuario como <i>materias por horario</i>.
+        </p>
+        <p>
+            C abe mencionar que el modelo está sujeto a una restricción: todos los x<sub>N</sub> deben ser diferentes, en otras palabras, no puede haber clases solapadas. Con este modelado la aplicación intentará buscar un mínimo óptimo para <span class="font-mono">f</span> a la <i>fuerza bruta</i> probando miles de combinaciones. Entiéndase mínimo óptimo como el valor entero numérico más pequeño que soluciona el problema o disminuye la “dificultad del semestre”.
+        </p>
+    </article>
 </div>

@@ -1,23 +1,25 @@
-<div class="flex flex-col justify-between w-full h-full p-6 lg:p-12 space-y-3 lg:space-y-6 rounded-2xl shadow-2xl bg-body-0 dark:bg-body-1">
-    <div class="h-[90%] space-y-3 lg:space-y-4">
-        <p class="text-2xl lg:text-3xl font-bold">
+<div class="flex flex-col justify-between flex-grow lg:mx-12 lg:mb-12 p-6 lg:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+    <div>
+        <h1 class="flex-none text-2xl lg:text-3xl font-bold">
             Clases, profesores y horas
-        </p>
-        <p class="lg:text-lg text-justify">
+        </h1>
+        <p class="flex-none lg:text-lg text-justify">
             Ingresa todas las clases con los profesores que te gustaría cursar y algunos sustitutos, entre más, mejor.
         </p>
-        <div class="flex flex-col justify-between p-3 lg:p-6 h-[80%] lg:h-[85%] rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
-            <div class="h-[80%] lg:h-[83%] overflow-y-auto overflow-x-auto">
-                <table class="table-fixed w-max lg:w-auto">
+    </div>
+    <div class="overflow-auto flex flex-col h-128 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+        <div class="flex flex-col w-full flex-grow space-y-4 lg:p-6">
+            <div class="flex-grow">
+                <table class="table-fixed w-max md:w-auto">
                     <thead>
                     <tr>
                         <th class="w-24">
                             Grupo
                         </th>
-                        <th class="lg:w-[30%] text-left">
+                        <th class="w-[30%] text-left">
                             Nombre
                         </th>
-                        <th class="lg:w-[30%] text-left">
+                        <th class="w-[30%] text-left">
                             Profesor
                         </th>
                         <th class="w-16">
@@ -47,46 +49,40 @@
                     </tbody>
                 </table>
             </div>
-            <div class="overflow-x-auto">
-                <div class="flex flex-col lg:flex-row lg:justify-between space-y-1 lg:space-y-0 w-fit md:w-full">
-                    <div class="self-center flex space-x-2 lg:space-x-4">
-                        <input id="csvSelector" type="file" class="hidden">
-                        <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="createNewRow()">
-                            <i class="self-center h-6" id="add">
-                            </i>
-                            <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                                Agregar materia
-                            </span>
-                        </button>
-                        <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="deleteData()">
-                            <i class="self-center h-6" id="delete">
-                            </i>
-                            <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                                Eliminar todo
-                            </span>
-                        </button>
-                        <button class="flex p-3 lg:p-4 w-44 lg:w-56 rounded-xl text-white bg-ipn-0" onclick="selectFile()">
-                            <i class="self-center h-6" id="tableIcon">
-                            </i>
-                            <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                                Seleccionar CSV…
-                            </span>
-                        </button>
-                        <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="exportData()">
-                            <i class="self-center h-6" id="saveIcon">
-                            </i>
-                            <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                                Guardar CSV…
-                            </span>
-                        </button>
-                    </div>
-                    <p class="self-center text-sm lg:w-auto lg:text-base">
-                        Tip: Puedes seleccionar copiar y pegar la hora directamente del SAES. Visita la sección de ayuda
-                    </p>
+            <div class="flex flex-col md:self-center space-y-1 w-max px-4">
+                <div class="self-center flex space-x-2 lg:space-x-4">
+                    <input id="csvSelector" type="file" class="hidden">
+                    <button class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="createNewRow()">
+                        <script src="svg/plus.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Agregar materia
+                        </span>
+                    </button>
+                    <button class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="deleteData()">
+                        <script src="svg/trash.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Eliminar todo
+                        </span>
+                    </button>
+                    <button class="flex justify-center p-3 lg:p-4 w-44 lg:w-56 rounded-xl text-white bg-ipn-0" onclick="selectFile()">
+                        <script src="svg/table_cells.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Seleccionar CSV…
+                        </span>
+                    </button>
+                    <button class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="exportData()">
+                        <script src="svg/arrow_down_on_square_stack.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Guardar CSV…
+                        </span>
+                    </button>
                 </div>
+                <p class="self-center text-sm lg:w-auto lg:text-base">
+                    Tip: Puedes seleccionar copiar y pegar la hora directamente del SAES. Visita la sección de ayuda
+                </p>
             </div>
         </div>
     </div>
-    <div id="pageButtons">
-    </div>
+
+    <script src="components/page_buttons.js" b2="w-48 bg-ipn-0 text-white" b1="hidden md:block" b3="hidden md:block" b4="hidden md:block" tb1="hidden" tb3="hidden" tb4="hidden"></script>
 </div>

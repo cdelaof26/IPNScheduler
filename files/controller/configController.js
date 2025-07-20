@@ -149,6 +149,7 @@ function reloadConfigData() {
 
     allowGoNextFunc = () => {
         goNextError = configController.isValid();
-        return goNextError === "";
+        validConfig = goNextError === "";
+        return validConfig;
     };
 }

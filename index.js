@@ -1,62 +1,27 @@
 let pages = [];
 let errorCount = 0;
 let allowGoNextFunc = () => true;
+let validCollectedData = false;
+let validConfig = false;
 let goNextError = "";
+let previousPageName = undefined, nextPageName = undefined;
+let menuVisible = false;
 
-function showPageButtons(title, progress, previousPageName, nextPageName) {
-    let pageButtons = document.querySelector('div#pageButtons');
-    if (pageButtons === null || pageButtons === undefined)
+function loadNextPage() {
+    if (nextPageName === null || nextPageName === undefined)
         return;
 
-    let div = document.createElement('div');
-    div.className = 'flex justify-between';
+    if (allowGoNextFunc()) {
+        loadPage(nextPageName).then();
+        return;
+    }
 
-    let button = document.createElement('button');
+    setError(goNextError);
+}
+
+function loadPreviousPage() {
     if (previousPageName !== null && previousPageName !== undefined)
-        button.onclick = () => loadPage(previousPageName);
-    else
-        button.setAttribute("class", "invisible");
-
-    let i = document.createElement('i');
-    i.className = 'h-12 lg:h-16';
-    i.setAttribute('id', 'previous');
-    button.appendChild(i);
-    div.appendChild(button);
-
-    let div0 = document.createElement('div');
-    div0.className = 'flex flex-col justify-center';
-
-    let p = document.createElement('p');
-    p.className = 'self-center text-sm lg:text-base';
-    p.textContent = title;
-    div0.appendChild(p);
-
-    let p1 = document.createElement('p');
-    p1.className = 'self-center';
-    p1.textContent = `${progress}/3`;
-    div0.appendChild(p1);
-    div.appendChild(div0);
-
-    let button2 = document.createElement('button');
-    if (nextPageName !== null && nextPageName !== undefined)
-        button2.onclick = () => {
-            if (allowGoNextFunc()) {
-                loadPage(nextPageName).then();
-                return;
-            }
-
-            setError(goNextError);
-        };
-    else
-        button2.setAttribute("class", "invisible");
-
-    let i3 = document.createElement('i');
-    i3.className = 'h-12 lg:h-16' + (nextPageName === null ? " invisible" : "");
-    i3.setAttribute('id', 'next');
-    button2.appendChild(i3);
-    div.appendChild(button2);
-    pageButtons.replaceWith(div);
-    div.id = 'pageButtons'
+        loadPage(previousPageName).then();
 }
 
 function copyData(btnId, dataId) {
@@ -98,8 +63,8 @@ function createCookie(page) {
     let expires = "expires="+ date.toUTCString();
 
     // TODO: Uncomment for production
-    if (page === "configPage" || page === "scheduleGenerator")
-        page = "dataCollector";
+    /*if (page === "configPage" || page === "scheduleGenerator")
+        page = "dataCollector";*/
 
     document.cookie = "ipnscheduler=" + page + ";" + expires + ";";
 }
@@ -112,8 +77,6 @@ function scrollToTop() {
         setTimeout(() => {
             window.scroll({top: -1, left: 0, behavior: "smooth"});
         }, 10);
-    else
-        document.getElementById('main_container').scroll({ top: 0, behavior: 'smooth' });
 }
 
 
@@ -134,12 +97,33 @@ function setError(msg) {
     document.getElementById("errorMsg").textContent = msg;
 }
 
+function toggleMenuVisibility(visible) {
+    menuVisible = visible;
+    const menu = document.getElementById("menu");
+    if (visible)
+        menu.classList.remove("scale-0");
+    else
+        menu.classList.add("scale-0");
+}
+
 function toggleNavButtonSelection(buttonToHighlight) {
+    toggleMenuVisibility(false);
     for (let i = 0; i < 5; i++) {
         const b = document.getElementById(`nav${i}`);
-        b.classList.remove("border-ipn-0");
-        b.classList.remove("border-transparent");
-        b.classList.add(i === buttonToHighlight ? "border-ipn-0" : "border-transparent");
+        if (i === buttonToHighlight) {
+            b.classList.add("bg-ipn-0", "text-white", "w-full", "md:w-48");
+            b.classList.remove("md:w-16");
+            b.children[0].classList.remove("md:size-8");
+            b.children[0].classList.add("md:size-6");
+            b.children[1].classList.remove("md:hidden");
+            continue;
+        }
+
+        b.classList.remove("bg-ipn-0", "text-white", "w-full", "md:w-48");
+        b.classList.add("md:w-16");
+        b.children[0].classList.add("md:size-8");
+        b.children[0].classList.remove("md:size-6");
+        b.children[1].classList.add("md:hidden");
     }
 }
 
@@ -167,38 +151,35 @@ class Page {
 }
 
 function load(pageName) {
-    let title = "";
-    let progress = "";
+    previousPageName = undefined;
+    nextPageName = undefined;
     let buttonToHighlight = 0;
-    let previousPage = undefined;
-    let nextPage = undefined;
     let reloadData = false;
 
     allowGoNextFunc = () => true;
+
+    const nav_logo = document.getElementById("logo-div").children[1];
+    if (pageName === "info")
+        nav_logo.classList.add("invisible");
+    else
+        nav_logo.classList.remove("invisible");
+
     if (pageName === "info") {
-        title = "Introducción a IPN-Scheduler";
-        progress = "0";
         buttonToHighlight = 0;
-        nextPage = "dataCollector";
+        nextPageName = "dataCollector";
     } else if (pageName === "dataCollector") {
-        title = "Clases, profesores y horas";
-        progress = "1";
         buttonToHighlight = 0;
-        previousPage = "info";
-        nextPage = "configPage";
+        previousPageName = "info";
+        nextPageName = "configPage";
         reloadData = true;
     } else if (pageName === "configPage") {
-        title = "Parámetros de configuración";
-        progress = "2";
         buttonToHighlight = 0;
-        previousPage = "dataCollector";
-        nextPage = "scheduleGenerator";
+        previousPageName = "dataCollector";
+        nextPageName = "scheduleGenerator";
         reloadData = true;
     } else if (pageName === "scheduleGenerator") {
-        title = "Generador de horarios";
-        progress = "3";
         buttonToHighlight = 0;
-        previousPage = "configPage";
+        previousPageName = "configPage";
     } else if (pageName === "operationInfo")
         buttonToHighlight = 1;
     else if (pageName === "helpPage")
@@ -212,8 +193,6 @@ function load(pageName) {
 
     window[pageName]();
     scrollToTop();
-    showPageButtons(title, progress, previousPage, nextPage);
-    loadIcons();
     toggleNavButtonSelection(buttonToHighlight);
 
     if (reloadData)
@@ -262,7 +241,6 @@ async function loadPage(pageName) {
         });
     else
         load(pageName);
-    // if (get_width() < 700) {
 }
 
 
@@ -295,4 +273,9 @@ document.addEventListener("DOMContentLoaded", () => {
     pages[0].script_loaded = true;
 
     loadPage(page).then();
+
+    document.body.addEventListener("click", (evt) => {
+        if (!document.getElementById("nav").contains(evt.target))
+            toggleMenuVisibility(false);
+    });
 });

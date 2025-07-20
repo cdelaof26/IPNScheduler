@@ -1,0 +1,36 @@
+<div class="flex justify-between overflow-x-auto">
+    <button id="prev-button" class="self-center p-2 rounded-full" onclick="loadPreviousPage()">
+        <script src="svg/chevron_left.js" classData="size-8"></script>
+    </button>
+
+    <div id="page-buttons" class="flex self-center">
+        <button id="page0" class="flex justify-center self-center p-3 rounded-xl ${b1}" onclick="loadPage('info')">
+            <script src="svg/sparkles.js" classData="self-center size-6"></script>
+            <span class="self-center ps-3 ${tb1}">
+                Introducción
+            </span>
+        </button>
+        <button id="page1" class="flex justify-center self-center p-3 rounded-xl ${b2}" onclick="loadPage('dataCollector')">
+            <script src="svg/paper_clip.js" classData="self-center size-6"></script>
+            <span class="self-center ps-3 ${tb2}">
+                Captura de datos
+            </span>
+        </button>
+        <button id="page2" class="flex justify-center self-center p-3 rounded-xl ${b3}" onclick="loadPage('configPage')">
+            <script src="svg/cog_8_tooth.js" classData="self-center size-6"></script>
+            <span class="self-center ps-3 ${tb3}">
+                Configuración
+            </span>
+        </button>
+        <button id="page3" class="flex justify-center self-center p-3 rounded-xl ${b4}" onclick="loadPage('scheduleGenerator')">
+            <script src="svg/document_text.js" classData="self-center size-6"></script>
+            <span class="self-center ps-3 ${tb4}">
+                Generar horario
+            </span>
+        </button>
+    </div>
+
+    <button id="next-button" class="self-center p-2" onclick="loadNextPage()">
+        <script src="svg/chevron_right.js" classData="size-8"></script>
+    </button>
+</div>

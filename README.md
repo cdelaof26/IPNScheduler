@@ -84,6 +84,18 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 ### Historial de cambios
 
+#### v0.1.0pre
+- Rediseño de la interfaz
+  - Agregado logo
+  - Agregado menu para dispositivos móviles
+  - Consistencia en todas las páginas
+  - Migración de `svg.js` a archivos individuales
+- **TODO**
+  - Rediseñar página de configuración y generación de horarios
+  - Responsividad de tabla de datos en herramientas en dispositivos pequeños
+  - Responsividad general de dispositivos medianos
+  - Refactoring
+
 #### v0.0.9_2
 - Migración a Tailwind CSS 4
 - Migración de `translate.py` a [PyWST](https://github.com/cdelaof26/PyWST)
