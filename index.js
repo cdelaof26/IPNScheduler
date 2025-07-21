@@ -26,6 +26,19 @@ function loadPreviousPage() {
         loadPage(previousPageName).then();
 }
 
+function toggle_hour_input_help_page_styles(evt) {
+    const element_id = evt.target.value === "free" ? "free-hours" : "escom-hours";
+    const element_id_1 = evt.target.value === "free" ? "escom-hours" : "free-hours";
+
+    const e = document.getElementById(element_id);
+    const e1 = document.getElementById(element_id_1);
+
+    e.classList.add("bg-ipn-0");
+    e.children[0].classList.add("text-white", "font-bold");
+    e1.classList.remove("bg-ipn-0");
+    e1.children[0].classList.remove("text-white", "font-bold");
+}
+
 function copyData(btnId, dataId) {
     const btn = document.getElementById(btnId);
 

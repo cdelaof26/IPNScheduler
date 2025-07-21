@@ -10,7 +10,7 @@
         Clases, profesores y horas
     </h2>
     <section class="space-y-4 lg:space-y-6">
-        <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+        <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1" open>
             <summary class="font-bold indent-8">
                 Copiar y pegar horario del SAES
             </summary>
@@ -55,6 +55,89 @@
                 </p>
             </div>
         </details>
+
+        <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+            <summary class="font-bold indent-8">
+                ¿Horas ESCOM?
+            </summary>
+            <div class="flex flex-col space-y-4">
+                <p>
+                    En la sección <b>Captura de datos</b> de <span class="font-mono">Generar</span>, existe un selector, con el valor "Horas ESCOM" por defecto, como el que se muestra a continuación.
+                </p>
+
+                <label class="self-center">
+                    <select onchange="toggle_hour_input_help_page_styles(evt)" class="appearance-none p-2 w-36 rounded-xl text-white bg-ipn-0">
+                        <option selected value="ESCOM">
+                            Horas ESCOM
+                        </option>
+                        <option value="free">
+                            Libre
+                        </option>
+                    </select>
+                </label>
+
+                <p>
+                    Este selector lo que hace es cambiar componente para ingresar horas,
+                </p>
+
+                <div class="flex self-center">
+                    <div id="escom-hours" class="flex flex-col p-3 rounded-xl bg-ipn-0">
+                        <span class="self-center font-bold text-white">
+                            Horas ESCOM
+                        </span>
+                        <div class="p-1 h-full self-center">
+                            <label class="flex">
+                                <select class="appearance-none p-2 w-36 rounded-xl bg-body-0 dark:bg-body-1">
+                                    <option selected>
+                                        NA
+                                    </option>
+                                    <option>
+                                        07:00-08:30
+                                    </option>
+                                    <option>
+                                        08:30-10:00
+                                    </option>
+                                    <option>
+                                        10:30-12:00
+                                    </option>
+                                    <option>
+                                        12:00-13:30
+                                    </option>
+                                    <option>
+                                        13:30-15:00
+                                    </option>
+                                    <option>
+                                        15:00-16:30
+                                    </option>
+                                    <option>
+                                        16:30-18:00
+                                    </option>
+                                    <option>
+                                        18:30-20:00
+                                    </option>
+                                    <option>
+                                        20:00-21:30
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="free-hours" class="flex flex-col p-3 rounded-xl">
+                        <span class="self-center">
+                            Libre
+                        </span>
+                        <div class="p-1 h-full self-center">
+                            <label class="flex">
+                                <textarea class="self-center text-center h-[60%] resize-none bg-gray-50 border border-gray-300 text-gray-900 w-full text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0" placeholder="NA"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="components/ui/important_info.js" title="Importante" text="Cambiar de Libre a Horas ESCOM, habiendo clases ingresadas, hará que se pierdan los datos ingresados anteriores de no ser compatibles. Por ejemplo 12:00-14:00 resultará en NA, pero 12:00-13:30 no tendrá cambios."></script>
+            </div>
+        </details>
+
     </section>
 
     <h2 class="text-xl lg:text-2xl font-bold indent-4">

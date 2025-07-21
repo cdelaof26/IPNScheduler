@@ -2,6 +2,7 @@
 const preferences = ['Máxima preferencia', 'Fuertemente preferido', 'Moderadamente preferido', 'Moderadamente evitar', 'Preferentemente evitar', 'Sin preferencia'];
 const preferencesValues = [-1, 0, 1, 2, 3, 4];
 const csvHeaders = "Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Preferencia";
+const escom_hours = ["07:00-08:30", "08:30-10:00", "10:30-12:00", "12:00-13:30", "13:30-15:00", "15:00-16:30", "16:30-18:00", "18:30-20:00", "20:00-21:30"]
 
 class Course {
     editable = true;
@@ -69,6 +70,8 @@ class Course {
         }
 
         reloadAllCollectedData();
+        const e = document.getElementById("data-collector-container");
+        e.scrollLeft = e.offsetWidth;
 
         return true;
     }
@@ -182,7 +185,7 @@ class Course {
             return "Debe haber al menos una hora definida a la semana";
 
         if (!this.#validPreference)
-            return "Preferencia inválida; Se altero el HTML!?";
+            return "Preferencia inválida";
 
         return "";
     }
@@ -246,8 +249,20 @@ function preferenceSelector(index) {
 }
 
 function createHourInput(dayIndex, index) {
-    const value = coursesOptions[index].getHour(dayIndex) === "-" ? "" : coursesOptions[index].getHour(dayIndex)
-    return hour_input(value, (event) => coursesOptions[index].setHour(dayIndex, event.target.value));
+    const value = coursesOptions[index].getHour(dayIndex) === "-" ? "" : coursesOptions[index].getHour(dayIndex);
+    const func = (event) => coursesOptions[index].setHour(dayIndex, event.target.value);
+
+    if (document.getElementById("hour-input-mode").value !== "free") {
+        const comp = escom_hour_input(func);
+        const valid_hour = escom_hours.includes(value);
+        comp.querySelector("select").value = valid_hour ? value : "-";
+        if (!valid_hour)
+            coursesOptions[index].setHour(dayIndex, "-");
+
+        return comp;
+    }
+
+    return hour_input(value, func);
 }
 
 function newTD(side, text, centerText) {
@@ -384,6 +399,9 @@ function newEditableRow(index) {
     if (scrollNewElementIntoView)
         setTimeout(() => tr.scrollIntoView(), 100);
 
+    const e = document.getElementById("data-collector-container");
+    e.scrollLeft = 0;
+
     return tr;
 }
 
@@ -478,4 +496,26 @@ function deleteData() {
     }
 
     coursesOptions = [];
+}
+
+function stop_editing() {
+    const error = document.getElementById("errorMsg");
+    error.textContent = "";
+
+    for (let i = 0; i < coursesOptions.length; i++) {
+        if (!coursesOptions[i].editable)
+            continue;
+
+        const e = document.getElementById("r" + i);
+        if (e === null || e === undefined)
+            continue;
+
+        e.querySelector("button").click();
+
+        // Ugly, I know, but it works!
+        if (error.textContent !== "") {
+            e.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            break;
+        }
+    }
 }
