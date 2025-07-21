@@ -71,7 +71,8 @@ class Course {
 
         reloadAllCollectedData();
         const e = document.getElementById("data-collector-container");
-        e.scrollLeft = e.offsetWidth;
+        if (e !== null)
+            e.scrollLeft = e.offsetWidth;
 
         return true;
     }
@@ -400,7 +401,8 @@ function newEditableRow(index) {
         setTimeout(() => tr.scrollIntoView(), 100);
 
     const e = document.getElementById("data-collector-container");
-    e.scrollLeft = 0;
+    if (e !== null)
+        e.scrollLeft = 0;
 
     return tr;
 }
