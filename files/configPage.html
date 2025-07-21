@@ -1,75 +1,150 @@
-<div class="flex flex-col justify-between flex-grow lg:mx-12 lg:mb-12 p-6 lg:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
-    <div class="space-y-3 lg:space-y-4">
-        <p class="text-2xl lg:text-3xl font-bold">
-            Parámetros de configuración
-        </p>
-        <p class="lg:text-lg">
-            En esta sección puedes elegir cuantos horarios generar y cuantas materias tendrá cada uno
-        </p>
-        <div class="space-y-4">
-            <div class="flex justify-between">
-                <label for="schedulesAmount" class="w-1/2 lg:w-1/4 text-sm lg:text-base">
-                    Cantidad de horarios
-                </label>
-                <select id="schedulesAmount" class="appearance-none w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
-                    <option value="1">
-                        El mejor
-                    </option>
-                    <option selected value="3">
-                        Los mejores tres
-                    </option>
-                    <option value="5">
-                        Los mejores cinco
-                    </option>
-                    <option value="10">
-                        Los mejores diez
-                    </option>
-                </select>
-            </div>
-            <div class="flex justify-between">
-                <label for="coursesPerSchedule" class="w-1/2 lg:w-1/4 text-sm lg:text-base">
-                    Cantidad de materias por horario
-                </label>
-                <input type="number" min="3" max="12" id="coursesPerSchedule" value="5" class="w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
-            </div>
-            <div class="flex justify-between">
-                <label for="gapBetweenClasses" class="w-1/2 lg:w-1/4 text-sm lg:text-base">
-                    Horas entre clases para contar como espacio
-                </label>
-                <input type="text" id="gapBetweenClasses" value="01:30" class="w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
-            </div>
-            <div class="flex justify-between">
-                <label for="preferAllDayEmptySchedules" class="w-1/2 lg:w-1/4 text-sm lg:text-base">
-                    Dar preferencia a horarios con días vacíos
-                </label>
-                <select id="preferAllDayEmptySchedules" class="appearance-none w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
-                    <option value="1">
-                        Preferible
-                    </option>
-                    <option value="0">
-                        Moderadamente preferible
-                    </option>
-                    <option selected value="-1">
-                        Evitar
-                    </option>
-                </select>
-            </div>
-            <p class="text-2xl font-bold">
-                Generador
+<div class="overflow-y-auto flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+    <div class="overflow-y-auto space-y-4 mb-4">
+        <div>
+            <h1 class="text-2xl lg:text-3xl font-bold">
+                Parámetros de configuración
+            </h1>
+            <p class="lg:text-lg">
+                En esta sección puedes elegir cuantos horarios generar y cuantas materias tendrá cada uno
             </p>
-            <div class="flex justify-between">
-                <label for="combinationsPerPopulation" class="w-1/2 lg:w-1/4 text-sm lg:text-base">
-                    Cantidad de individuos por población
-                </label>
-                <input type="number" min="1000" max="10000" id="combinationsPerPopulation" value="2000" class="w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
-            </div>
-            <div class="flex justify-between">
-                <label for="generations" class="w-1/2 lg:w-1/4 text-sm lg:text-base">
-                    Poblaciones para encontrar mínimo
-                </label>
-                <input type="number" min="10" max="1000" id="generations" value="30" class="w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
+        </div>
+
+        <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between">
+            <span class="lg:self-center lg:w-1/4 font-bold">
+                Cantidad de horarios
+            </span>
+            <div class="grid grid-cols-2 gap-4 lg:flex lg:justify-evenly lg:w-3/4">
+                <button id="schedule-amount-selector-1" onclick="set_schedules_to_generate('1')" class="flex justify-center lg:w-48 h-16 rounded-xl p-2 transition-colors duration-300 bg-sidebar-0 dark:bg-sidebar-1">
+                    <span class="text-2xl rounded-full h-8 w-8 self-center text-center">
+                        1
+                    </span>
+                    <span class="self-center">
+                        El mejor
+                    </span>
+                </button>
+                <button id="schedule-amount-selector-3" onclick="set_schedules_to_generate('3')" class="flex justify-center lg:w-48 h-16 rounded-xl p-2 transition-colors duration-300 bg-ipn-0 text-white">
+                    <span class="text-2xl rounded-full h-8 w-8 self-center text-center">
+                        3
+                    </span>
+                    <span class="self-center">
+                        Los mejores tres
+                    </span>
+                </button>
+                <button id="schedule-amount-selector-5" onclick="set_schedules_to_generate('5')" class="flex justify-center lg:w-48 h-16 rounded-xl p-2 transition-colors duration-300 bg-sidebar-0 dark:bg-sidebar-1">
+                    <span class="text-2xl rounded-full h-8 w-8 self-center text-center">
+                        5
+                    </span>
+                    <span class="self-center">
+                        Los mejores cinco
+                    </span>
+                </button>
+                <button id="schedule-amount-selector-10" onclick="set_schedules_to_generate('10')" class="flex justify-center lg:w-48 h-16 rounded-xl p-2 transition-colors duration-300 bg-sidebar-0 dark:bg-sidebar-1">
+                    <span class="text-2xl rounded-full h-8 w-8 self-center text-center">
+                        10
+                    </span>
+                    <span class="self-center">
+                        Los mejores diez
+                    </span>
+                </button>
             </div>
         </div>
+
+        <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between">
+            <label for="coursesPerSchedule" class="lg:self-center lg:w-1/4 font-bold">
+                Cantidad de materias por horario
+            </label>
+            <div class="self-center flex flex-col-reverse lg:flex-col justify-center lg:w-3/4">
+                <div id="course-amount-selector" class="self-center touch-none">
+                    <button onclick="set_courses_per_schedule('3')" id="course-amount-1" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl bg-ipn-0">
+                    </button>
+                    <button onclick="set_courses_per_schedule('3')" id="course-amount-2" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl bg-ipn-0">
+                    </button>
+                    <button onclick="set_courses_per_schedule('3')" id="course-amount-3" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl bg-ipn-0">
+                    </button>
+                    <button onclick="set_courses_per_schedule('4')" id="course-amount-4" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl bg-ipn-0">
+                    </button>
+                    <button onclick="set_courses_per_schedule('5')" id="course-amount-5" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl bg-ipn-0">
+                    </button>
+                    <button onclick="set_courses_per_schedule('6')" id="course-amount-6" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                    <button onclick="set_courses_per_schedule('7')" id="course-amount-7" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                    <button onclick="set_courses_per_schedule('8')" id="course-amount-8" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                    <button onclick="set_courses_per_schedule('9')" id="course-amount-9" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                    <button onclick="set_courses_per_schedule('10')" id="course-amount-10" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                    <button onclick="set_courses_per_schedule('11')" id="course-amount-11" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                    <button onclick="set_courses_per_schedule('12')" id="course-amount-12" class="w-7 md:w-8 h-8 md:h-12 rounded-lg md:rounded-xl border">
+                    </button>
+                </div>
+                <span id="coursesPerSchedule" class="self-center">
+                    5 materias
+                </span>
+            </div>
+        </div>
+
+        <div class="flex justify-between">
+            <span class="self-center w-1/2 lg:w-1/4 font-bold">
+                Horas entre clases para contar como espacio
+            </span>
+            <label class="flex justify-center w-1/2 lg:w-3/4 tracking-tight">
+                <input id="hour-input" type="text" value="01" inputmode="numeric" class="self-center w-10 h-10 bg-gray-50 border border-gray-300 text-gray-900 text-xl text-center rounded-lg focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
+                <span class="self-center text-2xl px-2 font-black">
+                    :
+                </span>
+                <input id="minute-input" type="text" value="30" inputmode="numeric" class="self-center w-10 h-10 bg-gray-50 border border-gray-300 text-gray-900 text-xl text-center rounded-lg focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
+                <span class="self-center text-2xl ps-2">
+                    hrs
+                </span>
+            </label>
+        </div>
+
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 justify-between">
+            <span class="md:self-center md:w-1/4 font-bold">
+                Dar preferencia a horarios con días vacíos
+            </span>
+            <div class="grid grid-cols-2 gap-4 md:flex md:justify-evenly md:w-3/4">
+                <button id="empty-day-selector--1" onclick="set_preference_for_empty_days('-1')" class="flex justify-center md:w-64 h-16 rounded-xl p-2 transition-colors duration-300 bg-ipn-0 text-white">
+                    <script src="svg/no_symbol.js" classData="size-8 self-center"></script>
+                    <span class="self-center ps-2">
+                        Evitar
+                    </span>
+                </button>
+                <button id="empty-day-selector-0" onclick="set_preference_for_empty_days('0')" class="flex justify-center md:w-64 h-16 rounded-xl p-2 transition-colors duration-300 bg-sidebar-0 dark:bg-sidebar-1">
+                    <script src="svg/arrows_up_down.js" classData="size-8 self-center"></script>
+                    <span class="self-center ps-2">
+                        Moderadamente preferible
+                    </span>
+                </button>
+                <button id="empty-day-selector-1" onclick="set_preference_for_empty_days('1')" class="flex justify-center md:w-64 h-16 rounded-xl p-2 transition-colors duration-300 bg-sidebar-0 dark:bg-sidebar-1">
+                    <script src="svg/star.js" classData="size-8 self-center"></script>
+                    <span class="self-center ps-2">
+                        Preferible
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <details class="space-y-4">
+            <summary class="text-2xl font-bold">
+                Generador
+            </summary>
+            <div class="flex justify-between">
+                <label for="combinationsPerPopulation" class="self-center w-1/2 lg:w-1/4 font-bold">
+                    Cantidad de individuos por población
+                </label>
+                <input type="text" inputmode="numeric" placeholder="Número entre 500 y 100,000" min="500" max="100000" id="combinationsPerPopulation" value="2000" class="h-10 self-center w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 ps-3 rounded-xl focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
+            </div>
+            <div class="flex justify-between">
+                <label for="generations" class="self-center w-1/2 lg:w-1/4 font-bold">
+                    Poblaciones para encontrar mínimo
+                </label>
+                <input  type="text" inputmode="numeric" placeholder="Número entre 5 y 1,000" min="5" max="1000" id="generations" value="30" class="h-10 self-center w-1/2 lg:w-3/4 bg-gray-50 border border-gray-300 text-gray-900 ps-3 rounded-xl focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0">
+            </div>
+        </details>
     </div>
 
     <script src="components/page_buttons.js" b3="w-48 bg-ipn-0 text-white" b1="hidden md:block" b2="hidden md:block" b4="hidden md:block" tb1="hidden" tb2="hidden" tb4="hidden"></script>

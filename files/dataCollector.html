@@ -1,55 +1,57 @@
-<div class="flex flex-col justify-between flex-grow lg:mx-12 lg:mb-12 p-6 lg:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
-    <div>
-        <h1 class="flex-none text-2xl lg:text-3xl font-bold">
-            Clases, profesores y horas
-        </h1>
-        <p class="flex-none lg:text-lg text-justify">
-            Ingresa todas las clases con los profesores que te gustaría cursar y algunos sustitutos, entre más, mejor.
-        </p>
-    </div>
-    <div class="overflow-auto flex flex-col h-128 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
-        <div class="flex flex-col w-full flex-grow space-y-4 lg:p-6">
-            <div class="flex-grow">
-                <table class="table-fixed w-max md:w-auto">
-                    <thead>
-                    <tr>
-                        <th class="w-24">
-                            Grupo
-                        </th>
-                        <th class="w-[30%] text-left">
-                            Nombre
-                        </th>
-                        <th class="w-[30%] text-left">
-                            Profesor
-                        </th>
-                        <th class="w-16">
-                            Lun
-                        </th>
-                        <th class="w-16">
-                            Mar
-                        </th>
-                        <th class="w-16">
-                            Mie
-                        </th>
-                        <th class="w-16">
-                            Jue
-                        </th>
-                        <th class="w-16">
-                            Vie
-                        </th>
-                        <th class="lg:w-44">
-                            Preferencia
-                        </th>
-                        <th class="invisible">
-                            act
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody id="userSchedule">
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex flex-col md:self-center space-y-1 w-max px-4">
+<div class="overflow-auto flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+    <div class="overflow-auto flex flex-col flex-grow space-y-4 mb-4">
+        <div class="flex-none">
+            <h1 class="flex-none text-2xl lg:text-3xl font-bold">
+                Clases, profesores y horas
+            </h1>
+            <p class="flex-none lg:text-lg text-justify">
+                Ingresa todas las clases con los profesores que te gustaría cursar y algunos sustitutos, entre más, mejor.
+            </p>
+        </div>
+
+        <div class="overflow-auto flex-grow p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+            <table class="w-max">
+                <thead>
+                <tr>
+                    <th class="w-24">
+                        Grupo
+                    </th>
+                    <th class="w-36 text-left">
+                        Nombre
+                    </th>
+                    <th class="w-36 text-left">
+                        Profesor
+                    </th>
+                    <th class="w-14">
+                        Lun
+                    </th>
+                    <th class="w-14">
+                        Mar
+                    </th>
+                    <th class="w-14">
+                        Mie
+                    </th>
+                    <th class="w-14">
+                        Jue
+                    </th>
+                    <th class="w-14">
+                        Vie
+                    </th>
+                    <th class="w-40">
+                        Preferencia
+                    </th>
+                    <th class="w-20 invisible">
+                        act
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="userSchedule">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="overflow-auto flex-none flex md:justify-center">
+            <div class="flex justify-start flex-col md:self-center space-y-1 w-max px-4">
                 <div class="self-center flex space-x-2 lg:space-x-4">
                     <input id="csvSelector" type="file" class="hidden">
                     <button class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="createNewRow()">

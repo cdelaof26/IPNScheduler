@@ -1,11 +1,13 @@
 let pages = [];
 let errorCount = 0;
 let allowGoNextFunc = () => true;
-let validCollectedData = false;
-let validConfig = false;
 let goNextError = "";
-let previousPageName = undefined, nextPageName = undefined;
+let clean_error = true;
+let previousPageName = undefined, currentPageName = "info", nextPageName = undefined;
 let menuVisible = false;
+
+// TODO: Set to true for production
+const enforce_page_validation = true;
 
 function loadNextPage() {
     if (nextPageName === null || nextPageName === undefined)
@@ -62,9 +64,9 @@ function createCookie(page) {
     date.setTime(date.getTime() + (20 * 24 * 60 * 60 * 1000));
     let expires = "expires="+ date.toUTCString();
 
-    // TODO: Uncomment for production
-    /*if (page === "configPage" || page === "scheduleGenerator")
-        page = "dataCollector";*/
+    if (enforce_page_validation)
+        if (page === "configPage" || page === "scheduleGenerator")
+            page = "info";
 
     document.cookie = "ipnscheduler=" + page + ";" + expires + ";";
 }
@@ -81,6 +83,11 @@ function scrollToTop() {
 
 
 function toggleErrorNotificationVisibility(hide) {
+    if (!clean_error) {
+        clean_error = true;
+        return;
+    }
+
     if (hide) {
         document.getElementById("errorPopup").classList.add("hidden");
         errorCount = 0;
@@ -151,6 +158,9 @@ class Page {
 }
 
 function load(pageName) {
+    if (currentPageName !== "info" && pageName === currentPageName)
+        return;
+
     previousPageName = undefined;
     nextPageName = undefined;
     let buttonToHighlight = 0;
@@ -180,6 +190,7 @@ function load(pageName) {
     } else if (pageName === "scheduleGenerator") {
         buttonToHighlight = 0;
         previousPageName = "configPage";
+        reloadData = true;
     } else if (pageName === "operationInfo")
         buttonToHighlight = 1;
     else if (pageName === "helpPage")
@@ -192,6 +203,7 @@ function load(pageName) {
     }
 
     window[pageName]();
+    currentPageName = pageName;
     scrollToTop();
     toggleNavButtonSelection(buttonToHighlight);
 
@@ -202,8 +214,10 @@ function load(pageName) {
         } else if (pageName === "configPage") {
             addConfigFieldsListeners();
             reloadConfigData();
+        } else if (pageName === "scheduleGenerator") {
+            reload_generated_html();
         } else if (pageName === "toolsPage") {
-            document.getElementById("horarios").value = "const thead = document.querySelectorAll(\"[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']\")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll(\"[style*='color:#333333;']\");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + \"\\r\\n\";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + \"\\r\\n\";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName(\"ctl00$mainCopy$Filtro$cboTurno\")[0].value;const periodo = document.getElementsByName(\"ctl00$mainCopy$Filtro$lsNoPeriodos\")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);";
+            document.getElementById("horarios").value = "const thead = document.querySelectorAll(\"[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']\")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll(\"[style*='color:#333333;']\");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + \"\\r\\n\";for (let i = headers.length; i <= groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + \"\\r\\n\";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName(\"ctl00$mainCopy$Filtro$cboTurno\")[0].value;const periodo = document.getElementsByName(\"ctl00$mainCopy$Filtro$lsNoPeriodos\")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);";
             document.getElementById("disponibilidad").value = "const thead = document.querySelectorAll(\"[style*='color:White;background-color:#FF9900;font-family:Arial;font-weight:bold;']\")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll(\"[style*='color:#333333;']\");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + \"\\r\\n\";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + \"\\r\\n\";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);link.download = 'Disponibilidad.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);";
             addToolsListeners();
             reloadToolsData();
@@ -219,6 +233,22 @@ async function loadPage(pageName) {
     }
 
     createCookie(pageName);
+
+    if (enforce_page_validation) {
+        if (pageName === "configPage" || pageName === "scheduleGenerator")
+            if (!is_collected_data_valid()) {
+                setError(goNextError);
+                clean_error = false;
+                pageName = "dataCollector";
+            }
+
+        if (pageName === "scheduleGenerator")
+            if (!is_config_data_valid()) {
+                setError(goNextError);
+                clean_error = false;
+                pageName = "configPage";
+            }
+    }
 
     let page2Load = null;
 

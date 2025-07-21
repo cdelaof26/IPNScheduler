@@ -24,6 +24,7 @@ class Schedule {
     }
 }
 let generatedSchedules = [];
+let generated_html = [];
 
 function scheduleToCSV(schedule) {
     let csvString = `Horario #${schedule.id}, , , , , , , ,Ranking: ${schedule.minima}\r\n`;
@@ -364,7 +365,7 @@ function newViewOnlyRow(course, canSwap, color) {
     course.editable = false;
 
     let tr = document.createElement('tr');
-    tr.className = 'bg-body-0 dark:bg-body-1 ' + (canSwap ? color : '');
+    tr.className = 'bg-sidebar-0 dark:bg-sidebar-1 ' + (canSwap ? color : '');
 
     tr.appendChild(newTD(0, course.getGroup(), true));
     tr.appendChild(newTD(1, course.getName(), false));
@@ -412,7 +413,7 @@ function getColor(id) {
 
 function newSchedule(id, evaluation) {
     let div1 = document.createElement('div');
-    div1.className = 'rounded-xl w-max lg:w-auto p-3 lg:p-6 bg-sidebar-0 dark:bg-sidebar-1';
+    div1.className = 'rounded-xl w-max p-4';
 
     let div2 = document.createElement('div');
     div2.className = 'flex justify-between';
@@ -480,6 +481,8 @@ function createSchedules() {
 
     console.log("min", minima, minimaHistoric);
 
+    const div = document.getElementById("schedules");
+
     // while (createdSchedules < 10) {
     while (createdSchedules < configController.getSchedulesToGenerate()) {
         const evaluation = f(true);
@@ -489,13 +492,15 @@ function createSchedules() {
         // Initially I thought about checking the same minima thrice just in case some schedules had the same
         // minima but different configuration. However, I couldn't figure out how to do that,
         // so I guess the user will need to run this several times...
-        document.getElementById("schedules").appendChild(newSchedule(createdSchedules, evaluation));
+        const e = newSchedule(createdSchedules, evaluation);
+        generated_html.push(e);
+        div.appendChild(e);
         createdSchedules++;
 
         varMinima = minimaHistoric.pop();
         if (varMinima === undefined) {
             if (createdSchedules < configController.getSchedulesToGenerate())
-                setError(`No fue posible crear ${configController.getSchedulesToGenerate()} horarios`);
+                setError(`No fue posible crear los ${configController.getSchedulesToGenerate()} horarios solicitados`);
             break;
         }
     }
@@ -519,6 +524,7 @@ function manageGenerator() {
     }
 
     removeAllFrom("schedules");
+    generated_html = [];
 
     removeAllFrom("progressLabel");
     document.getElementById("progressLabel").appendChild(newState("Listo", true));
@@ -544,4 +550,41 @@ function manageGenerator() {
     }, 10);
 
     stateUpdaterId = setInterval(updateState, 100);
+}
+
+function reload_generated_html() {
+    const div = document.getElementById("schedules");
+    generated_html.forEach(e => {
+        div.appendChild(e);
+    });
+}
+
+function strip_schedules() {
+    if (generated_html.length === 0) {
+        setError("No hay nada que mostrar")
+        return;
+    }
+
+    const component = document.getElementById("schedules");
+    component.parentElement.removeChild(component);
+
+    const div = document.createElement("div");
+    div.className = "fixed flex flex-col z-10 w-full h-full p-4 backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50";
+
+    const close_button = document.createElement('button');
+    close_button.addEventListener('click', () => {
+        document.getElementById("schedules-container").append(component);
+        div.parentElement.removeChild(div);
+    });
+    close_button.setAttribute('class', "w-fit h-fit p-1 rounded-xl");
+
+    const icon = document.createElement('script');
+    icon.setAttribute('src', "svg/x_mark.js");
+    icon.setAttribute('classData', "self-center h-8");
+    close_button.appendChild(icon);
+
+    div.appendChild(close_button);
+    div.appendChild(component);
+
+    document.body.appendChild(div);
 }

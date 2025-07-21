@@ -1,5 +1,5 @@
-<div class="flex justify-between overflow-x-auto">
-    <button id="prev-button" class="self-center p-2 rounded-full" onclick="loadPreviousPage()">
+<div class="flex-none flex justify-between">
+    <button id="prev-button" class="self-center p-2 ${prev}" onclick="loadPreviousPage()">
         <script src="svg/chevron_left.js" classData="size-8"></script>
     </button>
 
@@ -30,7 +30,7 @@
         </button>
     </div>
 
-    <button id="next-button" class="self-center p-2" onclick="loadNextPage()">
+    <button id="next-button" class="self-center p-2 ${next}" onclick="loadNextPage()">
         <script src="svg/chevron_right.js" classData="size-8"></script>
     </button>
 </div>

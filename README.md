@@ -84,17 +84,22 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 ### Historial de cambios
 
-#### v0.1.0pre
-- Rediseño de la interfaz
+#### v0.1.0
+- Rediseño general
   - Agregado logo
-  - Agregado menu para dispositivos móviles
-  - Consistencia en todas las páginas
+  - Agregado nav como dropdown menu para dispositivos móviles
+  - Consistencia mejorada en todas las páginas
   - Migración de `svg.js` a archivos individuales
-- **TODO**
-  - Rediseñar página de configuración y generación de horarios
-  - Responsividad de tabla de datos en herramientas en dispositivos pequeños
-  - Responsividad general de dispositivos medianos
-  - Refactoring
+  - Mejorada la responsividad en general
+  - Mejora de la pantalla de mensaje de error cuando 
+    JavaScript está desactivado
+  - Agregado modo a pantalla completa para visualizar los
+    horarios generados
+- Arreglado error donde el `Script Horarios de clases` 
+  no recogía el último elemento de la tabla
+- Los horarios generados ya no desaparecen al cambiar de 
+  página
+- **TODO**: Refactoring
 
 #### v0.0.9_2
 - Migración a Tailwind CSS 4
@@ -134,20 +139,20 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 #### v0.0.4
 - Página de configuración
-- `translate.py` acepta 
-  - Parcialmente `selected`, `disabled` y `hidden`
-    - _Ciertamente no es el mejor traductor HTML-JS_
-  - Completamente `type`, `min`, `max`
+- ~~`translate.py` acepta~~ 
+  - ~~Parcialmente `selected`, `disabled` y `hidden`~~
+    - ~~Ciertamente no es el mejor traductor HTML-JS~~
+  - ~~Completamente `type`, `min`, `max`~~
 
 #### v0.0.3
 - Página de recopilación de datos completa
-- `translate.py` acepta `value` 
+- ~~`translate.py` acepta `value`~~ 
 
 #### v0.0.2
 - Página de funcionamiento
 - Página de créditos
 - Página de recopilación de datos [WIP]
-- `translate.py` acepta `placeholder`
+- ~~`translate.py` acepta `placeholder`~~
 
 #### v0.0.1
 - Proyecto inicial

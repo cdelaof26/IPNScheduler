@@ -201,7 +201,7 @@ class Course {
     }
 
     equals(g) {
-        // User might've chaged the hours or preference...
+        // User might've changed the hours or preference...
         return g.getGroup() === this.#group && g.getName() === this.#name && g.getTeacher() === this.#teacher;
     }
 }
@@ -258,7 +258,7 @@ function newTD(side, text, centerText) {
     return td;
 }
 
-function newActionButtons(index) {
+function newActionButtons(index, editing) {
     let td = document.createElement('td');
     td.className = 'rounded-r-xl pr-4 py-4';
 
@@ -293,6 +293,7 @@ function newActionButtons(index) {
     }
 
     const td1 = action_buttons(
+        editing ? "rounded-lg bg-ipn-0 text-white" : "",
         () => {
             const actualRow = document.getElementById("r" + index);
 
@@ -330,69 +331,17 @@ function newActionButtons(index) {
     td1.children[0].children[1].appendChild(r_trash("size-5"));
 
     return td1;
-
-    div.className += ' space-x-2';
-
-    let button = document.createElement('button');
-    button.className = 'self-center rounded-lg ' + (coursesOptions[index].editable ? 'bg-ipn-0 text-white p-1' : '');
-
-    let i = document.createElement('i');
-    i.className = 'w-5';
-    i.setAttribute('id', 'edit');
-    button.appendChild(i);
-    button.onclick = () => {
-        const actualRow = document.getElementById("r" + index);
-
-        if (coursesOptions[index].editable) {
-            const validData = coursesOptions[index].isValid();
-            if (validData !== "") {
-                setError(validData);
-                return;
-            }
-        }
-
-        actualRow.replaceWith(coursesOptions[index].editable ? newNonEditableRow(index) : newEditableRow(index));
-    }
-    div.appendChild(button);
-
-    let button2 = document.createElement('button');
-    button2.className = 'self-center';
-    button2.onclick = () => {
-        const userSchedule = document.getElementById("userSchedule");
-        if (userSchedule === null || userSchedule === undefined)
-            return;
-
-        for (let i = 0; i < coursesOptions.length; i++) {
-            const e = document.getElementById("r" + i);
-            if (e !== null)
-                userSchedule.removeChild(e);
-        }
-
-        coursesOptions.splice(index, 1);
-        scrollNewElementIntoView = false;
-        for (let i = 0; i < coursesOptions.length; i++)
-            userSchedule.appendChild(coursesOptions[i].editable ? newEditableRow(i) : newNonEditableRow(i));
-        scrollNewElementIntoView = true;
-    }
-
-    let i2 = document.createElement('i');
-    i2.className = 'w-5';
-    i2.setAttribute('id', 'delete');
-    button2.appendChild(i2);
-    div.appendChild(button2);
-
-    return td;
 }
 
 function newNonEditableRow(index) {
-    let data = loadAsPossibleCourse ? possibleCourses : coursesOptions;
+    const data = loadAsPossibleCourse ? possibleCourses : coursesOptions;
 
     if (index > data.length)
         return;
 
     data[index].editable = false;
 
-    let tr = document.createElement('tr');
+    const tr = document.createElement('tr');
     tr.setAttribute("id", "r" + index);
     tr.className = 'bg-body-0 dark:bg-body-1';
 
@@ -405,7 +354,7 @@ function newNonEditableRow(index) {
 
     if (!loadAsPossibleCourse)
         tr.appendChild(newTD(1, data[index].getPreference(), true));
-    tr.appendChild(newActionButtons(index));
+    tr.appendChild(newActionButtons(index, false));
 
     return tr;
 }
@@ -431,7 +380,7 @@ function newEditableRow(index) {
 
     tr.appendChild(preferenceSelector(index));
 
-    tr.appendChild(newActionButtons(index));
+    tr.appendChild(newActionButtons(index, true));
     if (scrollNewElementIntoView)
         setTimeout(() => tr.scrollIntoView(), 100);
 
@@ -457,6 +406,25 @@ function isValidCSV(data) {
     return validCSV(data) && data.split("\r\n")[0] === csvHeaders;
 }
 
+function is_collected_data_valid() {
+    if (!enforce_page_validation)
+        return true;
+
+    if (coursesOptions.length < 4) {
+        goNextError = "Se requiere de al menos cuatro clases diferentes";
+        return false;
+    }
+
+    for (let course of coursesOptions) {
+        if (course.editable) {
+            goNextError = "Completa la edición de todas las clases antes de continuar";
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function addCollectorListeners() {
     document.getElementById("csvSelector").onchange = (event) => {
         const file = event.target.files[0];
@@ -478,25 +446,7 @@ function addCollectorListeners() {
         }
     };
 
-    allowGoNextFunc = () => {
-        if (coursesOptions.length < 4) {
-            goNextError = "Se requiere de al menos cuatro clases diferentes";
-            // TODO: Change to false for production
-            validCollectedData = false;
-            return validCollectedData;
-        }
-
-        for (let course of coursesOptions) {
-            if (course.editable) {
-                goNextError = "Completa la edición de todas las clases antes de continuar";
-                validCollectedData = false;
-                return validCollectedData;
-            }
-        }
-
-        validCollectedData = true;
-        return validCollectedData;
-    };
+    allowGoNextFunc = () => is_collected_data_valid();
 }
 
 function selectFile() {

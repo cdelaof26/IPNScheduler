@@ -1,24 +1,29 @@
-<div class="overflow-auto flex flex-col justify-between flex-grow lg:mx-12 lg:mb-12 p-6 lg:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
-    <div class="h-[90%] space-y-3 lg:space-y-4">
-        <div class="flex justify-between">
-            <p class="self-center text-2xl lg:text-3xl font-bold">
+<div class="overflow-auto flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+    <div class="overflow-y-auto flex flex-col flex-grow mb-4">
+        <div class="flex-none flex justify-between">
+            <h1 class="self-center text-2xl lg:text-3xl font-bold">
                 Generar
-            </p>
-            <button class="self-center flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="exportSchedules()">
-                <script src="svg/arrow_down_on_square_stack.js" classData="self-center h-6"></script>
-                <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                    Guardar CSV…
-                </span>
-            </button>
+            </h1>
+            <div class="flex space-x-4">
+                <button onclick="exportSchedules()" class="self-center flex justify-center p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
+                    <script src="svg/arrow_down_on_square_stack.js" classData="self-center h-6"></script>
+                    <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                        Guardar CSV…
+                    </span>
+                </button>
+                <button onclick="strip_schedules()" class="self-center p-4 rounded-xl text-white bg-ipn-0">
+                    <script src="svg/arrows_pointing_out.js" classData="self-center h-6"></script>
+                </button>
+            </div>
         </div>
-        <div class="flex flex-col md:flex-row justify-between h-[95%] md:h-[92%]">
-            <div class="flex flex-col justify-between h-[46%] md:h-full md:w-1/4 p-4 lg:p-6 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
-                <div class="overflow-y-auto">
-                    <p class="text-2xl font-bold">
+        <div id="schedules-container" class="overflow-y-auto flex-grow flex flex-col lg:flex-row justify-between">
+            <div class="flex-none flex flex-col justify-between max-h-[50%] lg:max-h-full lg:w-1/4 p-4 space-y-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+                <div class="overflow-y-auto flex-grow flex flex-col space-y-4">
+                    <h2 class="text-2xl font-bold">
                         Progreso
-                    </p>
-                    <div class="my-2 font-mono">
-                        <div class="bg-body-0 dark:bg-body-1 p-2 rounded" id="progressLabel">
+                    </h2>
+                    <div class="overflow-y-auto flex flex-grow font-mono">
+                        <div class="w-full h-full min-h-fit bg-body-0 dark:bg-body-1 p-2 rounded" id="progressLabel">
                             <div>
                                 <span class="text-lime-500 dark:text-lime-400">
                                     ✓
@@ -30,18 +35,18 @@
                         </div>
                     </div>
                 </div>
-                <button class="flex justify-center mt-4 lg:mt-0 p-4 w-full rounded-xl text-white bg-ipn-0" onclick="manageGenerator()">
+                <button class="flex-none flex justify-center mt-4 lg:mt-0 p-4 w-full rounded-xl text-white bg-ipn-0" onclick="manageGenerator()">
                     <script src="svg/play.js" classData="self-center h-6"></script>
                     <span class="ps-2 self-center" id="generatorButtonManagerText">
                         Iniciar operación
                     </span>
                 </button>
             </div>
-            <div class="md:w-[72%] h-[52%] md:h-full space-y-4 overflow-y-auto overflow-x-auto" id="schedules">
+            <div id="schedules" class="flex-grow p-4 space-y-4 overflow-y-auto overflow-x-auto">
 
             </div>
         </div>
     </div>
 
-    <script src="components/page_buttons.js" b4="w-48 bg-ipn-0 text-white" b1="hidden md:block" b2="hidden md:block" b3="hidden md:block" tb1="hidden" tb2="hidden" tb3="hidden"></script>
+    <script src="components/page_buttons.js" b4="w-48 bg-ipn-0 text-white" b1="hidden md:block" b2="hidden md:block" b3="hidden md:block" tb1="hidden" tb2="hidden" tb3="hidden" next="invisible"></script>
 </div>

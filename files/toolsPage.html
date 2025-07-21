@@ -1,44 +1,51 @@
-<div class="overflow-y-auto space-y-4 text-lg text-justify flex flex-col justify-between flex-grow lg:mx-12 lg:mb-12 p-6 lg:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
-    <h1 class="text-2xl lg:text-3xl font-bold">
-        Página de herramientas
-    </h1>
-    <p class="lg:text-lg text-justify">
-        En esta página encontrarás dos scripts para automatizar la extracción de horarios.
-    </p>
-    <p class="text-2xl font-bold">
-        Tabla de datos
-    </p>
-    <div class="flex flex-col justify-between p-3 lg:p-6 h-128 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
-        <div class="overflow-y-auto overflow-x-auto">
-            <table class="table-fixed w-max lg:w-auto">
+<div class="overflow-y-auto space-y-4 text-lg text-justify flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+    <div>
+        <h1 class="text-2xl lg:text-3xl font-bold">
+            Página de herramientas
+        </h1>
+        <p class="lg:text-lg text-justify">
+            En esta página encontrarás dos scripts para automatizar la extracción de horarios.
+        </p>
+    </div>
+
+    <div class="space-y-4">
+        <h2 class="text-2xl font-bold">
+            Tabla de datos
+        </h2>
+
+        <div class="overflow-auto h-96 p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+            <table class="w-max">
                 <thead>
                 <tr>
                     <th class="w-24">
                         Grupo
                     </th>
-                    <th class="lg:w-[30%] text-left">
+                    <th class="w-36 text-left">
                         Nombre
                     </th>
-                    <th class="lg:w-[30%] text-left">
+                    <th class="w-36 text-left">
                         Profesor
                     </th>
-                    <th class="w-16">
+                    <th class="w-14">
                         Lun
                     </th>
-                    <th class="w-16">
+                    <th class="w-14">
                         Mar
                     </th>
-                    <th class="w-16">
+                    <th class="w-14">
                         Mie
                     </th>
-                    <th class="w-16">
+                    <th class="w-14">
                         Jue
                     </th>
-                    <th class="w-16">
+                    <th class="w-14">
                         Vie
                     </th>
-                    <th>
+                    <th class="w-40">
                         Seleccionar
+                    </th>
+                    <th class="w-20 invisible">
+                        act
                     </th>
                 </tr>
                 </thead>
@@ -46,54 +53,61 @@
                 </tbody>
             </table>
         </div>
-        <div class="overflow-x-auto">
-            <div class="flex self-center space-x-2 lg:space-x-4 w-fit md:w-full">
-                <input id="csvSelector" type="file" class="hidden">
-                <label>
-                    <select id="showUnavailable" class="appearance-none flex p-3 lg:p-4 w-40 rounded-xl text-white bg-ipn-0">
-                        <option selected value="true">
-                            Mostrar todo
-                        </option>
-                        <option value="false">
-                            Mostrar solo con disponibilidad
-                        </option>
-                    </select>
-                </label>
-                <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="selectFile()">
-                    <script src="svg/table_cells.js" classData="self-center h-6"></script>
-                    <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                        Cargar CSV…
-                    </span>
-                </button>
-                <button class="flex p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="deleteToolsData()">
-                    <script src="svg/trash.js" classData="self-center h-6"></script>
-                    <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                        Eliminar todo
-                    </span>
-                </button>
-                <button class="flex p-3 lg:p-4 w-44 lg:w-52 rounded-xl text-white bg-ipn-0" onclick="selectAll()">
-                    <script src="svg/rectangle_stack.js" classData="self-center h-6"></script>
-                    <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                        Seleccionar todo
-                    </span>
-                </button>
-                <button class="flex p-3 lg:p-4 w-44 lg:w-52 rounded-xl text-white bg-ipn-0" onclick="deleteToolsData()">
-                    <script src="svg/rectangle_stack_empty.js" classData="self-center h-6"></script>
-                    <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                        Eliminar selección
-                    </span>
-                </button>
+
+        <div class="overflow-auto flex-none flex md:justify-center">
+            <div class="flex justify-start flex-col md:self-center space-y-1 w-max px-4">
+                <div class="self-center flex space-x-2 lg:space-x-4">
+                    <input id="csvSelector" type="file" class="hidden">
+                    <label>
+                        <select id="showUnavailable" class="appearance-none flex justify-center p-3 lg:p-4 w-40 rounded-xl text-white bg-ipn-0">
+                            <option selected value="true">
+                                Mostrar todo
+                            </option>
+                            <option value="false">
+                                Mostrar solo con disponibilidad
+                            </option>
+                        </select>
+                    </label>
+                    <button class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="selectFile()">
+                        <script src="svg/table_cells.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Cargar CSV…
+                        </span>
+                    </button>
+                    <button onclick="deleteToolsData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
+                        <script src="svg/trash.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Eliminar todo
+                        </span>
+                    </button>
+                    <button onclick="selectAll()" class="flex justify-center p-3 lg:p-4 w-44 lg:w-52 rounded-xl text-white bg-ipn-0">
+                        <script src="svg/rectangle_stack.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Seleccionar todo
+                        </span>
+                    </button>
+                    <button onclick="deleteToolsData()" class="hidden flex justify-center p-3 lg:p-4 w-44 lg:w-52 rounded-xl text-white bg-ipn-0">
+                        <script src="svg/rectangle_stack_empty.js" classData="self-center h-6"></script>
+                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
+                            Eliminar selección
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="space-y-4 lg:space-y-4">
+
+    <!-- here -->
+
+
+    <div class="space-y-4">
         <script src="components/ui/important_info.js" title="Importante" text="Los scripts para la extracción automática de horarios dependen de que el usuario confíe en los contenidos del script y tenga acceso a la consola del navegador web. Se invita al usuario a inspeccionar los contenido de cada script antes de ejecutarlos."></script>
 
-        <div class="space-y-3 lg:space-y-4">
-            <p class="text-2xl font-bold">
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">
                 Procedimiento
-            </p>
+            </h2>
             <ol class="list-decimal pl-10">
                 <li>
                     Iniciar sesión en el portal del SAES.
@@ -140,11 +154,11 @@
         <p>
             A continuación se presentan dos scripts para automatizar la extracción de horarios.
         </p>
-        <div class="space-y-3 lg:space-y-4 mb-6 p-3 lg:p-6 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+        <div class="space-y-4 mb-6 p-3 lg:p-6 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
             <div class="flex justify-between">
-                <p class="self-center lg:text-2xl font-bold">
+                <h2 class="self-center lg:text-2xl font-bold">
                     Script Horarios de clases
-                </p>
+                </h2>
                 <button id="btn1" class="self-center flex p-2 rounded-xl transition-colors duration-200" onclick="copiarHorariosScript()">
                     <script src="svg/clipboard.js" classData="self-center h-6"></script>
                     <span class="ps-2" id="btn1Text">
@@ -157,16 +171,16 @@
             </p>
             <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
                 <p class="w-max">
-                    const thead = document.querySelectorAll("[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName("ctl00$mainCopy$Filtro$cboTurno")[0].value;const periodo = document.getElementsByName("ctl00$mainCopy$Filtro$lsNoPeriodos")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
+                    const thead = document.querySelectorAll("[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i <= groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName("ctl00$mainCopy$Filtro$cboTurno")[0].value;const periodo = document.getElementsByName("ctl00$mainCopy$Filtro$lsNoPeriodos")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
                 </p>
                 <label>
                     <input class="hidden" id="horarios">
                 </label>
             </div>
             <div class="flex justify-between">
-                <p class="self-center lg:text-2xl font-bold">
+                <h2 class="self-center lg:text-2xl font-bold">
                     Script Ocupabilidad Horario
-                </p>
+                </h2>
                 <button id="btn2" class="self-center flex p-2 rounded-xl transition-colors duration-200" onclick="copiarDisponibilidadScript()">
                     <script src="svg/clipboard.js" classData="self-center h-6"></script>
                     <span class="ps-2" id="btn2Text">

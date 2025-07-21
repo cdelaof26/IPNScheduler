@@ -116,4 +116,3 @@ function selectAll() {
         document.getElementById('r' + i + 'btn').click();
     }
 }
-
