@@ -113,6 +113,25 @@ function selectAll() {
         if (!showUnavailable && !possibleCourses[i].available)
             continue;
 
-        document.getElementById('r' + i + 'btn').click();
+        if (!possibleCourses[i].selected)
+            document.getElementById('r' + i + 'btn').click();
     }
+}
+
+function filter_out(evt) {
+    const text = evt.target.value.toLowerCase();
+
+    for (let i = 0; i < possibleCourses.length; i++) {
+        if (text === "") {
+            possibleCourses[i].show = true;
+            continue;
+        }
+
+        const group = possibleCourses[i].getGroup().toLowerCase();
+        const name = possibleCourses[i].getName().toLowerCase();
+        const teacher = possibleCourses[i].getTeacher().toLowerCase();
+        possibleCourses[i].show = group.includes(text) || name.includes(text) || teacher.includes(text);
+    }
+    
+    reloadToolsData();
 }

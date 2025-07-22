@@ -15,6 +15,7 @@ class Course {
     #validHours = [true, true, true, true, true]
     #validPreference = false;
 
+    show = true;
     available = true;
     selected = false;
 
@@ -237,7 +238,7 @@ function reloadAllCollectedData() {
     }
 
     for (let i = 0; i < data.length; i++) {
-        if (!showUnavailable && !data[i].available)
+        if (!showUnavailable && !data[i].available || !data[i].show)
             continue;
 
         userSchedule.appendChild(data[i].editable ? newEditableRow(i) : newNonEditableRow(i));
@@ -285,7 +286,7 @@ function newActionButtons(index, editing) {
     if (loadAsPossibleCourse) {
         let button = document.createElement('button');
         button.setAttribute('id', 'r' + index + 'btn');
-        button.className = 'self-center w-7 h-7 border-2';
+        button.className = 'self-center w-7 h-7 border-2 text-lg';
         button.textContent = possibleCourses[index].selected ? '✓' : '';
         button.onclick = () => {
             possibleCourses[index].selected = !possibleCourses[index].selected;

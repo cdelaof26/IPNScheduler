@@ -1,4 +1,4 @@
-<div class="overflow-y-auto space-y-4 text-lg text-justify flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
+<div class="overscroll-contain overflow-y-auto space-y-4 text-lg text-justify flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
     <div>
         <h1 class="text-2xl lg:text-3xl font-bold">
             Página de herramientas
@@ -9,11 +9,19 @@
     </div>
 
     <div class="space-y-4">
-        <h2 class="text-2xl font-bold">
-            Tabla de datos
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="self-center text-2xl font-bold">
+                Tabla de datos
+            </h2>
+            <div class="flex">
+                <label for="search" class="self-center p-2 rounded-l-xl border-l border-y border-gray-300 bg-ipn-0 text-white">
+                    <script src="svg/magnifying_glass.js" classData="size-4"></script>
+                </label>
+                <input id="search" onkeyup="filter_out(evt)" class="w-36 md:w-48 h-8 self-center text-center rounded-r-xl text-lg bg-gray-50 border-y border-r border-gray-300 text-gray-900 text-sm rounded focus:ring-ipn-0 focus:border-ipn-0 dark:bg-sidebar-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-ipn-0 dark:focus:border-ipn-0" placeholder="Filtrar">
+            </div>
+        </div>
 
-        <div class="overflow-auto h-96 p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
+        <div class="overscroll-contain overflow-auto h-96 p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
             <table class="w-max">
                 <thead>
                 <tr>
@@ -54,7 +62,7 @@
             </table>
         </div>
 
-        <div class="overflow-auto flex-none flex md:justify-center">
+        <div class="overscroll-contain overflow-auto flex-none flex md:justify-center">
             <div class="flex justify-start flex-col md:self-center space-y-1 w-max px-4">
                 <div class="self-center flex space-x-2 lg:space-x-4">
                     <input id="csvSelector" type="file" class="hidden">
@@ -169,7 +177,7 @@
             <p>
                 Este script crea un CSV que contiene todos los horarios de un determinado periodo y turno.
             </p>
-            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
+            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overscroll-contain overflow-x-auto">
                 <p class="w-max">
                     const thead = document.querySelectorAll("[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i <= groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName("ctl00$mainCopy$Filtro$cboTurno")[0].value;const periodo = document.getElementsByName("ctl00$mainCopy$Filtro$lsNoPeriodos")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
                 </p>
@@ -191,7 +199,7 @@
             <p>
                 Este script crea un CSV que contiene todas las materias existentes (carece de información suficiente para crear un horario).
             </p>
-            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
+            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overscroll-contain overflow-x-auto">
                 <p class="w-max">
                     const thead = document.querySelectorAll("[style*='color:White;background-color:#FF9900;font-family:Arial;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);link.download = 'Disponibilidad.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
                 </p>

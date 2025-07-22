@@ -84,10 +84,11 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 ### Historial de cambios
 
-#### v0.1.1
+#### v0.1.2
 - Agregado selector de horas alternativo en 
   `dataCollector` junto a información relevante 
   en la página de ayuda
+- Agregado buscador en página de herramientas
 
 #### v0.1.0
 - Rediseño general
