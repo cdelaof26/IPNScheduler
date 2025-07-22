@@ -447,8 +447,10 @@ function is_collected_data_valid() {
 }
 
 function addCollectorListeners() {
-    document.getElementById("csvSelector").onchange = (event) => {
+    const csv_selector = document.getElementById("csvSelector");
+    csv_selector.onchange = (event) => {
         const file = event.target.files[0];
+        csv_selector.value = "";
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -462,6 +464,8 @@ function addCollectorListeners() {
                 for (let i = 1; i < data.length; i++)
                     if (data[i].trim().length !== 0)
                         coursesOptions.push(new Course(data[i].replaceAll(",", "\t"), false));
+
+                reloadAllCollectedData();
             };
             reader.readAsText(file);
         }

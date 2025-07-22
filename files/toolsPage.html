@@ -4,11 +4,106 @@
             Página de herramientas
         </h1>
         <p class="lg:text-lg text-justify">
-            En esta página encontrarás dos scripts para automatizar la extracción de horarios.
+            En esta página encontrarás dos formas de extraer de horarios del SAES a través de scripts JavaScript
+            de consola: <b>Selector directo</b> y <b>Tabla de datos</b>
         </p>
+
+        <script src="components/ui/important_info.js" title="Importante" text="Los scripts para la extracción automática de horarios dependen de que el usuario confíe en los contenidos del script y tenga acceso a la consola del navegador web. Se invita al usuario a inspeccionar los contenido de cada script antes de ejecutarlos."></script>
+
+        <div>
+            <h2 class="text-2xl font-bold">
+                ¿Qué método utilizar?
+            </h2>
+            <p>
+                La elección depende de cuál te resulte más comodo.
+            </p>
+            <p class="my-2">
+                Por una parte, <b>Selector directo</b> utiliza un único script que presenta una interfaz
+                lista para seleccionar y agregar que puede utilizarse directamente para crear horarios,
+                pero no toma en cuenta la disponibilidad de estos.
+            </p>
+            <p>
+                En contraste, <b>Tabla de datos</b> requiere como mínimo un script y, de desearse, se puede
+                utilizar el otro para tomar en consideración las clases con disponibilidad. Una vez obtenidos los CSV,
+                deben cargarse en esta página para poder seleccionar las clases y posteriormente dar una
+                preferencia a cada una. El usuario debe guardar manualmente el CSV de preferencias por clase en la
+                página <b>Clases, profesores y horas</b> si desea reutilizarlo, de otra forma se tiene que repetir todo el proceso.
+            </p>
+        </div>
     </div>
 
-    <div class="space-y-4">
+    <div class="flex flex-col space-y-4">
+        <h2 class="text-2xl font-bold">
+            Selector directo
+        </h2>
+        <div class="space-y-4">
+            <p>
+                El procedimiento selector directo utiliza un script para crear archivos CSV que se cargan
+                directamente en la página <b>Clases, profesores y horas</b>. Este script presenta una interfaz a
+                pantalla completa sobre la cual el usuario debe seleccionar una a una las clases de su interés.
+            </p>
+            <ol class="list-decimal pl-10">
+                <li>
+                    Iniciar sesión en el portal del SAES.
+                </li>
+                <li>
+                    Has clic en el botón de Académia.
+                </li>
+                <li>
+                    Has clic en Horarios de Clases
+                </li>
+                <li>
+                    Selecciona la carrera, el plan de estudios y el turno y periodo del cual desees obtener horarios.
+                </li>
+                <li>
+                    Abre la consola del navegador, pega el script "Easy Select".
+                </li>
+                <li>
+                    En la pantalla que se abrió, da clic sobre cada cuadrado color guinda en la columna <b>Sel</b> de
+                    las clases que quieras incluir en el CSV.
+                </li>
+                <li>
+                    Asigna un nivel de preferencia para los elementos seleccionados.
+                </li>
+                <li>
+                    Una vez seleccionadas todas las clases, da clic en el botón "Descargar CSV".
+                </li>
+                <li>
+                    Una vez tengas los CSV, los puedes utilizar directamente en la página <b>Clases, profesores y horas</b>.
+                </li>
+            </ol>
+
+            <script src="components/ui/important_info.js" title="¡Atención!" text="Si se selecciona una clase pero se deja el nivel de preferencia en 'Seleccionar...', el nivel automático elegido será 'Máxima preferencia'"></script>
+
+            <p>
+                A continuación se presenta el script para automatizar la extracción de horarios.
+            </p>
+
+            <div class="space-y-4 p-3 lg:p-6 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+                <div class="flex justify-between">
+                    <h2 class="self-center lg:text-2xl font-bold">
+                        Script Easy Select
+                    </h2>
+                    <button onclick="copiarEasySelect()" id="btn3" class="self-center flex p-2 rounded-xl transition-colors duration-200">
+                        <script src="svg/clipboard.js" classData="self-center h-6"></script>
+                        <span class="ps-2" id="btn3Text">
+                            Copiar
+                        </span>
+                    </button>
+                </div>
+                <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
+                    <p class="w-max">
+                        const table=document.querySelector("table[rules]"),table_parent=table.parentElement,tbody=table.children[0],preferences=["Máxima preferencia","Fuertemente preferido","Moderadamente preferido","Moderadamente evitar","Preferentemente evitar","Sin preferencia"],preferences_values=[-1,0,1,2,3,4];let selection=[];function preference_selector(e,t){const n=document.createElement("td");n.setAttribute("style","padding: 1rem;");const o=document.createElement("label");n.appendChild(o);const d=document.createElement("select");d.addEventListener("change",(e=>t(e))),o.appendChild(d);const r=document.createElement("option");r.setAttribute("selected",!0),r.setAttribute("disabled",!0),r.setAttribute("hidden",!0),d.appendChild(r),r.appendChild(document.createTextNode(e));const c=document.createElement("option");c.setAttribute("value","Máxima preferencia"),d.appendChild(c),c.appendChild(document.createTextNode("Máxima preferencia"));const i=document.createElement("option");i.setAttribute("value","Fuertemente preferido"),d.appendChild(i),i.appendChild(document.createTextNode("Fuertemente preferido"));const l=document.createElement("option");l.setAttribute("value","Moderadamente preferido"),d.appendChild(l),l.appendChild(document.createTextNode("Moderadamente preferido"));const a=document.createElement("option");a.setAttribute("value","Sin preferencia"),d.appendChild(a),a.appendChild(document.createTextNode("Sin preferencia"));const p=document.createElement("option");p.setAttribute("value","Moderadamente evitar"),d.appendChild(p),p.appendChild(document.createTextNode("Moderadamente evitar"));const m=document.createElement("option");return m.setAttribute("value","Preferentemente evitar"),d.appendChild(m),m.appendChild(document.createTextNode("Preferentemente evitar")),n}function append_columns(){let e=document.createElement("th");function t(e){const t=preferences.indexOf(e);return preferences_values[-1===t?0:t]}function n(e){let n=[],o=0;for(let d of e.children)3!==o&&4!==o&&10!==o&&11!==o?(n.push(12!==o?d.textContent:t(d.children[0].children[0].value)),o++):o++;return n.join(",")}e.textContent="Sel",tbody.children[0].appendChild(e),e=document.createElement("th"),e.textContent="Pref",tbody.children[0].appendChild(e);let o=!1,d=0;for(let e of tbody.children){if(!o){o=!0;continue}let t=document.createElement("td");const r=document.createElement("button");r.id=d,r.on=!1,r.style="margin: 1rem; width: 1rem; height: 1rem; color: white; background-color: #6c1538",r.onclick=t=>{t.preventDefault(),r.on=!r.on,r.textContent=r.on?"✓":"",r.on?selection[r.id]=n(e):selection[r.id]=void 0},t.appendChild(r),e.appendChild(t),e.appendChild(preference_selector("Seleccionar...",(()=>{void 0===selection[r.id]&&r.click(),selection[r.id]=n(e)}))),d++}}function strip_schedules(){append_columns(),spawn.style="display: none; color: white; background-color: #6c1538; width: 10rem; height: 2rem; position: fixed; bottom: 1rem; left: 1rem;",document.getElementById("mainForm").style="display: none;";const e=document.createElement("div");e.style="display: flex; flex-direction: column; padding: 1rem; background-color: white; width: 100%; height: 100%; z-index: 100";const t=document.createElement("button");t.onclick=()=>{document.getElementById("mainForm").style="",table_parent.appendChild(table),e.parentElement.removeChild(e);for(let e of tbody.children)e.removeChild(e.children[e.children.length-1]),e.removeChild(e.children[e.children.length-1]);spawn.style="color: white; background-color: #6c1538; width: 10rem; height: 2rem; position: fixed; bottom: 1rem; left: 1rem;"},t.style="color: white; background-color: #6c1538; width: 10rem; height: 2rem",t.textContent="Cerrar";const n=document.createElement("button");n.style="color: white; background-color: #6c1538; width: 10rem; height: 2rem",n.textContent="Descargar CSV",n.onclick=()=>{let e="Grupo,Materia,Profesor,Lunes,Martes,Miércoles,Jueves,Viernes,Preferencia\r\n";for(let t=0;t < selection.length;t++)void 0!==selection[t]&&(e+=selection[t]+"\r\n");const t=document.createElement("a");t.href="data:text/csv;charset=utf-8,"+encodeURIComponent(e);const n=document.getElementsByName("ctl00$mainCopy$Filtro$cboTurno")[0].value,o=document.getElementsByName("ctl00$mainCopy$Filtro$lsNoPeriodos")[0].value;t.download="Pref_grupos_turno_"+n+"_periodo_"+o+".csv",document.body.appendChild(t),t.click(),document.body.removeChild(t)},document.body.appendChild(n);const o=document.createElement("div");o.style="display: flex; justify-content: space-between;",o.appendChild(t),o.appendChild(n);const d=document.createElement("div");d.style="width: fit; height: 100%; padding: 4rem",d.appendChild(table),e.appendChild(o),e.appendChild(d),document.body.appendChild(e)}const spawn=document.createElement("button");spawn.textContent="Presiona ver el selector",spawn.onclick=()=>strip_schedules(),document.body.appendChild(spawn),strip_schedules();
+                    </p>
+                    <label>
+                        <input class="hidden" id="easy-select">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4 mt-8">
         <div class="flex justify-between">
             <h2 class="self-center text-2xl font-bold">
                 Tabla de datos
@@ -105,17 +200,16 @@
         </div>
     </div>
 
-
-    <!-- here -->
-
-
     <div class="space-y-4">
-        <script src="components/ui/important_info.js" title="Importante" text="Los scripts para la extracción automática de horarios dependen de que el usuario confíe en los contenidos del script y tenga acceso a la consola del navegador web. Se invita al usuario a inspeccionar los contenido de cada script antes de ejecutarlos."></script>
-
         <div class="space-y-4">
             <h2 class="text-2xl font-bold">
                 Procedimiento
             </h2>
+            <p>
+                Este procedimiento utiliza dos scripts para crear archivos CSV que luego se deben ingresar en
+                la <b>Tabla de datos</b>, en esta tabla, el usuario debe seleccionar que clases quiere incluir para
+                crear los horarios.
+            </p>
             <ol class="list-decimal pl-10">
                 <li>
                     Iniciar sesión en el portal del SAES.
@@ -155,19 +249,19 @@
                     </li>
                 </ol>
                 <li>
-                    Una vez cargados los CSV en la Tabla de datos, selecciona las clases que quieras incluir en tu horario, las seleccionadas aparecerán automáticamente en la página de Clases, profesores y horas.
+                    Una vez cargados los CSV en la Tabla de datos, selecciona las clases que quieras incluir en tu horario, las seleccionadas aparecerán automáticamente en la página de <b>Clases, profesores y horas</b>.
                 </li>
             </ol>
         </div>
         <p>
             A continuación se presentan dos scripts para automatizar la extracción de horarios.
         </p>
-        <div class="space-y-4 mb-6 p-3 lg:p-6 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
+        <div class="space-y-4 p-3 lg:p-6 rounded-2xl bg-sidebar-0 dark:bg-sidebar-1">
             <div class="flex justify-between">
                 <h2 class="self-center lg:text-2xl font-bold">
                     Script Horarios de clases
                 </h2>
-                <button id="btn1" class="self-center flex p-2 rounded-xl transition-colors duration-200" onclick="copiarHorariosScript()">
+                <button onclick="copiarHorariosScript()" id="btn1" class="self-center flex p-2 rounded-xl transition-colors duration-200">
                     <script src="svg/clipboard.js" classData="self-center h-6"></script>
                     <span class="ps-2" id="btn1Text">
                         Copiar
@@ -177,7 +271,7 @@
             <p>
                 Este script crea un CSV que contiene todos los horarios de un determinado periodo y turno.
             </p>
-            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overscroll-contain overflow-x-auto">
+            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
                 <p class="w-max">
                     const thead = document.querySelectorAll("[style*='color:White;background-color:Maroon;font-family:Arial;font-size:X-Small;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i <= groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);const turno = document.getElementsByName("ctl00$mainCopy$Filtro$cboTurno")[0].value;const periodo = document.getElementsByName("ctl00$mainCopy$Filtro$lsNoPeriodos")[0].value;link.download = ('Grupos' + '_turno_' + turno + '_periodo_' + periodo) + '.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
                 </p>
@@ -189,7 +283,7 @@
                 <h2 class="self-center lg:text-2xl font-bold">
                     Script Ocupabilidad Horario
                 </h2>
-                <button id="btn2" class="self-center flex p-2 rounded-xl transition-colors duration-200" onclick="copiarDisponibilidadScript()">
+                <button onclick="copiarDisponibilidadScript()" id="btn2" class="self-center flex p-2 rounded-xl transition-colors duration-200">
                     <script src="svg/clipboard.js" classData="self-center h-6"></script>
                     <span class="ps-2" id="btn2Text">
                         Copiar
@@ -199,7 +293,7 @@
             <p>
                 Este script crea un CSV que contiene todas las materias existentes (carece de información suficiente para crear un horario).
             </p>
-            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overscroll-contain overflow-x-auto">
+            <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
                 <p class="w-max">
                     const thead = document.querySelectorAll("[style*='color:White;background-color:#FF9900;font-family:Arial;font-weight:bold;']")[0].children;const headers = []; for (let th of thead) headers.push(th.textContent);const tbody = document.querySelectorAll("[style*='color:#333333;']");const groups = []; for (let tr of tbody) for (let td of tr.children) groups.push(td.textContent);let csvString = headers + "\r\n";for (let i = headers.length; i < groups.length; i += headers.length) csvString += groups.slice(i - headers.length, i) + "\r\n";const link = document.createElement('a');link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);link.download = 'Disponibilidad.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);
                 </p>

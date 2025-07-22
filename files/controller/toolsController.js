@@ -14,8 +14,10 @@ function isValidDisponibilidadCSV(data) {
 }
 
 function addToolsListeners() {
-    document.getElementById("csvSelector").onchange = (event) => {
+    const csv_selector = document.getElementById("csvSelector");
+    csv_selector.onchange = (event) => {
         const file = event.target.files[0];
+        csv_selector.value = "";
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -132,6 +134,6 @@ function filter_out(evt) {
         const teacher = possibleCourses[i].getTeacher().toLowerCase();
         possibleCourses[i].show = group.includes(text) || name.includes(text) || teacher.includes(text);
     }
-    
+
     reloadToolsData();
 }
