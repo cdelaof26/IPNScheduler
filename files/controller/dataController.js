@@ -449,25 +449,29 @@ function is_collected_data_valid() {
 function addCollectorListeners() {
     const csv_selector = document.getElementById("csvSelector");
     csv_selector.onchange = (event) => {
-        const file = event.target.files[0];
-        csv_selector.value = "";
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const content = e.target.result;
-                if (!isValidCSV(content)) {
-                    setError("El archivo no cumple con el formato de exportación");
-                    return;
-                }
+        const files = event.target.files;
+        csv_selector.innerHTML = "";
 
-                let data = content.split("\r\n");
-                for (let i = 1; i < data.length; i++)
-                    if (data[i].trim().length !== 0)
-                        coursesOptions.push(new Course(data[i].replaceAll(",", "\t"), false));
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    if (!isValidCSV(content)) {
+                        setError(`El archivo '${file.name}' no cumple con el formato de exportación.`);
+                        return;
+                    }
 
-                reloadAllCollectedData();
-            };
-            reader.readAsText(file);
+                    let data = content.split("\r\n");
+                    for (let i = 1; i < data.length; i++)
+                        if (data[i].trim().length !== 0)
+                            coursesOptions.push(new Course(data[i].replaceAll(",", "\t"), false));
+
+                    reloadAllCollectedData();
+                };
+                reader.readAsText(file);
+            }
         }
     };
 

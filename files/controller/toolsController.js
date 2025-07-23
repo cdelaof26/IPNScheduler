@@ -16,61 +16,64 @@ function isValidDisponibilidadCSV(data) {
 function addToolsListeners() {
     const csv_selector = document.getElementById("csvSelector");
     csv_selector.onchange = (event) => {
-        const file = event.target.files[0];
-        csv_selector.value = "";
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const content = e.target.result;
-                let isHorario = isValidHorarioCSV(content);
+        const files = event.target.files;
+        csv_selector.innerHTML = "";
 
-                if (!isHorario && !isValidDisponibilidadCSV(content)) {
-                    setError("El archivo no cumple con el formato de exportación");
-                    return;
-                }
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const content = e.target.result;
+                    let isHorario = isValidHorarioCSV(content);
 
-                let data = content.split("\r\n");
-                console.log(data)
-                if (isHorario) {
-                    loadAsPossibleCourse = true;
+                    if (!isHorario && !isValidDisponibilidadCSV(content)) {
+                        setError(`El archivo '${file.name}' no cumple con el formato de exportación.`);
+                        return;
+                    }
+
+                    let data = content.split("\r\n");
+                    if (isHorario) {
+                        loadAsPossibleCourse = true;
+                        for (let i = 1; i < data.length; i++)
+                            if (data[i].trim().length !== 0) {
+                                let c = new Course(data[i].replaceAll(",", "\t"), false);
+                                let append = true;
+                                for (let c1 of possibleCourses)
+                                    if (c.equals(c1)) {
+                                        append = false;
+                                        break;
+                                    }
+
+                                if (append)
+                                    possibleCourses.push(c);
+                            }
+
+                        reloadAllCollectedData();
+                        loadAsPossibleCourse = false;
+                        return;
+                    }
+
+                    if (possibleCourses.length === 0) {
+                        setError("Debes importar los horarios primero");
+                        return;
+                    }
+
+                    loadedAvailabilityCSV = true;
+                    toggleErrorNotificationVisibility(true);
+
                     for (let i = 1; i < data.length; i++)
                         if (data[i].trim().length !== 0) {
-                            let c = new Course(data[i].replaceAll(",", "\t"), false);
-                            let append = true;
-                            for (let c1 of possibleCourses)
-                                if (c.equals(c1)) {
-                                    append = false;
+                            let course = data[i].split(",");
+                            for (let c of possibleCourses)
+                                if (c.getGroup() === course[0] && c.getName() === course[2]) {
+                                    c.available = course[6] !== "0";
                                     break;
                                 }
-
-                            if (append)
-                                possibleCourses.push(c);
                         }
-
-                    reloadAllCollectedData();
-                    loadAsPossibleCourse = false;
-                    return;
-                }
-
-                if (possibleCourses.length === 0) {
-                    setError("Debes importar los horarios primero");
-                    return;
-                }
-
-                loadedAvailabilityCSV = true;
-                toggleErrorNotificationVisibility(true);
-
-                for (let i = 1; i < data.length; i++)
-                    if (data[i].trim().length !== 0) {
-                        let course = data[i].split(",");
-                        for (let c of possibleCourses)
-                            if (c.getGroup() === course[0] && c.getName() === course[2]) {
-                                c.available = course[6] !== "0";
-                                break;
-                            }
-                    }
-            };
-            reader.readAsText(file);
+                };
+                reader.readAsText(file);
+            }
         }
     };
 
