@@ -84,7 +84,7 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 ### Historial de cambios
 
-#### v0.1.3-1
+#### v0.1.4
 - Agregado selector de horas alternativo en 
   `dataCollector` junto a información relevante 
   en la página de ayuda
@@ -94,6 +94,8 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 - Agregado método alternativo de extracción de horarios 
   "Selector directo"
 - Agregado soporte para subir multiples archivos CSV
+- Solución al problema de las clases duplicadas en 
+  distintas horas.
 
 #### v0.1.0
 - Rediseño general

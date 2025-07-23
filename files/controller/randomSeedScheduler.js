@@ -266,6 +266,9 @@ function getSpaceBetweenClasses(xs, gxs) {
 }
 
 function generateXS() {
+    // This function generates a xs vector. A xs value is
+    // a random-selected id for a group of classes.
+
     const xs = [];
     let i = 0;
     while (i < configController.getCoursesPerSchedule()) {
@@ -280,11 +283,62 @@ function generateXS() {
     return xs;
 }
 
+let max_fix_attempts = 50;
+
 function evalXS(xs) {
+    // This function takes a xs vector (random-selected schedule ids)
+    // and "evaluates them", which is basically choice a random preference.
+
+    // An experimental bug fix is implemented to try to mitigate duplicated
+    // classes in the same schedule.
+
     const gxs = [];
-    for (let x of xs) {
+
+    // This fix makes use of another array to store the names of the classes already included.
+    const classes = [];
+
+    // for (let x of xs) {
+    let i = 0, k = 0;
+
+    function found_course(name, pref_lvl) {
+        if (classes.indexOf(name) === -1) {
+            classes.push(name);
+            gxs.push(pref_lvl);
+            i++;
+            k = 0;
+            return false;
+        }
+
+        return true;
+    }
+
+    while (i < xs.length) {
+        const x = xs[i];
         const index = Math.floor(Math.random() * gx["" + x].length);
-        gxs.push(gx["" + x][index]);
+        const preference_level = gx["" + x][index];
+
+        const courses = getCourses(x, preference_level); // this might return single elements
+        if (courses.length === undefined) {
+            if (!found_course(courses.getName().trim().toLowerCase(), preference_level))
+                continue;
+
+        } else {
+            let duplicated_course = false;
+            for (let course of courses) {
+                duplicated_course = found_course(course.getName().trim().toLowerCase(), preference_level);
+                if (!duplicated_course)
+                    break;
+            }
+
+            if (!duplicated_course)
+                continue;
+        }
+
+        // console.log("found dup", course_name);
+        k++;
+        // There might not be enough courses to avoid two identical names from being added.
+        if (k > max_fix_attempts)
+            return [];
     }
 
     return gxs;
@@ -302,6 +356,12 @@ function f(returnData) {
 
     const xs = generateXS();  // x
     const gxs = evalXS(xs);  // g(x)
+    if (gxs.length === 0) {
+        if (!returnData)
+            return 10000;
+        return [10000, [], []];
+    }
+
     const gapsPerDay = getSpaceBetweenClasses(xs, gxs);
     if (gapsPerDay[0] === -1) {
         if (!returnData)
