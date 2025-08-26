@@ -84,7 +84,18 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 ### Historial de cambios
 
-#### v0.1.4
+#### v0.1.5
+- Arreglado error donde al editar un horario ingresado
+  desde CSV y salir del modo edición sin hacer cambios
+  marcaba como inválidas las horas seleccionadas
+- Claridad de algunos textos y cambios menores en 
+  algunos elementos de la interfaz
+- Agregada opción para validar el nivel académico de las
+  UA agregadas
+- Agregado modo a pantalla completa en página de 
+  recopilación de datos
+
+#### v0.1.1 - v0.1.4
 - Agregado selector de horas alternativo en 
   `dataCollector` junto a información relevante 
   en la página de ayuda

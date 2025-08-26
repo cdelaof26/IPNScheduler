@@ -9,6 +9,7 @@ __pycache__/*
 Mockup.key
 tailwind*
 _pywst.config
+*.txt
 
 # OS specific
 *.DS_Store

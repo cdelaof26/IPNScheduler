@@ -87,6 +87,10 @@ class Course {
         return this.#group;
     }
 
+    getLevel() {
+        return Number(this.#group.substring(0, this.#group.search(/\d(?=[a-zA-Z])/g) + 1));
+    }
+
     setName(name) {
         if (!this.#setSAESCopyPastedData(name))
             this.#name = name;
@@ -115,10 +119,11 @@ class Course {
         if (id > this.#hours.length || id < 0)
             return;
 
-        if (hour.trim() === "-")
+        hour = hour.trim();
+        if (hour === "-")
             hour = "";
 
-        this.#hours[id] = hour.trim();
+        this.#hours[id] = hour;
         this.#validHours[id] = this.#hours[id].length === 0;
         if (this.#validHours[id] || !/^\d{1,2}:\d{2}-\d{1,2}:\d{2}$/g.test(hour))
             return;
@@ -175,6 +180,9 @@ class Course {
         if (this.#group.trim().length === 0 || this.#name.trim().length === 0 || this.#teacher.trim().length === 0)
             return "Grupo, nombre o profesor vacío";
 
+        if (!/^\d+[a-zA-Z]+[mvMV]\d+$/g.test(this.#group))
+            return "El grupo no cumple con el formato [NIVEL][CARRERA][M][GRUPO] o [NIVEL][CARRERA][V][GRUPO]";
+
         let allEmpty = true;
         for (let i = 0; i < this.#hours.length; i++) {
             if (!this.#validHours[i])
@@ -222,7 +230,7 @@ function reloadAllCollectedData() {
     if (!autoReloadData)
         return;
 
-    // Not the most efficient way to update a row, but you gotta take in account that this a 3-day project
+    // Not the most efficient way to update a row, but you gotta take into account that this a 3-day project
     const userSchedule = document.getElementById("userSchedule");
     if (userSchedule === null || userSchedule === undefined)
         return;
@@ -344,8 +352,8 @@ function newActionButtons(index, editing) {
         }
     );
 
-    td1.children[0].children[0].appendChild(r_pencil("size-5"));
-    td1.children[0].children[1].appendChild(r_trash("size-5"));
+    td1.children[0].children[0].appendChild(r_pencil("size-6"));
+    td1.children[0].children[1].appendChild(r_trash("size-6"));
 
     return td1;
 }
@@ -529,4 +537,35 @@ function stop_editing() {
             break;
         }
     }
+}
+
+function strip_data() {
+    const component = document.getElementById("data-collector-container");
+    component.parentElement.removeChild(component);
+
+    const component1 = document.getElementById("data-collector-buttons");
+    component1.parentElement.removeChild(component1);
+
+    const div = document.createElement("div");
+    div.className = "overflow-auto space-y-4 mb-4 fixed flex flex-col z-10 w-full h-full p-4 backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50";
+
+    const close_button = document.createElement('button');
+    close_button.addEventListener('click', () => {
+        const c = document.getElementById("data-collector");
+        c.append(component);
+        c.append(component1);
+        div.parentElement.removeChild(div);
+    });
+    close_button.setAttribute('class', "w-fit h-fit p-1 rounded-xl");
+
+    const icon = document.createElement('script');
+    icon.setAttribute('src', "svg/x_mark.js");
+    icon.setAttribute('classData', "self-center h-8");
+    close_button.appendChild(icon);
+
+    div.appendChild(close_button);
+    div.appendChild(component);
+    div.appendChild(component1);
+
+    document.body.appendChild(div);
 }

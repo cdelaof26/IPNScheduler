@@ -128,6 +128,26 @@
             </div>
         </div>
 
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 justify-between">
+            <span class="md:self-center md:w-1/4 font-bold">
+                Validar niveles académicos en horarios
+            </span>
+            <div class="grid grid-cols-2 gap-4 md:flex md:justify-evenly md:w-3/4">
+                <button id="validation-selector-0" onclick="set_preference_for_lvl_validation('0')" class="flex justify-center md:w-64 h-16 rounded-xl p-2 transition-colors duration-300 bg-ipn-0 text-white">
+                    <script src="svg/shield_check.js" classData="size-8 self-center"></script>
+                    <span class="self-center ps-2">
+                        Validar
+                    </span>
+                </button>
+                <button id="validation-selector-1" onclick="set_preference_for_lvl_validation('1')" class="flex justify-center md:w-64 h-16 rounded-xl p-2 transition-colors duration-300 bg-sidebar-0 dark:bg-sidebar-1">
+                    <script src="svg/beaker.js" classData="size-8 self-center"></script>
+                    <span class="self-center ps-2">
+                        Saltar
+                    </span>
+                </button>
+            </div>
+        </div>
+
         <details class="space-y-4">
             <summary class="text-2xl font-bold">
                 Generador

@@ -16,11 +16,14 @@ class ConfigController {
     #coursesPerSchedule = 5;
     #gapBetweenClasses = "01:30";
     #preferAllDayEmptySchedules = -1;
+    #validateLevel = true;
     #combinationsPerPopulation = 2000;
     #generationsToFindMinima = 15;
     #validSchedulesToGenerate = true;
     #validCoursesPerSchedule = true;
     #validGapBetweenClasses = true;
+
+    #validValidateLevelValue = true;
     #validPreferAllDayEmptySchedules = true;
     #validCombinationsPerPopulation = true;
     #validGenerationsToFindMinima = true;
@@ -64,11 +67,20 @@ class ConfigController {
         return Number(this.#preferAllDayEmptySchedules);
     }
 
+    getAvoidValidationPreference() {
+        return this.#validateLevel ? 0 : 1;
+    }
+
     setPreferAllDayEmptySchedules(value) {
         this.#preferAllDayEmptySchedules = value;
         this.#validPreferAllDayEmptySchedules = typeof value === "string" && /^-?\d+$/g.test(value);
         if (this.#validPreferAllDayEmptySchedules)
             this.#validPreferAllDayEmptySchedules = ["-1", "0", "1"].indexOf(value) !== -1;
+    }
+
+    setAvoidValidation(value) {
+        this.#validateLevel = value === "0";
+        this.#validValidateLevelValue = typeof value === "string" && (value === "0" || value === "1");
     }
 
     getCombinationsPerPopulation() {
@@ -102,6 +114,8 @@ class ConfigController {
             return "El tiempo indicado no cumple el formato HH:MM o está fuera del rango [00:01, 06:00]";
         if (!this.#validPreferAllDayEmptySchedules)
             return "El valor de preferencia para días vacíos no es válido o no pertenece al conjunto [-1, 0, 1]";
+        if (!this.#validValidateLevelValue)
+            return "El valor de preferencia validar niveles académicos no es válido o no pertenece al conjunto [0, 1]";
         if (!this.#validCombinationsPerPopulation)
             return "La cantidad de individuos por población es inválida o está fuera del rango [500, 100000]";
         if (!this.#validGenerationsToFindMinima)
@@ -135,6 +149,11 @@ function set_schedules_to_generate(amount) {
 function set_preference_for_empty_days(value) {
     toggle_option(["-1", "0", "1"], value, "empty-day-selector-");
     configController.setPreferAllDayEmptySchedules(value);
+}
+
+function set_preference_for_lvl_validation(value) {
+    toggle_option(["0", "1"], value, "validation-selector-");
+    configController.setAvoidValidation(value);
 }
 
 let isDragging = false;
@@ -241,6 +260,7 @@ function reloadConfigData() {
     document.getElementById("minute-input").value = minutes;
 
     set_preference_for_empty_days("" + configController.getPreferAllDayEmptySchedules());
+    set_preference_for_lvl_validation("" + configController.getAvoidValidationPreference());
 
     document.getElementById("combinationsPerPopulation").value = configController.getCombinationsPerPopulation();
     document.getElementById("generations").value = configController.getGenerationsToFindMinima();

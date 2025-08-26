@@ -45,7 +45,7 @@
                     </li>
                 </ol>
 
-                <script src="components/ui/important_info.js" title="¡Atención!" text="No es posible pegar multiples renglones al mismo tiempo, por lo que solo se verá reflejado el primer reglón seleccionado."></script>
+                <script src="components/ui/important_info.js" title="¡Atención!" text="No es posible pegar multiples renglones al mismo tiempo, por lo que solo se verá reflejado el primer reglón seleccionado." iconName="exclamation_triangle" divClassData="my-4 bg-red-100 dark:bg-red-950" titleColors="text-red-500 dark:text-red-200" bodyColors="text-red-800 dark:text-red-100"></script>
 
                 <p>
                     Para avanzar a la siguiente página, ninguna materia debe estar en modo editar y debe haber al menos 4 clases con horas distintas. Para generar un horario con 5 materias se requieren al menos 6 clases con horas diferentes. Para un horario de 6 materias se requieren 7 distintas y así.
@@ -134,7 +134,7 @@
                     </div>
                 </div>
 
-                <script src="components/ui/important_info.js" title="Importante" text="Cambiar de Libre a Horas ESCOM, habiendo clases ingresadas, hará que se pierdan los datos ingresados anteriores de no ser compatibles. Por ejemplo 12:00-14:00 resultará en NA, pero 12:00-13:30 no tendrá cambios."></script>
+                <script src="components/ui/important_info.js" title="Importante" text="Cambiar de Libre a Horas ESCOM, habiendo clases ingresadas, hará que se descarten los datos ingresados anteriores de no ser compatibles. Por ejemplo 12:00-14:00 resultará en NA, pero 12:00-13:30 no tendrá cambios." iconName="beaker" divClassData="mt-4 border border-violet-600 dark:border-violet-400 bg-body-0 dark:bg-body-1" titleColors="text-violet-600 dark:text-violet-300" bodyColors=""></script>
             </div>
         </details>
 
@@ -161,6 +161,20 @@
                 Este parámetro permite indicarle a la aplicación si son preferibles los horarios donde hay días completos sin clases o no. El modelo interno de la aplicación implementa la funcionalidad, ¿pero funciona? ¯\_(ツ)_/¯
             </p>
         </details>
+        <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1" open>
+            <summary class="font-bold indent-8">
+                Validar niveles académicos en horarios
+            </summary>
+            <div>
+                <p>
+                    Esta opción realiza una validación sobre el identificador de una unidad de aprendizaje, específicamente el nivel de esta. Esta validación se implementa, ya que es posible que gestión escolar solicite la baja de la UA por ser de dos semestres por encima de la materia con nivel más bajo.
+                </p>
+                <p>
+                    Por ejemplo, para las UA en los grupos <b>2</b>CV2 (segundo nivel) y <b>5</b>CV7 (quinto nivel), la baja podría proceder para la UA inscrita en el 5CV7.
+                </p>
+                <script src="components/ui/important_info.js" title="Tip" text="Con el fin de evitar futuros problemas, la recomendación es dejar la preferencia en 'Validar'." iconName="clipboard" divClassData="mt-4 border border-lime-500 dark:border-lime-300 bg-body-0 dark:bg-body-1" titleColors="text-lime-600 dark:text-lime-200" bodyColors=""></script>
+            </div>
+        </details>
         <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
             <summary class="font-bold indent-8">
                 Cantidad de individuos por población
@@ -171,7 +185,7 @@
                     Por defecto el valor es 2000 y puede ajustarse a un valor entre 500 y 100,000.
                 </p>
 
-                <script src="components/ui/important_info.js" title="Importante" text="Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos o que no pueda generar todos los horarios solicitados. Se recomiendan valores entre 2000 y 5000."></script>
+                <script src="components/ui/important_info.js" title="Importante" text="Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos o que no pueda generar todos los horarios solicitados. Se recomiendan valores entre 2000 y 5000." iconName="beaker" divClassData="mt-4 border border-violet-600 dark:border-violet-400 bg-body-0 dark:bg-body-1" titleColors="text-violet-600 dark:text-violet-300" bodyColors=""></script>
             </div>
         </details>
         <details class="p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
@@ -183,7 +197,7 @@
                     Esta opción permite ajustar la cantidad de veces que se repite el proceso de buscar el mínimo óptimo. La cantidad de veces que la aplicación buscará el mínimo óptimo es: (Cantidad de individuos por población) x (Poblaciones para encontrar mínimo). Por defecto el valor es 15 y puede ajustarse a un valor entre 5 y 1000.
                 </p>
 
-                <script src="components/ui/important_info.js" title="Importante" text="Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos o que no pueda generar todos los horarios solicitados. Se recomiendan valores entre 15 y 50."></script>
+                <script src="components/ui/important_info.js" title="Importante" text="Subir demasiado el valor de este parámetro puede causar que la aplicación se congele y bajarlo puede causar resultados no óptimos o que no pueda generar todos los horarios solicitados. Se recomiendan valores entre 15 y 50." iconName="beaker" divClassData="mt-4 border border-violet-600 dark:border-violet-400 bg-body-0 dark:bg-body-1" titleColors="text-violet-600 dark:text-violet-300" bodyColors=""></script>
             </div>
         </details>
     </section>
@@ -211,7 +225,7 @@
                 Horarios contienen materias duplicadas en diferentes horas
             </summary>
 
-            <script src="components/ui/important_info.js" title="Info" text="Desde la versión v0.1.4 se implementa un parche para la evitar la aparición de estos horarios. En caso de que experimentes este problema, es posible que los nombres de las materias duplicadas difieran por uno o muchos carácteres. Por ejemplo 'Compiladores' y 'Compis' son duplicados pero pueden resultar seleccionados. Nota: los espacios alrededor de los nombres de la materia ni las mayúsculas o minúsculas afectan al 'detector de duplicados', por ejemplo 'ComPilaDores' y '  Compiladores  ' serán tratados como duplicados en un mismo horario."></script>
+            <script src="components/ui/important_info.js" title="Info" text="Desde la versión v0.1.4 se implementa un parche para la evitar la aparición de estos horarios. En caso de que experimentes este problema, es posible que los nombres de las materias duplicadas difieran por uno o muchos carácteres. Por ejemplo 'Compiladores' y 'Compis' son duplicados pero pueden resultar seleccionados. Nota: los espacios alrededor de los nombres de la materia ni las mayúsculas o minúsculas afectan al 'detector de duplicados', por ejemplo 'ComPilaDores' y '  Compiladores  ' serán tratados como duplicados en un mismo horario." iconName="shield_check" divClassData="mb-4 border border-sky-600 dark:border-sky-300 bg-body-0 dark:bg-body-1" titleColors="text-sky-600 dark:text-sky-200" bodyColors=""></script>
 
             <p>
                 En algunos casos es posible que la aplicación genere horarios que contienen repetidas dos materias en diferentes horas. Desafortunadamente, aún no se implementa un mecanismo para la detección y prevención de estos casos, por lo que la recomendación es que se agreguen más materias para cualquiera de las horas afectadas con la misma o mayor preferencia.

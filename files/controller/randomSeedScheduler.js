@@ -230,8 +230,9 @@ function getSpaceBetweenClassesInADay(dayIndex, classes) {
     const dayHours = getAllHoursInADay(dayIndex, classes);
     if (dayHours.length === 0)
         // Setting to 0 would mean that there are no gaps between classes,
-        // but that will give that schedule a higher preference.
-        // Some folks might prefer not having to go a whole day... IMPLEMENTED
+        // but that will give that schedule a higher preference when there are no classes that day.
+        //
+        // Some folks might prefer not having to go for a whole day, so... IMPLEMENTED
         return configController.getPreferAllDayEmptySchedules() === -1 ? classes.length : configController.getPreferAllDayEmptySchedules() === 0 ? -classes.length : -(classes.length * 2);
 
     // dayHours is sorted by start time: early to late
@@ -290,12 +291,16 @@ function evalXS(xs) {
     // and "evaluates them", which is basically choice a random preference.
 
     // An experimental bug fix is implemented to try to mitigate duplicated
-    // classes in the same schedule.
+    // classes within the same schedule.
 
     const gxs = [];
 
     // This fix makes use of another array to store the names of the classes already included.
     const classes = [];
+
+    // Validation for levels apart
+    let minimumLevel = 100;
+    let maximumLevel = 0;
 
     // for (let x of xs) {
     let i = 0, k = 0;
@@ -319,10 +324,24 @@ function evalXS(xs) {
 
         const courses = getCourses(x, preference_level); // this might return single elements
         if (courses.length === undefined) {
+            const lvl = courses.getLevel();
+            if (lvl > maximumLevel)
+                maximumLevel = lvl;
+            if (lvl < minimumLevel)
+                minimumLevel = lvl;
+
             if (!found_course(courses.getName().trim().toLowerCase(), preference_level))
                 continue;
 
         } else {
+            for (let course of courses) {
+                const lvl = course.getLevel();
+                if (lvl > maximumLevel)
+                    maximumLevel = lvl;
+                if (lvl < minimumLevel)
+                    minimumLevel = lvl;
+            }
+
             let duplicated_course = false;
             for (let course of courses) {
                 duplicated_course = found_course(course.getName().trim().toLowerCase(), preference_level);
@@ -340,6 +359,10 @@ function evalXS(xs) {
         if (k > max_fix_attempts)
             return [];
     }
+
+    if (configController.getAvoidValidationPreference() === 0 && maximumLevel - minimumLevel > 2)
+        // console.log("skip combination [max", maximumLevel, "] [min", minimumLevel, "]");
+        return [];
 
     return gxs;
 }

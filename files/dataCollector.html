@@ -1,20 +1,13 @@
 <div class="overflow-auto flex flex-col justify-between flex-grow xl:mx-12 xl:mb-12 p-6 xl:p-12 md:rounded-2xl shadow-2xl backdrop-blur-3xl bg-body-0/90 dark:bg-body-1/50">
-    <div class="overflow-auto flex flex-col flex-grow space-y-4 mb-4">
+    <div id="data-collector" class="overflow-auto flex flex-col flex-grow space-y-4 mb-4">
         <div class="flex-none">
             <div class="flex-none flex justify-between">
-                <h1 class="text-2xl lg:text-3xl font-bold">
+                <h1 class="text-xl md:text-2xl lg:text-3xl font-bold self-center">
                     Clases, profesores y horas
                 </h1>
-                <label class="flex-none">
-                    <select id="hour-input-mode" onchange="reloadAllCollectedData()" class="appearance-none p-2 rounded-xl text-white bg-ipn-0">
-                        <option selected value="ESCOM">
-                            Horas ESCOM
-                        </option>
-                        <option value="free">
-                            Libre
-                        </option>
-                    </select>
-                </label>
+                <button onclick="strip_data()" class="flex-none self-center p-3 rounded-xl text-white bg-ipn-0">
+                    <script src="svg/arrows_pointing_out.js" classData="self-center size-6"></script>
+                </button>
             </div>
             <p class="flex-none lg:text-lg text-justify">
                 Ingresa todas las clases con los profesores que te gustaría cursar y algunos sustitutos, entre más, mejor.
@@ -22,16 +15,16 @@
         </div>
 
         <div id="data-collector-container" class="overflow-auto flex-grow p-4 rounded-xl bg-sidebar-0 dark:bg-sidebar-1">
-            <table class="w-max">
+            <table class="w-fit">
                 <thead>
                 <tr>
                     <th class="w-24">
                         Grupo
                     </th>
-                    <th class="w-36 text-left">
+                    <th class="text-left">
                         Nombre
                     </th>
-                    <th class="w-36 text-left">
+                    <th class="text-left">
                         Profesor
                     </th>
                     <th class="w-14">
@@ -62,23 +55,23 @@
             </table>
         </div>
 
-        <div class="overflow-auto flex-none flex md:justify-center">
+        <div id="data-collector-buttons" class="overflow-auto flex-none flex md:justify-center">
             <div class="flex justify-start flex-col md:self-center space-y-1 w-max px-4">
                 <div class="self-center flex space-x-2 lg:space-x-4">
                     <input id="csvSelector" type="file" class="hidden" multiple>
-                    <button onclick="createNewRow()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
+                    <button onclick="createNewRow()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
                         <script src="svg/plus.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Agregar materia
                         </span>
                     </button>
-                    <button onclick="deleteData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
+                    <button onclick="deleteData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
                         <script src="svg/trash.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Eliminar todo
                         </span>
                     </button>
-                    <button onclick="stop_editing()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
+                    <button onclick="stop_editing()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
                         <span class="self-center h-6">
                             ✓
                         </span>
@@ -86,13 +79,23 @@
                             Terminar de editar
                         </span>
                     </button>
-                    <button onclick="selectFile()" class="flex justify-center p-3 lg:p-4 w-44 lg:w-56 rounded-xl text-white bg-ipn-0">
+                    <label class="w-32 lg:w-36">
+                        <select id="hour-input-mode" onchange="reloadAllCollectedData()" class="w-full h-full appearance-none p-2 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
+                            <option selected value="ESCOM">
+                                Horas ESCOM
+                            </option>
+                            <option value="free">
+                                Libre
+                            </option>
+                        </select>
+                    </label>
+                    <button onclick="selectFile()" class="flex justify-center p-3 lg:p-4 w-44 lg:w-56 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
                         <script src="svg/table_cells.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Seleccionar CSV…
                         </span>
                     </button>
-                    <button onclick="exportData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
+                    <button onclick="exportData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
                         <script src="svg/arrow_down_on_square_stack.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Guardar CSV…
