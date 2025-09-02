@@ -7,7 +7,7 @@ let previousPageName = undefined, currentPageName = "info", nextPageName = undef
 let menuVisible = false;
 
 // TODO: Set to true for production
-const enforce_page_validation = false;
+const enforce_page_validation = true;
 
 function loadNextPage() {
     if (nextPageName === null || nextPageName === undefined)
