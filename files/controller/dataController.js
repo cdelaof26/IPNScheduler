@@ -16,7 +16,7 @@ class Course {
     #validPreference = false;
 
     show = true;
-    available = true;
+    available = Number.NaN;
     selected = false;
 
     toStringIncludesPreference = true;
@@ -209,33 +209,26 @@ class Course {
         return `${this.#group},${this.#name},${this.#teacher},${hours}`;
     }
 
-    clone() {
-        return new Course(this.toString().replaceAll(",", "\t"), true);
-    }
-
     equals(g) {
-        // User might've changed the hours or preference...
-        return g.getGroup() === this.#group && g.getName() === this.#name && g.getTeacher() === this.#teacher;
+        return g.getGroup().toLowerCase() === this.#group.toLowerCase()
+            && g.getName().toLowerCase() === this.#name.toLowerCase()
+            && g.getTeacher().toLowerCase() === this.#teacher.toLowerCase();
     }
 }
 
 let coursesOptions = [];
 
 let scrollNewElementIntoView = true;
-let loadAsPossibleCourse = false;
-let autoReloadData = true;
+let courseToolsControllerMode = false;
 let showUnavailable = true;
 
 function reloadAllCollectedData() {
-    if (!autoReloadData)
-        return;
-
     // Not the most efficient way to update a row, but you gotta take into account that this a 3-day project
     const userSchedule = document.getElementById("userSchedule");
     if (userSchedule === null || userSchedule === undefined)
         return;
 
-    let data = loadAsPossibleCourse ? possibleCourses : coursesOptions;
+    let data = courseToolsControllerMode ? possibleCourses : coursesOptions;
 
     for (let i = 0; i < data.length; i++) {
         const e = document.getElementById("r" + i);
@@ -246,7 +239,7 @@ function reloadAllCollectedData() {
     }
 
     for (let i = 0; i < data.length; i++) {
-        if (!showUnavailable && !data[i].available || !data[i].show)
+        if (!showUnavailable && data[i].available === 0 || !data[i].show)
             continue;
 
         userSchedule.appendChild(data[i].editable ? newEditableRow(i) : newNonEditableRow(i));
@@ -254,8 +247,17 @@ function reloadAllCollectedData() {
 }
 
 function preferenceSelector(index) {
-    const content = coursesOptions[index].hasValidPreference() ? coursesOptions[index].getPreference() : 'Seleccionar...';
-    return preference_selector(content, (event) => coursesOptions[index].setPreference(event.target.value));
+    const data = courseToolsControllerMode ? possibleCourses : coursesOptions;
+
+    const content = data[index].hasValidPreference() ? data[index].getPreference() : 'Seleccionar...';
+    if (!courseToolsControllerMode)
+        return preference_selector(content, (event) => data[index].setPreference(event.target.value));
+
+    return preference_selector(content, (event) => {
+        if (!data[index].selected)
+            document.getElementById('r' + index + 'btn').click();
+        data[index].setPreference(event.target.value);
+    });
 }
 
 function createHourInput(dayIndex, index) {
@@ -291,7 +293,7 @@ function newActionButtons(index, editing) {
     div.className = 'flex justify-center';
     td.appendChild(div);
 
-    if (loadAsPossibleCourse) {
+    if (courseToolsControllerMode) {
         let button = document.createElement('button');
         button.setAttribute('id', 'r' + index + 'btn');
         button.className = 'self-center w-7 h-7 border-2 text-lg';
@@ -299,18 +301,6 @@ function newActionButtons(index, editing) {
         button.onclick = () => {
             possibleCourses[index].selected = !possibleCourses[index].selected;
             button.textContent = possibleCourses[index].selected ? '✓' : '';
-            autoReloadData = false;
-            if (possibleCourses[index].selected)
-                coursesOptions.push(possibleCourses[index].clone());
-            else {
-                for (let i = 0; i < coursesOptions.length; i++)
-                    if (coursesOptions[i].equals(possibleCourses[index])) {
-                        coursesOptions.splice(i, 1);
-                        break;
-                    }
-            }
-
-            autoReloadData = true;
         }
         div.appendChild(button);
 
@@ -359,7 +349,7 @@ function newActionButtons(index, editing) {
 }
 
 function newNonEditableRow(index) {
-    const data = loadAsPossibleCourse ? possibleCourses : coursesOptions;
+    const data = courseToolsControllerMode ? possibleCourses : coursesOptions;
 
     if (index > data.length)
         return;
@@ -377,9 +367,15 @@ function newNonEditableRow(index) {
     for (let i = 0; i < 5; i++)
         tr.appendChild(newTD(1, data[index].getHour(i), true));
 
-    if (!loadAsPossibleCourse)
+    if (!courseToolsControllerMode)
         tr.appendChild(newTD(1, data[index].getPreference(), true));
+    else
+        tr.appendChild(preferenceSelector(index));
+
     tr.appendChild(newActionButtons(index, false));
+
+    if (courseToolsControllerMode)
+        tr.appendChild(newTD(1, data[index].available, true));
 
     return tr;
 }
@@ -458,7 +454,6 @@ function addCollectorListeners() {
     const csv_selector = document.getElementById("csvSelector");
     csv_selector.onchange = (event) => {
         const files = event.target.files;
-        csv_selector.innerHTML = "";
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
@@ -481,6 +476,8 @@ function addCollectorListeners() {
                 reader.readAsText(file);
             }
         }
+
+        csv_selector.value = null;
     };
 
     allowGoNextFunc = () => is_collected_data_valid();
@@ -492,8 +489,14 @@ function selectFile() {
 
 function exportData() {
     let csvString = csvHeaders + "\r\n";
-    for (let course of coursesOptions)
-        csvString += course.toString() + "\r\n";
+    if (!courseToolsControllerMode) {
+        for (let course of coursesOptions)
+            csvString += course.toString() + "\r\n";
+    } else {
+        for (let course of possibleCourses)
+            if (course.selected)
+                csvString += course.toString() + "\r\n";
+    }
 
     const link = document.createElement('a');
     link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);

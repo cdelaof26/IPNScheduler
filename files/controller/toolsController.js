@@ -17,7 +17,6 @@ function addToolsListeners() {
     const csv_selector = document.getElementById("csvSelector");
     csv_selector.onchange = (event) => {
         const files = event.target.files;
-        csv_selector.innerHTML = "";
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
@@ -34,7 +33,6 @@ function addToolsListeners() {
 
                     let data = content.split("\r\n");
                     if (isHorario) {
-                        loadAsPossibleCourse = true;
                         for (let i = 1; i < data.length; i++)
                             if (data[i].trim().length !== 0) {
                                 let c = new Course(data[i].replaceAll(",", "\t"), false);
@@ -50,7 +48,6 @@ function addToolsListeners() {
                             }
 
                         reloadAllCollectedData();
-                        loadAsPossibleCourse = false;
                         return;
                     }
 
@@ -67,14 +64,18 @@ function addToolsListeners() {
                             let course = data[i].split(",");
                             for (let c of possibleCourses)
                                 if (c.getGroup() === course[0] && c.getName() === course[2]) {
-                                    c.available = course[6] !== "0";
+                                    c.available = Number(course[6]);
                                     break;
                                 }
                         }
+
+                    reloadToolsData();
                 };
                 reader.readAsText(file);
             }
         }
+
+        csv_selector.value = null;
     };
 
     document.getElementById("showUnavailable").onchange = (event) => {
@@ -90,9 +91,7 @@ function addToolsListeners() {
 }
 
 function reloadToolsData() {
-    loadAsPossibleCourse = true;
     reloadAllCollectedData();
-    loadAsPossibleCourse = false;
 }
 
 function deleteToolsData() {
@@ -102,25 +101,9 @@ function deleteToolsData() {
         const e = document.getElementById("r" + i);
         if (e !== null && e !== undefined)
             userSchedule.removeChild(e);
-
-        for (let j = 0; j < coursesOptions.length; j++)
-            if (possibleCourses[i].equals(coursesOptions[j])) {
-                coursesOptions.splice(j, 1);
-                break;
-            }
     }
 
     possibleCourses = [];
-}
-
-function selectAll() {
-    for (let i = 0; i < possibleCourses.length; i++) {
-        if (!showUnavailable && !possibleCourses[i].available)
-            continue;
-
-        if (!possibleCourses[i].selected)
-            document.getElementById('r' + i + 'btn').click();
-    }
 }
 
 function filter_out(evt) {

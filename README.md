@@ -84,6 +84,14 @@ python3 main.py --config --file /ruta/a/IPNScheduler/pywst.config
 
 ### Historial de cambios
 
+#### v0.1.6
+- Mejora del método **Tabla de datos**
+  - Se retira la opción de aparición automática de los 
+    horarios en la página de **Clases, profesores y horas**
+  - Se retira botón "Seleccionar todo"
+  - Agregado campo de preferencia en tabla
+  - Agregada columna cantidad de disponibles
+
 #### v0.1.5
 - Arreglado error donde al editar un horario ingresado
   desde CSV y salir del modo edición sin hacer cambios

@@ -11,13 +11,13 @@
         <script src="components/ui/important_info.js" title="Importante" text="Los scripts para la extracción automática de horarios dependen de que el usuario confíe en los contenidos del script y tenga acceso a la consola del navegador web. Se invita al usuario a inspeccionar los contenido de cada script antes de ejecutarlos." iconName="beaker" divClassData="my-4 border border-violet-600 dark:border-violet-400 bg-body-0 dark:bg-body-1" titleColors="text-violet-600 dark:text-violet-300" bodyColors=""></script>
 
         <div>
-            <h2 class="text-2xl font-bold">
+            <h2 class="text-2xl font-bold mb-4">
                 ¿Qué método utilizar?
             </h2>
             <p>
                 La elección depende de cuál te resulte más comodo.
             </p>
-            <p class="my-2">
+            <p>
                 Por una parte, <b>Selector directo</b> utiliza un único script que presenta una interfaz
                 lista para seleccionar y agregar que puede utilizarse directamente para crear horarios,
                 pero no toma en cuenta la disponibilidad de estos.
@@ -25,9 +25,9 @@
             <p>
                 En contraste, <b>Tabla de datos</b> requiere como mínimo un script y, de desearse, se puede
                 utilizar el otro para tomar en consideración las clases con disponibilidad. Una vez obtenidos los CSV,
-                deben cargarse en esta página para poder seleccionar las clases y posteriormente dar una
-                preferencia a cada una. El usuario debe guardar manualmente el CSV de preferencias por clase en la
-                página <b>Clases, profesores y horas</b> si desea reutilizarlo, de otra forma se tiene que repetir todo el proceso.
+                deben cargarse en esta página para poder seleccionar las clases y dar una preferencia a cada una.
+                El usuario debe guardar manualmente el CSV generado en esta página y cargarlo en la página
+                <b>Clases, profesores y horas</b>.
             </p>
         </div>
     </div>
@@ -38,7 +38,7 @@
         </h2>
         <div class="space-y-4">
             <p>
-                El procedimiento selector directo utiliza un script para crear archivos CSV que se cargan
+                El procedimiento utiliza un script para crear archivos CSV que se cargan
                 directamente en la página <b>Clases, profesores y horas</b>. Este script presenta una interfaz a
                 pantalla completa sobre la cual el usuario debe seleccionar una a una las clases de su interés.
             </p>
@@ -47,13 +47,13 @@
                     Iniciar sesión en el portal del SAES.
                 </li>
                 <li>
-                    Has clic en el botón de Académia.
+                    Has clic en el botón de <b>Académia</b> sobre la cinta debajo del nombre de la unidad académica.
                 </li>
                 <li>
-                    Has clic en Horarios de Clases
+                    Has clic en <b>Horarios de Clases</b> sobre el menu lateral izquierdo.
                 </li>
                 <li>
-                    Selecciona la carrera, el plan de estudios y el turno y periodo del cual desees obtener horarios.
+                    Selecciona la carrera, el plan de estudios, el turno y periodo del cual desees obtener horarios.
                 </li>
                 <li>
                     Abre la consola del navegador, pega el script "Easy Select".
@@ -73,7 +73,7 @@
                 </li>
             </ol>
 
-            <script src="components/ui/important_info.js" title="¡Atención!" text="Si se selecciona una clase pero se deja el nivel de preferencia en 'Seleccionar...', el nivel automático elegido será 'Máxima preferencia'" iconName="exclamation_triangle" divClassData="my-4 bg-red-100 dark:bg-red-950" titleColors="text-red-500 dark:text-red-200" bodyColors="text-red-800 dark:text-red-100"></script>
+            <script src="components/ui/important_info.js" title="¡Atención!" text="Si se selecciona una clase pero se deja el nivel de preferencia en 'Seleccionar...', el nivel elegido automáticamente será 'Máxima preferencia'" iconName="exclamation_triangle" divClassData="my-4 bg-red-100 dark:bg-red-950" titleColors="text-red-500 dark:text-red-200" bodyColors="text-red-800 dark:text-red-100"></script>
 
             <p>
                 A continuación se presenta el script para automatizar la extracción de horarios.
@@ -84,7 +84,7 @@
                     <h2 class="self-center lg:text-2xl font-bold">
                         Script Easy Select
                     </h2>
-                    <button onclick="copiarEasySelect()" id="btn3" class="self-center flex p-2 rounded-xl transition-colors duration-200">
+                    <button onclick="copiarEasySelect()" id="btn3" class="self-center flex p-2 rounded-xl transition-colors duration-200 hover:cursor-pointer">
                         <script src="svg/clipboard.js" classData="self-center h-6"></script>
                         <span class="ps-2" id="btn3Text">
                             Copiar
@@ -145,10 +145,13 @@
                         Vie
                     </th>
                     <th class="w-40">
-                        Seleccionar
+                        Preferencia
                     </th>
-                    <th class="w-20 invisible">
-                        act
+                    <th class="w-14">
+                        Sel
+                    </th>
+                    <th class="w-14">
+                        Disp
                     </th>
                 </tr>
                 </thead>
@@ -171,7 +174,7 @@
                             </option>
                         </select>
                     </label>
-                    <button class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0" onclick="selectFile()">
+                    <button onclick="selectFile()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
                         <script src="svg/table_cells.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
                             Cargar CSV…
@@ -180,24 +183,20 @@
                     <button onclick="deleteToolsData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl text-white bg-ipn-0">
                         <script src="svg/trash.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                            Eliminar todo
+                            Vaciar tabla
                         </span>
                     </button>
-                    <button onclick="selectAll()" class="flex justify-center p-3 lg:p-4 w-44 lg:w-52 rounded-xl text-white bg-ipn-0">
-                        <script src="svg/rectangle_stack.js" classData="self-center h-6"></script>
+                    <button onclick="exportData()" class="flex justify-center p-3 lg:p-4 w-40 lg:w-48 rounded-xl hover:cursor-pointer text-white bg-ipn-0">
+                        <script src="svg/arrow_down_on_square_stack.js" classData="self-center h-6"></script>
                         <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                            Seleccionar todo
-                        </span>
-                    </button>
-                    <button onclick="deleteToolsData()" class="hidden flex justify-center p-3 lg:p-4 w-44 lg:w-52 rounded-xl text-white bg-ipn-0">
-                        <script src="svg/rectangle_stack_empty.js" classData="self-center h-6"></script>
-                        <span class="text-sm lg:text-base ps-1 lg:ps-2 self-center">
-                            Eliminar selección
+                            Guardar CSV…
                         </span>
                     </button>
                 </div>
             </div>
         </div>
+
+        <script src="components/ui/important_info.js" title="¡Atención!" text="Si se selecciona una clase pero se deja el nivel de preferencia en 'Seleccionar...', el nivel elegido automáticamente será 'Máxima preferencia'" iconName="exclamation_triangle" divClassData="my-4 bg-red-100 dark:bg-red-950" titleColors="text-red-500 dark:text-red-200" bodyColors="text-red-800 dark:text-red-100"></script>
     </div>
 
     <div class="space-y-4">
@@ -215,24 +214,24 @@
                     Iniciar sesión en el portal del SAES.
                 </li>
                 <li>
-                    Has clic en el botón de Académia.
+                    Has clic en el botón de <b>Académia</b> sobre la cinta debajo del nombre de la unidad académica.
                 </li>
                 <li>
-                    Para obtener horarios has clic en Horarios de Clases:
+                    Para obtener horarios, has clic en <b>Horarios de Clases</b> sobre el menu lateral izquierdo:
                 </li>
                 <ol class="list-decimal pl-10">
                     <li>
-                        Selecciona la carrera, el plan de estudios y el turno y periodo del cual desees obtener horarios.
+                        Selecciona la carrera, el plan de estudios, el turno y periodo del cual desees obtener horarios.
                     </li>
                     <li>
-                        Abre la consola del navegador, pega el script "Horarios de clases" y descarga el archivo CSV generado.
+                        Abre la consola del navegador, pega el script <b>Horarios de clases</b> y descarga el archivo CSV generado.
                     </li>
                     <li>
-                        En esta página has clic en "Cargar CSV..." en la sección de arriba "Tabla de datos".
+                        Sobre la tabla has clic en <b>Cargar CSV...</b>
                     </li>
                 </ol>
                 <li>
-                    Para obtener disponibilidad de horarios has clic en Ocupabilidad Horario:
+                    Para obtener disponibilidad de horarios, has clic en <b>Ocupabilidad Horario</b> sobre el menu lateral izquierdo:
                 </li>
                 <ol class="list-decimal pl-10">
                     <li>
@@ -242,14 +241,14 @@
                         No es necesario aplicar filtros de Especialidad, Semestre, Grupo o Asignatura.
                     </li>
                     <li>
-                        Abre la consola del navegador, pega el script "Ocupabilidad Horario" y descarga el archivo CSV generado.
+                        Abre la consola del navegador, pega el script <b>Ocupabilidad Horario</b> y descarga el archivo CSV generado.
                     </li>
                     <li>
-                        En esta página has clic en "Cargar CSV..." en la sección de arriba "Tabla de datos".
+                        Sobre la tabla has clic en <b>Cargar CSV...</b>
                     </li>
                 </ol>
                 <li>
-                    Una vez cargados los CSV en la Tabla de datos, selecciona las clases que quieras incluir en tu horario, las seleccionadas aparecerán automáticamente en la página de <b>Clases, profesores y horas</b>.
+                    Una vez cargados los CSV en la <b>Tabla de datos</b>, selecciona las clases que quieras incluir en tu horario y descarga el CSV para cargarlo en la página de <b>Clases, profesores y horas</b>.
                 </li>
             </ol>
         </div>
@@ -261,7 +260,7 @@
                 <h2 class="self-center lg:text-2xl font-bold">
                     Script Horarios de clases
                 </h2>
-                <button onclick="copiarHorariosScript()" id="btn1" class="self-center flex p-2 rounded-xl transition-colors duration-200">
+                <button onclick="copiarHorariosScript()" id="btn1" class="self-center flex p-2 rounded-xl transition-colors duration-200 hover:cursor-pointer">
                     <script src="svg/clipboard.js" classData="self-center h-6"></script>
                     <span class="ps-2" id="btn1Text">
                         Copiar
@@ -283,7 +282,7 @@
                 <h2 class="self-center lg:text-2xl font-bold">
                     Script Ocupabilidad Horario
                 </h2>
-                <button onclick="copiarDisponibilidadScript()" id="btn2" class="self-center flex p-2 rounded-xl transition-colors duration-200">
+                <button onclick="copiarDisponibilidadScript()" id="btn2" class="self-center flex p-2 rounded-xl transition-colors duration-200 hover:cursor-pointer">
                     <script src="svg/clipboard.js" classData="self-center h-6"></script>
                     <span class="ps-2" id="btn2Text">
                         Copiar
@@ -291,7 +290,7 @@
                 </button>
             </div>
             <p>
-                Este script crea un CSV que contiene todas las materias existentes (carece de información suficiente para crear un horario).
+                Este script crea un CSV que contiene todas las materias existentes (carece de información suficiente para crear horarios).
             </p>
             <div class="font-mono p-2 lg:p-4 rounded-xl bg-body-0 dark:bg-body-1 overflow-x-auto">
                 <p class="w-max">
